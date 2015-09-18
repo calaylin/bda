@@ -17,6 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import weka.core.Instances;
+
 
 public class CheckFiles {
 	
@@ -193,14 +195,18 @@ public static void cleanNonCodeFromFolder(String cleanFolder){
     	String featureText = Util.readFile( arffFile);
     	//start 79756
     	//end
+	   Instances data = new Instances(new FileReader(arffFile));
+	 	data.setClassIndex(data.numAttributes() - 1);
     	for(int i= 79757; i <80156; i++){
     //	System.out.println(DepthASTNode.readLineNumber(featureText, 80154));
     		System.out.println(i);
-		String instID = 
+			//get from weka, much faster
+		String instID = data.instance(i-79757).attribute(0).toString();
 				
-				MergeArffFiles.getInstanceID(arffFile, i);
+		//		MergeArffFiles.getInstanceID(arffFile, i);
 
-		String instVector = MergeArffFiles.getInstance(arffFile, i);
+		String instVector = data.instance(i-79757).toString();
+	//	String instVector = MergeArffFiles.getInstance(arffFile, i);
 
 		
 		String authorName = instID;
