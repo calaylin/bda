@@ -219,26 +219,20 @@ public class FeatureExtractorDisassembly {
 	List<String> unigrams = new ArrayList<String>();
 	Set<String> bigrams = new LinkedHashSet<String>();
 	String[] uniquebigrams = null;
+	String[] words = null;
+
 	
     for(int i=0; i< test_file_paths.size(); i++){
 		String filePath = test_file_paths.get(i).toString();  
 		System.out.println(filePath);
+		String inputText =Util.readFile(filePath);
+		String[] arr = inputText.split("\\s+");
+		words = ArrayUtils.addAll(words,arr);
+ }	
 
-   String inputText =Util.readFile(filePath);
-		   Pattern pattern = Pattern.compile("(\\w+)\\s+");
-		   Matcher matcher = pattern.matcher(inputText);
-		   
-		   
-			while (matcher.find()) {
-//				System.out.println("Found a " + matcher.group() + ".");
-				unigrams.add(matcher.group());
-			}		   
-		   }
-
- //   String[] words = uniqueWords.toArray(new String[0]);
-	for(int i=1; i<unigrams.size(); i++){
+	for(int i=1; i<words.length; i++){
 	   //   System.out.println( unigrams.get(i-1));
-		   bigrams.add(unigrams.get(i-1).trim() + " "+unigrams.get(i).trim());
+		   bigrams.add(words[i-1].toString().trim() + " "+words[1].toString().trim());
 		       uniquebigrams = bigrams.toArray(new String[bigrams.size()]);
 	}	
 
