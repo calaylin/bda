@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -172,19 +175,49 @@ public class FeatureExtractorDisassembly {
 	public static String [] getDisUnigrams(String dirPath) throws IOException{
 		
 	
-		 	   List  test_file_paths = Util.listDisFiles(dirPath);
-			
- 		  String[] words = null;
+		List  test_file_paths = Util.listDisFiles(dirPath);
+		String[] words = null;
+		Set<String> uniGrams = new LinkedHashSet<String>();
+
+		ArrayList<String> ar = new ArrayList<String>();
+
+		String filePath="";
+		HashSet<String> uniqueWords = new HashSet<String>();
+
  	    for(int i=0; i< test_file_paths.size(); i++){
- 			String filePath = test_file_paths.get(i).toString();  
- 	   
- 	   String inputText =Util.readFile(filePath);
- 	   String[] arr = inputText.split("\\s+");
- 	    words = ArrayUtils.addAll(words,arr);
- 	   }
- 		HashSet<String> uniqueWords = new HashSet<String>(Arrays.asList(words));
- 	    words = uniqueWords.toArray(new String[0]);
-        return words;	
+ 	    	
+ 	    	filePath = test_file_paths.get(i).toString();  
+			System.out.println(filePath);						   
+			   String[] arr;
+			   String[] toAdd;
+
+				BufferedReader br = new BufferedReader(new FileReader(filePath));
+				String line;
+				
+				while ((line = br.readLine()) != null)
+				{
+					arr = line.split("\\s+",3);
+					if (arr.length > 2){
+/*					System.out.println("Redundant " + arr[0] 
+		                                 + " , needed " + arr[2] 
+		                            );*/
+						arr[2]=	arr[2].replaceAll(",", " ");
+					toAdd = arr[2].split("\\s+");
+					for(int i1 =0; i1< toAdd.length; i1++)
+						{
+						uniGrams.add(toAdd[i1]);
+							//	System.out.println(toAdd[i1]);
+		            	}	
+					}
+				}
+				
+				
+ 	    }	 	      
+ 	      
+       
+ 	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
+			    return words;
+ 
 		
 	}
 	
@@ -214,25 +247,49 @@ public class FeatureExtractorDisassembly {
     
     public static String [] getDisBigrams(String dirPath) throws IOException{
 
+    	
+    
 
     List test_file_paths = Util.listDisFiles(dirPath);
-	List<String> unigrams = new ArrayList<String>();
 	Set<String> bigrams = new LinkedHashSet<String>();
 	String[] uniquebigrams = null;
-	String[] words = null;
+	ArrayList<String> ar = new ArrayList<String>();
+	String filePath="";
 
-	
-    for(int i=0; i< test_file_paths.size(); i++){
-		String filePath = test_file_paths.get(i).toString();  
-		System.out.println(filePath);
-		String inputText =Util.readFile(filePath);
-		String[] arr = inputText.split("\\s+");
-		words = ArrayUtils.addAll(words,arr);
- }	
+	    for(int i=0; i< test_file_paths.size(); i++){
+	    	
+	    	filePath = test_file_paths.get(i).toString();  
+		System.out.println(filePath);						   
+		   String[] arr;
+		   String[] toAdd;
 
-	for(int i=1; i<words.length; i++){
+			BufferedReader br = new BufferedReader(new FileReader(filePath));
+			String line;
+			
+			while ((line = br.readLine()) != null)
+			{
+				arr = line.split("\\s+",3);
+				if (arr.length > 2){
+/*					System.out.println("Redundant " + arr[0] 
+	                                 + " , needed " + arr[2] 
+	                            );*/
+					arr[2]=	arr[2].replaceAll(",", " ");
+				toAdd = arr[2].split("\\s+");
+				for(int i1 =0; i1< toAdd.length; i1++)
+					{
+					ar.add(toAdd[i1]);
+							//System.out.println(toAdd[i1]);
+	            	}	
+				}
+			}
+			
+			
+	    }	 	      
+	      
+    
+	for(int i=1; i<ar.size(); i++){
 	   //   System.out.println( unigrams.get(i-1));
-		   bigrams.add(words[i-1].toString().trim() + " "+words[1].toString().trim());
+		   bigrams.add(ar.get(i-1).toString().trim() + " "+ar.get(i).toString().trim());
 		       uniquebigrams = bigrams.toArray(new String[bigrams.size()]);
 	}	
 

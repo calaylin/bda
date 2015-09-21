@@ -47,17 +47,21 @@ public class FeatureExtractorBothCandCPP {
     	//TODO when time changes, output_filename changes every time which needs to be corrected
 //       	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/incremental/" +"CodeJam_14FilesPerAuthor_2014_"+ (month+1) + "." + 
 //    	dayOfMonth + "_"+ time +".arff" ;
-    	String output_filename = "/Users/Aylin/Desktop/Princeton/BAA/arffs/merged/"
-    			+ "C_62Authors14files_originalcpp_and_decompiledc_halfandhalf_complete.arff" ;
     	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    			+ "c++/14FilesPerAuthor_2014_decompiledC_and_original6/";
+				+ "c++/100authors_hexraysDecompiled_noOptimization/";
+   		
+    	String output_filename = "/Users/Aylin/Desktop/Princeton/"
+    			+ "BAA/arffs/"
+    			+ "100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
+
+    	
 
        	List test_file_paths = Util.listTextFiles(test_dir);
 
 	String text = "";
   	//Writing the test arff
   	//first specify relation
-	Util.writeFile("@relation "+"14FilesPerAuthor_2014_original_62authors"+"\n"+"\n", output_filename, true);
+	Util.writeFile("@relation "+"9FilesPerAuthor_2014_hexrays_100authors"+"\n"+"\n", output_filename, true);
 	Util.writeFile("@attribute instanceID_original {", output_filename, true);
    	List test_cpp_paths = Util.listCFiles(test_dir);
    	for(int j=0; j < test_cpp_paths.size();j++ )
