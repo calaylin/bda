@@ -242,7 +242,7 @@ public class FeatureCalculators {
 /*    String test = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/IncrementsOf3FilesPerAuthor/";	
     for (int j =p 7; j<=13; j=j+2)
     {
-    	String test_cpp_dir = test + "/" + j + "FilesPerAuthor/";
+    	String test_cpp_dir = test + File.separator + j + "FilesPerAuthor/";
     
       List test_file_paths = Util.listCPPFiles(test_cpp_dir); //use this for preprocessing       
  //   List test_file_paths = Util.listTextFiles(test_cpp_dir); // use this to list txt files with API symbols
@@ -456,7 +456,7 @@ public class FeatureCalculators {
 		 for(int j=0; j< dirLen; j++)
 			{
 			String authorName = directories[j];
-			List test_file_paths = Util.listTextFiles(datasetDir+authorName+"/");
+			List test_file_paths = Util.listTextFiles(datasetDir+authorName+File.separator);
 	 		for(int i=0; i< test_file_paths.size(); i++)
 	 		{
 	 			String featureText = Util.readFile(test_file_paths.get(i).toString());
@@ -546,7 +546,7 @@ public class FeatureCalculators {
 		 for(int j=0; j< dirLen; j++)
 			{
 			String authorName = directories[j];
-			List test_file_paths = Util.listDepFiles(datasetDir+authorName+"/");
+			List test_file_paths = Util.listDepFiles(datasetDir+authorName+ File.separator);
 	 		for(int i=0; i< test_file_paths.size(); i++)
 	 		{
 	 			String featureText = Util.readFile(test_file_paths.get(i).toString());
@@ -626,7 +626,7 @@ public class FeatureCalculators {
     	 for(int j=0; j< dirLen; j++)
     		{
   			String authorName = directories[j];
-    		List test_file_paths = Util.listASTFiles(datasetDir+authorName+"/");
+    		List test_file_paths = Util.listASTFiles(datasetDir+authorName+File.separator);
      		for(int i=0; i< test_file_paths.size(); i++)
      		{
      			String featureText = Util.readFile(test_file_paths.get(i).toString());

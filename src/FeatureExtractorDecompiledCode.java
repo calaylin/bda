@@ -51,12 +51,9 @@ public class FeatureExtractorDecompiledCode {
     	//TODO when time changes, output_filename changes every time which needs to be corrected
 //       	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/incremental/" +"CodeJam_14FilesPerAuthor_2014_"+ (month+1) + "." + 
 //    	dayOfMonth + "_"+ time +".arff" ;
-    	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-				+ "c++/100authors_hexraysDecompiled_noOptimization/";
+    	String test_dir ="100authors_hexraysDecompiled_noOptimization";
    		
-    	String output_filename = "/Users/Aylin/Desktop/Princeton/"
-    			+ "BAA/arffs/"
-    			+ "100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
+    	String output_filename =  "100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
 
     	
 
