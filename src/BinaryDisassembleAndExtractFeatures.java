@@ -37,33 +37,32 @@ public class BinaryDisassembleAndExtractFeatures {
        	for(int numberFiles=55; numberFiles<56; numberFiles++){
        		
        		
-        	String output_filename = "/Users/Aylin/Desktop/Princeton/BAA/arffs/testtest.arff" ;
+        	String output_filename = "/Users/Aylin/Desktop/Princeton/"
+        			+ "BAA/arffs/100authors_hexraysDecompiled_noOptimizationUnigrams.arff" ;
         	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-        			+ "c++/out/";
+        			+ "c++/100authors_hexraysDecompiled_noOptimization/";
         	
         	
 
-           	List test_file_paths = Util.listCPPFiles(test_dir);
+           	List test_file_paths = Util.listCFiles(test_dir);
            	List test_binary_paths = Util.listBinaryFiles(test_dir);
+           	List test_dis_paths = Util.listDisFiles(test_dir);
 	
-           	//print binary files
- /*          	System.out.println(test_binary_paths.size());
-           	for(int binFile=0; binFile<test_binary_paths.size(); binFile++){
-               	System.out.println(test_binary_paths.get(binFile));
-           	}*/
-
-           	int count =0;
-/*           	for(int bin=0; bin< test_file_paths.size(); bin++){
-           		String binary=test_file_paths.get(bin).toString().substring(0, test_file_paths.get(bin).toString().length()-4);
-           		File binary2 = new File(binary);
-           		if(binary2.exists()){count++;}
-           	}*/	
-           	System.out.println(count);
-  /*        	//disassemble the binaries from the test folder 
-           	//assuming that all cpp files have binaries
-           	for(int bin=0; bin< test_file_paths.size(); bin++){
-        		System.out.println(test_file_paths.get(bin).toString());
-        		disassembleCPPBinaries(test_file_paths.get(bin).toString(), "32");}*/
+           	
+           	
+        	//delete all disassembled files
+           	for(int bin=0; bin< test_dis_paths.size(); bin++){
+        		System.out.println(test_dis_paths.get(bin).toString());
+        			File toDelete = new File(test_dis_paths.get(bin).toString());
+        		//	toDelete.delete();
+        			}
+           	
+           	
+          	//disassemble the binaries from the test folder 
+           	for(int bin=0; bin< test_binary_paths.size(); bin++){
+        		System.out.println(test_binary_paths.get(bin).toString());
+        		disassembleBinaries(test_binary_paths.get(bin).toString(), "32");
+        			}
         		
 
     	String text = "";
@@ -203,30 +202,17 @@ public class BinaryDisassembleAndExtractFeatures {
 		   
 
 	  
-		public static void disassembleCBinaries(String filePath, String bits) throws IOException, InterruptedException, ScriptException{
+		public static void disassembleBinaries(String filePath, String bits) throws IOException, InterruptedException, ScriptException{
 			//should take filename to test each time
 			//just needs the name of the directory with the authors and their source files as an input
-			//and outputs .ast files in source file's corresponding directory - has AST information 
 		
 			 Runtime disTime = Runtime.getRuntime();
-			 String output_filename = filePath.substring(0, filePath.length()-1).concat("dis");
-			 String cmd1 = "ndisasm -b " +bits +" " + filePath.substring(0, filePath.length()-2) + " > " + output_filename;      
+			 String output_filename = filePath.concat(".dis");
+			 String cmd1 = "ndisasm -b " +bits +" " + filePath.toString() + " > " + output_filename;      
 		     Process disassemble = disTime.exec((new String[]{"/bin/sh","-c", cmd1}));
 		     disassemble.waitFor();
 		}
-		
-		  
-			public static void disassembleCPPBinaries(String filePath, String bits) throws IOException, InterruptedException, ScriptException{
-				//should take filename to test each time
-				//just needs the name of the directory with the authors and their source files as an input
-				//and outputs .ast files in source file's corresponding directory - has AST information 
-			
-				 Runtime disTime = Runtime.getRuntime();
-				 String output_filename = filePath.substring(0, filePath.length()-3).concat("dis");
-				 String cmd1 = "ndisasm -b " +bits +" " + filePath.substring(0, filePath.length()-4) + " > " + output_filename;      
-			     Process disassemble = disTime.exec((new String[]{"/bin/sh","-c", cmd1}));
-			     disassemble.waitFor();
-			}
+
 
 				
 	

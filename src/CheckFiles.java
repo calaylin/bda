@@ -2,6 +2,7 @@
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -26,14 +27,24 @@ public class CheckFiles {
 
     String testFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/14FilesPerAuthor_2014_linux32/";
 
+
+
+	String testFolder_compiled ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+        			+ "c++/9Files_largescale_CPP_and_binary_NOToptimized_hexrays/";
+	
+//addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
+	String dirToAddBinaries ="/Users/Aylin/Desktop/Princeton/"
+			+ "BAA/datasets/c++/100authors_hexraysDecompiled_noOptimization/";
+	
+	String dirToLookForBinaries ="/Users/Aylin/Desktop/Princeton/"
+			+ "BAA/datasets/c++/9Files_largescale_CPP_and_binary_NOToptimized/";
+	
+	//addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
+	//this won't recognize binaries, so convert to c first
     //to add .c to decompiled filenames
-	String testFolder_compiled ="/Users/Aylin/Desktop/Princeton/BAA/"
-			+ "datasets/c++/14FilesPerAuthor_2014_decompiledC/";
 //	addDotCToDecompiledFileName(testFolder_compiled);
 
-	String testFolder_compiled2 ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-        			+ "c++/9Files_largescale_onlydecompiled/";
-//	rearrangeFolders(testFolder_compiled2);
+	//rearrangeFolders(testFolder_compiled);
 
 	
 	//to clean files produced by joern
@@ -190,6 +201,49 @@ public static void cleanNonCodeFromFolder(String cleanFolder){
     
         }}}
 
+	public static void addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
+		
+		List cFiles = Util.listCFiles(dirToAddBinaries);
+		List cppFiles = Util.listCPPFiles(dirToAddBinaries);
+		
+		if (cFiles.size() > cppFiles.size()){
+			
+			for (int i=0; i< cFiles.size(); i++){
+				File cFileName = new File(cFiles.get(i).toString());
+				
+				String binaryFileName = cFileName.getName().substring(0, cFileName.getName().length()-2);
+				String binaryAuthor = new File(cFileName.getParent()).getName().toString();
+				//copy
+				System.out.println(dirToLookForBinaries + File.separator+ 
+						  binaryAuthor + File.separator + binaryFileName);
+				System.out.println(dirToAddBinaries+ File.separator+ 
+						  binaryAuthor + File.separator + binaryFileName);
+				  Files.copy(new File(dirToLookForBinaries + File.separator+ 
+						  binaryAuthor + File.separator + binaryFileName).toPath(),
+					        new File(dirToAddBinaries+ File.separator+ 
+									  binaryAuthor + File.separator + binaryFileName).toPath(),
+					        StandardCopyOption.REPLACE_EXISTING);				
+			}
+		}
+		
+		if (cFiles.size() < cppFiles.size()){
+			
+			for (int i=0; i< cppFiles.size(); i++){
+				File cppFileName = new File(cppFiles.get(i).toString());
+				
+				String binaryFileName = cppFileName.getName().substring(0, cppFileName.getName().length()-4);
+				String binaryAuthor = new File(cppFileName.getParent()).getName().toString();
+				//copy
+				  Files.copy(new File(dirToLookForBinaries + File.separator+ 
+						  binaryAuthor + File.separator + binaryFileName).toPath(),
+					        new File(dirToAddBinaries+ File.separator+ 
+									  binaryAuthor + File.separator + binaryFileName).toPath(),
+					        StandardCopyOption.REPLACE_EXISTING);				
+			}
+		}
+
+		
+	}
 	public static void fixArffFeature (String arffFile) throws IOException{
 		
     	String featureText = Util.readFile( arffFile);

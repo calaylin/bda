@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -60,16 +61,16 @@ public class FeatureExtractorDisassembly {
 			}
 
 
-
 		   	//get the Unigrams in the disassembly and write the unigram features
 		       String[] disassemblyUnigrams =getDisUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyUnigrams.length; i++)	   	
 		       {  	disassemblyUnigrams[i] = disassemblyUnigrams[i].replace("'", "apostrophesymbol");
 		            	Util.writeFile("@attribute 'disassemblyUnigrams "+i+"=["+disassemblyUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
-			   	
+			   
+		   	
 		    	//get the bigrams in the disassembly and write the bigram features
-			    String[] disassemblyBigrams =getDisBigrams(test_dir);
-		      	for (int i=0; i<disassemblyBigrams.length; i++)	   	
+		    	String[] disassemblyBigrams =getDisBigrams(test_dir);
+		     	for (int i=0; i<disassemblyBigrams.length; i++)	   	
 			       {  	disassemblyBigrams[i] = disassemblyBigrams[i].replace("'", "apostrophesymbol");
 			            	Util.writeFile("@attribute 'disassemblyBigrams "+i+"=["+disassemblyBigrams[i]+"]' numeric"+"\n", output_filename, true);}
 
@@ -202,9 +203,16 @@ public class FeatureExtractorDisassembly {
 		                                 + " , needed " + arr[2] 
 		                            );*/
 						arr[2]=	arr[2].replaceAll(",", " ");
+						arr[2]=	arr[2].replaceAll("\\+", " ");
+						arr[2]=	arr[2].replaceAll("\\-", " ");
+
+						arr[2]=	arr[2].replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
 					toAdd = arr[2].split("\\s+");
 					for(int i1 =0; i1< toAdd.length; i1++)
 						{
+						if(toAdd[i1].contains("0x")){
+							toAdd[i1]="hexadecimal";
+						}
 						uniGrams.add(toAdd[i1]);
 							//	System.out.println(toAdd[i1]);
 		            	}	
@@ -226,15 +234,25 @@ public class FeatureExtractorDisassembly {
  //not normalized by the number of ASTTypes in the source code in the source code
     public static float [] getDisUnigramTF (String featureText, String[] wordUnigrams  )
     {    
+    	
+    	
+    	
+    	String str;
     float symbolCount = wordUnigrams.length;
     float [] counter = new float[(int) symbolCount];
     for (int i =0; i<symbolCount; i++){
 //if case insensitive, make lowercase
 //   String str = APISymbols[i].toString().toLowerCase();
- 	 String str = wordUnigrams[i].toString();
+ 	  str = wordUnigrams[i].toString();
 //if case insensitive, make lowercase
 //   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
- 	 counter[i] = StringUtils.countMatches(featureText, str);  	   
+ 	 
+ 	 if(str.equals("hexadecimal")){
+ 	 	 counter[i] = StringUtils.countMatches(featureText, "0x"); 
+ 	 }
+ 	 else{
+ 	 counter[i] = StringUtils.countMatches(featureText, str); 
+ 	 }
 
     }
     return counter;
@@ -273,27 +291,33 @@ public class FeatureExtractorDisassembly {
 /*					System.out.println("Redundant " + arr[0] 
 	                                 + " , needed " + arr[2] 
 	                            );*/
+					
 					arr[2]=	arr[2].replaceAll(",", " ");
+					arr[2]=	arr[2].replaceAll("\\+", " ");
+					arr[2]=	arr[2].replaceAll("\\-", " ");
+
+					arr[2]=	arr[2].replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
 				toAdd = arr[2].split("\\s+");
-				for(int i1 =0; i1< toAdd.length; i1++)
+				
+				for(int i1 =1; i1< toAdd.length; i1++)
 					{
-					ar.add(toAdd[i1]);
-							//System.out.println(toAdd[i1]);
+					if(toAdd[i1].contains("0x")){
+						toAdd[i1]="hexadecimal";}
+					bigrams.add(toAdd[i1-1].trim() + " " +toAdd[i1].trim());
+						//	System.out.println(toAdd[i1-1]+ " " +toAdd[i1]);
 	            	}	
 				}
 			}
 			
 			
 	    }	 	      
-	      
+		       
     
-	for(int i=1; i<ar.size(); i++){
-	   //   System.out.println( unigrams.get(i-1));
-		   bigrams.add(ar.get(i-1).toString().trim() + " "+ar.get(i).toString().trim());
-		       uniquebigrams = bigrams.toArray(new String[bigrams.size()]);
-	}	
+	    uniquebigrams = bigrams.toArray(new String[bigrams.size()]);
+		
 
-    return uniquebigrams;
+	    return uniquebigrams;
+	    
     }
     
     
@@ -301,12 +325,19 @@ public class FeatureExtractorDisassembly {
     {    
         float symbolCount = DisBigrams.length;
         float [] counter = new float[(int) symbolCount];
+        String str;
         for (int i =0; i<symbolCount; i++){
     //if case insensitive, make lowercase
     //   String str = APISymbols[i].toString().toLowerCase();
-     	 String str = DisBigrams[i].toString();
+     	  str = DisBigrams[i].toString();
     //if case insensitive, make lowercase
     //   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
+     	featureText = featureText.replaceAll(",", " ");
+     	
+     	featureText=  featureText.replaceAll("\\+", " ");
+     	featureText=  featureText.replaceAll("\\-", " ");
+
+     	featureText=  featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");   	
      	 counter[i] = StringUtils.countMatches(featureText, str);  	   
 
         }

@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -134,9 +137,12 @@ public class Util {
     	
     }
     public static String readFile(String fileName) throws IOException {
+    	
+    	
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         try {
             StringBuilder sb = new StringBuilder();
+            
             String line = br.readLine();
 
             while (line != null) {
@@ -655,6 +661,26 @@ public class Util {
     		fileWriter.close();
 
     	}
+    	
+    	// public static String readFile(String path, Charset encoding) 
+    	public static String readFile2(String path)  throws IOException 
+    			{
+    		try {
+    			File fin = new File(path);
+    			FileInputStream fis = new FileInputStream(fin);
+    			BufferedReader in = new BufferedReader(new
+    			InputStreamReader(fis));
+    			char[] chrArr = new char[(int)fin.length()];
+    			while(in.ready()==false) {}
+    			in.read(chrArr);
+    			in.close();
+    			return new String(chrArr);
+    			}
+    			catch (FileNotFoundException e) { return ""; }
+    			catch (IOException e) { return ""; }
+    			}
+
+    			
 }
 
 

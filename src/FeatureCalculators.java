@@ -33,7 +33,7 @@ public class FeatureCalculators {
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
     	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-		+ "c++/9Files_largescale_onlydecompiled_subset_9filesperauthor/";
+    			+ "c++/9Files_largescale_CPP_and_binary_NOToptimized_hexrays/";
 
 /*    	//check if the same authors exist
     	String mainFolder ="/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/bigExperiments/9FilesExactlyPerAuthor_2012_validation_exact";
@@ -135,7 +135,7 @@ public class FeatureCalculators {
         for(int i=0; i< test_code_paths.size(); i++){
         	code_file = new File(test_code_paths.get(i).toString());
         	
-        	int fileNo=14;
+        	int fileNo=9;
         	//check if there are correct number of dep files for each author
         	//for CPP
 //        	 List author_code_paths = Util.listCPPFiles(code_file.getParent());

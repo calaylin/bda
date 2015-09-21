@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -9,12 +10,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * FeatureExtractor writes extracted features to arff file to be used with WEKA
  * @author Aylin Caliskan-Islam (ac993@drexel.edu)
  */
 
-public class FeatureExtractorBothCandCPP {
+public class FeatureExtractorDecompiledCode {
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
 		
 		  String [] cKeywords = {"auto", 	"break", 	"case", 	"char", 	"const", 	
@@ -84,7 +88,7 @@ public class FeatureExtractorBothCandCPP {
     
 //Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
        String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);
-       String[] wordUnigramsC =FeatureCalculators.wordUnigramsC(test_dir);
+       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir);
 
     //if only interested in syntactic features use this if the dep file contains user input    
  //   String[] ASTtypes =FeatureCalculators.uniqueASTTypes(test_dir);
@@ -218,7 +222,7 @@ public class FeatureExtractorBothCandCPP {
 		{Util.writeFile(astTypeTFIDF[j]+",", output_filename, true);}	*/
 
 	    //get count of each wordUnigram in C source file	 
-	    float[] wordUniCount = FeatureCalculators.WordUnigramTF(sourceCode, wordUnigramsC);
+	    float[] wordUniCount = getWordUnigramsDecompiledCodeTF(sourceCode, wordUnigramsC);
 	    for (int j=0; j<wordUniCount.length; j++)
 		{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
 		
@@ -253,7 +257,51 @@ public class FeatureExtractorBothCandCPP {
        	}
    	
    
-	  
+	  public static String[] getWordUnigramsDecompiledCode(String dirPath) throws IOException{
+  	  
+	  	   
+ 	    List test_file_paths = Util.listCFiles(dirPath);
+ 		  String[] words = null;
+ 	    for(int i=0; i< test_file_paths.size(); i++){
+ 			String filePath = test_file_paths.get(i).toString();  
+ 	   
+ 	   String inputText =Util.readFile(filePath);
+ 	 
+ 	  inputText=	inputText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+ 	  inputText=	inputText.replaceAll("-?\\d+", "number");
+
+ 	 
+// 	  inputText=	inputText.replaceAll("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$", "number");
+	   String[] arr = inputText.split("\\s+");
+
+
+ 	    words = ArrayUtils.addAll(words,arr);
+ 	   }
+ 		HashSet<String> uniqueWords = new HashSet<String>(Arrays.asList(words));
+ 	    words = uniqueWords.toArray(new String[0]);
+        return words;
+ }
+ 
+ //not normalized by the number of ASTTypes in the source code in the source code
+    public static float [] getWordUnigramsDecompiledCodeTF (String featureText, String[] wordUnigrams )
+    {    
+    float symbolCount = wordUnigrams.length;
+    float [] counter = new float[(int) symbolCount];
+    featureText=	featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+    featureText=	featureText.replaceAll("-?\\d+", "number");
+
+	   
+    for (int i =0; i<symbolCount; i++){
+//if case insensitive, make lowercase
+//   String str = APISymbols[i].toString().toLowerCase();
+ 	 String str = wordUnigrams[i].toString();
+//if case insensitive, make lowercase
+//   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
+ 	 counter[i] = StringUtils.countMatches(featureText, str);  	   
+
+    }
+    return counter;
+    }
    	
 	  public static String[]  uniqueDirectoryWords (String directoryFilePath){
 
