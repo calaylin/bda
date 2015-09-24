@@ -40,18 +40,17 @@ public class MergeArffFilesNew {
 
             String file2 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
 
-         //   + "merged/C_62Authors14files_original_C++.arff";
-                    + "62authors14FilesUsenixAndrewFeatures_IG.arff";
+            		+"42authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff";
             
             
             String file1 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
 
-            + "C_62Authors14files_decompiledNEW_IG.arff";
+            + "42authors_hexraysDecompiled_noOptimizationDisassemblyUnigramsBigrams.arff";
 
 
             String outputArffName ="/Users/Aylin/Desktop/Princeton/BAA/arffs/merged/"
 
-            + "C_34Authors14files_decompiledPlusOriginal_IGsmerged.arff";
+            + "42authors_hexraysDecompiled_noOptimizationDisassemblyDecompiledFeatures.arff";
 
            
 

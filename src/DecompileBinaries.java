@@ -15,39 +15,41 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 
 public class DecompileBinaries {
 	
-	public static void main(String[] args) throws IOException, InterruptedException{
-		
-		String workingDirectory = System.getProperty("user.dir");
-		
-		String outputFile = "";
-		String filename = "";
-		
-		List binary_files = listBinaryFiles("9Files_largescale_onlyCPP_and_binary_Optimization1");
-		
-		for(int i =0; i< binary_files.size();i++){
-		
-			filename = binary_files.get(i).toString();
-			outputFile = filename.concat("_SnowmanDecompiled.cpp");
-			System.out.println(filename);
-		Runtime decompiler = Runtime.getRuntime();
-				Process process = decompiler.exec(new String[]{"cmd.exe","/c",
-				workingDirectory + File.separator + "snowman-v0.0.7-win-x64"+ File.separator+"nocode.exe "
-				+  filename +" > "
-				+  outputFile});	
-	
-		process.waitFor();
-	
-	InputStream in = process.getInputStream();
-	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-	
-	while(reader.ready()){
-		System.out.println(reader.readLine());
-	}
-	
-	
+	  public static void main(String[] args) throws IOException, InterruptedException{
+	        
+	        String workingDirectory = System.getProperty("user.dir");
+	        
+	        String outputFile = "";
+	        String filename = "";
+	        
+	        List binary_files = listBinaryFiles("test");
+	        
+	        for(int i =0; i< binary_files.size();i++){
+	        
+	            filename = binary_files.get(i).toString();
+	            outputFile = filename.concat("_SnowmanDecompiled.cfg");
+	            System.out.println(filename);
+	        Runtime decompiler = Runtime.getRuntime();
+	                Process process = decompiler.exec(new String[]{"cmd.exe","/c",
+	                workingDirectory + File.separator + "snowman-v0.0.7-win-x64"+
+	                File.separator+"nocode.exe "
+	                +  filename +" --print-cfg > "
+	                +  outputFile });    
+	    
+	                //use the --print-cfg flag to print the dot formatted cfg to a file
+	        process.waitFor();
+	    
+	    InputStream in = process.getInputStream();
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+	    
+	    while(reader.ready()){
+	        System.out.println(reader.readLine());
+	    }
+	    
+	    
 
-		}
-	}
+	        }
+	    }
 	
 	   public static List <File> listBinaryFiles(String dirPath){
 

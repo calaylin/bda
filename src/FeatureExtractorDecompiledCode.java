@@ -53,7 +53,7 @@ public class FeatureExtractorDecompiledCode {
 //    	dayOfMonth + "_"+ time +".arff" ;
     	String test_dir ="100authors_hexraysDecompiled_noOptimization";
    		
-    	String output_filename =  "100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
+    	String output_filename =  "test100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
 
     	
 

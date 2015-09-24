@@ -40,7 +40,8 @@ public class BinaryDisassembleAndExtractFeatures {
         	String output_filename = "/Users/Aylin/Desktop/Princeton/"
         			+ "BAA/arffs/100authors_hexraysDecompiled_noOptimizationUnigrams.arff" ;
         	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-        			+ "c++/100authors_hexraysDecompiled_noOptimization/";
+        			+ "c++/"
+        			+ "9Files_largescale_CPP_and_binary_NOToptimized/";
         	
         	
 

@@ -25,11 +25,11 @@ public class FeatureExtractorDisassembly {
 		
 	
     				String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    						+ "c++/100authors_hexraysDecompiled_noOptimization/";
+    						+ "c++/9Files_largescale_CPP_and_binary_NOToptimized/";
 		       		
 		        	String output_filename = "/Users/Aylin/Desktop/Princeton/"
 		        			+ "BAA/arffs/"
-		        			+ "100authors_hexraysDecompiled_noOptimizationDisassemblyUnigramsBigrams.arff" ;
+		        			+ "9Files_largescale_CPP_and_binary_NOToptimized.arff" ;
 
 		        	
 		        	
@@ -50,13 +50,12 @@ public class FeatureExtractorDisassembly {
 		    	
 
 
-		   	List test_file_paths = Util.listCFiles(test_dir);
-		   	for(int j=0; j < test_file_paths.size();j++ )
+		   	for(int j=0; j < test_binary_paths.size();j++ )
 			{
-				File sourceFile = new File(test_file_paths.get(j).toString());
+				File sourceFile = new File(test_binary_paths.get(j).toString());
 				String fileName = sourceFile.getName();
 				Util.writeFile(fileName+",", output_filename, true);
-				if ((j+1)==test_file_paths.size())
+				if ((j+1)==test_binary_paths.size())
 					Util.writeFile("}"+"\n", output_filename, true);
 			}
 
@@ -78,9 +77,9 @@ public class FeatureExtractorDisassembly {
 		    File authorFileName = null;
 			//Writing the classes (authorname)
 			Util.writeFile("@attribute 'authorName_original' {",output_filename, true);
-			for(int i=0; i< test_file_paths.size(); i++){
-				int testIDlength = test_file_paths.get(i).toString().length();   
-				authorFileName= new File(test_file_paths.get(i).toString());
+			for(int i=0; i< test_binary_paths.size(); i++){
+				int testIDlength = test_binary_paths.get(i).toString().length();   
+				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
 
 				text = text.concat(authorName + ",");  
@@ -92,7 +91,7 @@ public class FeatureExtractorDisassembly {
 				   }
 				   words = uniqueWords.toArray(new String[0]);
 				   int authorCount = words.length;
-				   if (i+1==test_file_paths.size()){
+				   if (i+1==test_binary_paths.size()){
 				   for (int j=0; j< authorCount; j++){
 					   {System.out.println(words[j]);
 						if(j+1 == authorCount)
@@ -117,18 +116,18 @@ public class FeatureExtractorDisassembly {
 			
 			
 			//EXTRACT LABELED FEATURES
-		   	for(int i=0; i< test_file_paths.size(); i++){
-				String featureText = Util.readFile(test_file_paths.get(i).toString());
-				int testIDlength = test_file_paths.get(i).toString().length(); 
-				authorFileName= new File(test_file_paths.get(i).toString());
+		   	for(int i=0; i< test_binary_paths.size(); i++){
+				String featureText = Util.readFile(test_binary_paths.get(i).toString());
+				int testIDlength = test_binary_paths.get(i).toString().length(); 
+				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
 
-				System.out.println(test_file_paths.get(i));
+				System.out.println(test_binary_paths.get(i));
 				System.out.println(authorName);
-				File fileCPPID = new File(test_file_paths.get(i).toString());
+				File fileCPPID = new File(test_binary_paths.get(i).toString());
 				String fileNameID = fileCPPID.getName();
 				Util.writeFile(fileNameID+",", output_filename, true);
-				String disText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-1)+"dis");
+				String disText = Util.readFile(test_binary_paths.get(i).toString());
 
 				
 		   

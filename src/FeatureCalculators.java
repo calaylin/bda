@@ -33,7 +33,7 @@ public class FeatureCalculators {
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
     	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    			+ "c++/9Files_largescale_CPP_and_binary_NOToptimized_hexrays/";
+    			+ "c++/9files_50authors_snowmanDecompiledOptimizationLevel2_joern/";
 
 /*    	//check if the same authors exist
     	String mainFolder ="/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/bigExperiments/9FilesExactlyPerAuthor_2012_validation_exact";
@@ -101,19 +101,14 @@ public class FeatureCalculators {
  	
     	//preprocess to get ast dep and txt files for each cpp file
   //  	List test_file_paths = Util.listCPPFiles(testFolder); //use this for preprocessing       
-    	List test_file_paths = Util.listCFiles(testFolder); //use this for preprocessing       
-
+  //  	List test_file_paths = Util.listCFiles(testFolder); //use this for preprocessing       
+    	List test_file_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
+    	
 
     	
     	for(int i=0; i< test_file_paths.size(); i++){
     		System.out.println(test_file_paths.get(i).toString());
-    	//	preprocessCDataToASTFeatures(test_file_paths.get(i).toString());
-    		preprocessCDataToTXTdepAST(test_file_paths.get(i).toString());
-    		
-    		
-    		
-    		
-    		
+    	//	preprocessCDataToTXTdepAST(test_file_paths.get(i).toString());
     	//	preprocessDataToTXTdepAST(test_file_paths.get(i).toString());
 
     	//	preprocessCDataToTXTdepAST("/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets"
@@ -128,7 +123,8 @@ public class FeatureCalculators {
     	   	
       //if dep file is not created because of the unknown bug, create the dep file again
         List test_dep_paths = Util.listDepFiles(testFolder); //use this for preprocessing       
-        List test_code_paths = Util.listCFiles(testFolder); //use this for preprocessing       
+        List test_code_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
+  //  	List test_file_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
 
         File code_file=null;
     //    System.out.println(test_dep_paths.size());
@@ -141,7 +137,7 @@ public class FeatureCalculators {
 //        	 List author_code_paths = Util.listCPPFiles(code_file.getParent());
         	
         	//for C
-       	     List author_code_paths = Util.listCFiles(code_file.getParent());
+       	     List author_code_paths = Util.listSnowmanDecompiled(code_file.getParent());
         	 if(author_code_paths.size()<fileNo){
        // 	System.out.println(author_code_paths.size()+" code files "+code_file.getParent());
         		 }
@@ -162,7 +158,7 @@ public class FeatureCalculators {
         		 }
 
         	File dep_file = null;
-         	dep_file = new File ((test_code_paths.get(i).toString().substring(0,test_code_paths.get(i).toString().length()-1 ))+"dep");
+         	dep_file = new File ((test_code_paths.get(i).toString().substring(0,test_code_paths.get(i).toString().length()-3 ))+"dep");
         //	System.out.println(test_dep_paths.get(i).toString());
         	//if dep file is not created properly, the file size is 0 bytes
         	//ADD CHANGE, CHECK IF CPP FILE'S DEP FILE EXISTS INSTEAD OF LISTNG THE DEP FILES
@@ -189,10 +185,12 @@ public class FeatureCalculators {
                 	dep.delete();
                 	ast.delete();
                 //preprocessDataToASTFeatures(depFileName.substring(0, depFileName.length()-3)+"cpp");  
-            		System.out.println((dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3))+"c");  
-        		preprocessCDataToTXTdepAST((dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3))+"c");  
+            		System.out.println((dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3))+"cpp");  
+        	//	preprocessCDataToTXTdepAST((dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3))+"c");  
 
-             //	preprocessDataToTXTdepAST(depFileName.substring(0, depFileName.length()-3)+"cpp");
+             	preprocessDataToTXTdepAST(test_code_paths.get(i).toString().
+             			substring(0,test_code_paths.get(i).toString().length()-3 )+"cpp");
+
 
         	}
         		}
@@ -1338,19 +1336,30 @@ public static int functionIDCount (String featureText)
 		      	while(br3.ready())
 		          { //   System.out.println(br3.readLine());
 		          Util.writeFile(br3.readLine().toString() +"\n",output_filename3, true);
+		          
+		          
+		          br.close();
+		          br1.close();
+		          br2.close();
+		          br3.close();
+		          br5.close();
+		          br6.close();
+		          br7.close();
+		          br8.close();
+
 		   	   }		          
 		          
 		          
 	          
 	          
 	          
-	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
+/*	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
 	 		   "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/joern_related/neo4j-community-1.9.7/bin/neo4j stop"        		   
 	    });
 	    stopDB.waitFor();
 	    BufferedReader br4 = new BufferedReader(new InputStreamReader(stopDB.getInputStream()));
 	    while(br4.ready())
-	        System.out.println(br4.readLine());
+	        System.out.println(br4.readLine());*/
 	
 		
 	}
@@ -1448,13 +1457,22 @@ public static int functionIDCount (String featureText)
 	          
 	          
 	          
-	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
+/*	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
 	 		   "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/joern_related/neo4j-community-1.9.7/bin/neo4j stop"        		   
 	    });
 	    stopDB.waitFor();
 	    BufferedReader br4 = new BufferedReader(new InputStreamReader(stopDB.getInputStream()));
 	    while(br4.ready())
-	        System.out.println(br4.readLine());
+	        System.out.println(br4.readLine());*/
+		      	
+		         br.close();
+		          br1.close();
+		          br2.close();
+		          br3.close();
+		          br5.close();
+		          br6.close();
+		          br7.close();
+		          br8.close();
 	
 		
 	}
