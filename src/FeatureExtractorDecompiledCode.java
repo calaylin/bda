@@ -86,7 +86,7 @@ public class FeatureExtractorDecompiledCode {
     
 //Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
        String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);
-       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir);
+       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir, "snowman");
 
     //if only interested in syntactic features use this if the dep file contains user input    
  //   String[] ASTtypes =FeatureCalculators.uniqueASTTypes(test_dir);
@@ -255,15 +255,15 @@ public class FeatureExtractorDecompiledCode {
        	}
    	
    
-	  public static String[] getWordUnigramsDecompiledCode(String dirPath. String filetype) throws IOException{
+	  public static String[] getWordUnigramsDecompiledCode(String dirPath, String filetype) throws IOException{
   	  
-		  List test_file_paths;
-		  if(filetype.equals("c"){
+		  List test_file_paths = null;
+		  if(filetype.equals("c")){
  	     test_file_paths = Util.listCFiles(dirPath);}
-		  if(filetype.equals("cpp"){
+		  if(filetype.equals("cpp")){
 
  	     test_file_paths = Util.listCPPFiles(dirPath);}
-		  if(filetype.equals("snowman"){
+		  if(filetype.equals("snowman")){
  	     test_file_paths = Util.listSnowmanDecompiled(dirPath);}
  		  String[] words = null;
  	    for(int i=0; i< test_file_paths.size(); i++){
