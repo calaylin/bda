@@ -51,7 +51,7 @@ public class FeatureExtractorDecompiledCode {
     	//TODO when time changes, output_filename changes every time which needs to be corrected
 //       	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/incremental/" +"CodeJam_14FilesPerAuthor_2014_"+ (month+1) + "." + 
 //    	dayOfMonth + "_"+ time +".arff" ;
-    	String test_dir ="100authors_hexraysDecompiled_noOptimization";
+    	String test_dir ="/home/ubuntu/data_bsd/9files_50authors_snowmanDecompiledOptimizationLevel2_joern/";
    		
     	String output_filename =  "test100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
 
@@ -64,7 +64,7 @@ public class FeatureExtractorDecompiledCode {
   	//first specify relation
 	Util.writeFile("@relation "+"9FilesPerAuthor_2014_hexrays_100authors"+"\n"+"\n", output_filename, true);
 	Util.writeFile("@attribute instanceID_original {", output_filename, true);
-   	List test_cpp_paths = Util.listCFiles(test_dir);
+   	List test_cpp_paths = Util.listSnowmanDecompiled(test_dir);
    	for(int j=0; j < test_cpp_paths.size();j++ )
 	{
 		File fileCPP = new File(test_cpp_paths.get(j).toString());
@@ -85,7 +85,7 @@ public class FeatureExtractorDecompiledCode {
     
 //Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
        String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);
-       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir);
+       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir, "snowman");
 
     //if only interested in syntactic features use this if the dep file contains user input    
  //   String[] ASTtypes =FeatureCalculators.uniqueASTTypes(test_dir);
@@ -185,7 +185,7 @@ public class FeatureExtractorDecompiledCode {
 		Util.writeFile(FeatureCalculators.functionIDCount(featureText)+",", output_filename, true);
 		String ASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"ast");
 		String DepASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"dep");
-		String sourceCode = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"c");
+		String sourceCode = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"cpp");
 
 		Util.writeFile(FeatureCalculators.CFGNodeCount(ASTText)+",", output_filename, true);
 		Util.writeFile(FeatureCalculators.ASTFunctionIDCount(ASTText)+",", output_filename, true);
@@ -254,10 +254,16 @@ public class FeatureExtractorDecompiledCode {
        	}
    	
    
-	  public static String[] getWordUnigramsDecompiledCode(String dirPath) throws IOException{
+	  public static String[] getWordUnigramsDecompiledCode(String dirPath, String filetype) throws IOException{
   	  
-	  	   
- 	    List test_file_paths = Util.listCFiles(dirPath);
+		  List test_file_paths = null;
+		  if(filetype.equals("c")){
+ 	     test_file_paths = Util.listCFiles(dirPath);}
+		  if(filetype.equals("cpp")){
+
+ 	     test_file_paths = Util.listCPPFiles(dirPath);}
+		  if(filetype.equals("snowman")){
+ 	     test_file_paths = Util.listSnowmanDecompiled(dirPath);}
  		  String[] words = null;
  	    for(int i=0; i< test_file_paths.size(); i++){
  			String filePath = test_file_paths.get(i).toString();  
