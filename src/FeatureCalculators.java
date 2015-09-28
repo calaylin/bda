@@ -32,8 +32,9 @@ public class FeatureCalculators {
 
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
-    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    			+ "c++/9files_50authors_snowmanDecompiledOptimizationLevel2_joern/";
+    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/featureTransformations/";
+
+    	
 
 /*    	//check if the same authors exist
     	String mainFolder ="/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/bigExperiments/9FilesExactlyPerAuthor_2012_validation_exact";
@@ -100,9 +101,9 @@ public class FeatureCalculators {
   			}}*/ 
  	
     	//preprocess to get ast dep and txt files for each cpp file
-  //  	List test_file_paths = Util.listCPPFiles(testFolder); //use this for preprocessing       
+    	List test_file_paths = Util.listCPPFiles(testFolder); //use this for preprocessing       
   //  	List test_file_paths = Util.listCFiles(testFolder); //use this for preprocessing       
-    	List test_file_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
+ //   	List test_file_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
     	
 
     	
@@ -1337,7 +1338,12 @@ public static int functionIDCount (String featureText)
 		          { //   System.out.println(br3.readLine());
 		          Util.writeFile(br3.readLine().toString() +"\n",output_filename3, true);
 		          
+		      
+
+		   	   }		          
 		          
+		          
+		        
 		          br.close();
 		          br1.close();
 		          br2.close();
@@ -1346,11 +1352,6 @@ public static int functionIDCount (String featureText)
 		          br6.close();
 		          br7.close();
 		          br8.close();
-
-		   	   }		          
-		          
-		          
-	          
 	          
 	          
 /*	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import javax.script.ScriptException;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,13 +49,13 @@ public class CheckFiles {
 
 	
 	//to clean files produced by joern
-	String cleanFolder="/Users/Aylin/Desktop/Princeton/BAA/"
-	+ "datasets/c++/14FilesPerAuthor_2014_decompiledC_half/";
+	String cleanFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+			+ "c++/featureTransformations/9files_50authors_snowmanDecompiledOptimizationLevel2/";
 	
 	String arffFile1 = "/Users/Aylin/Desktop/Princeton/BAA/arffs/"
 			+ "C_62Authors14files_decompiledfrom2C++.arff/";
 	
-	
+	cleanNonCPPFromFolder(cleanFolder);
 	
 	//to change a particular feature (authorname)
 //	fixArffFeature(arffFile1);
@@ -201,6 +202,26 @@ public static void cleanNonCodeFromFolder(String cleanFolder){
     
         }}}
 
+
+public static void cleanNonCPPFromFolder(String cleanFolder){
+	List test_cpp_files = Util.listAllFilesFolders(cleanFolder);
+	for(int i=0; i< test_cpp_files.size(); i++){
+		String fileName = test_cpp_files.get(i).toString();
+		File nonCppFile = new File(fileName);
+		if(!nonCppFile.isDirectory()){
+//		if(!(FilenameUtils.getExtension(fileName).equals("cpp"))){
+			if(!(fileName.contains("SnowmanDecompiled.cpp"))){
+
+			nonCppFile.delete();    	
+		}
+		}
+			
+		}
+		}
+   
+
+    	
+    	 
 	public static void addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
 		
 		List cFiles = Util.listCFiles(dirToAddBinaries);

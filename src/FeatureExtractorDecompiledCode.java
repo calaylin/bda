@@ -53,8 +53,9 @@ public class FeatureExtractorDecompiledCode {
 //    	dayOfMonth + "_"+ time +".arff" ;
     	String test_dir ="/home/ubuntu/data_bsd/9files_50authors_snowmanDecompiledOptimizationLevel2_joern/";
    		
-    	String output_filename =  "test100authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff" ;
 
+    	String output_filename =  "/home/ubuntu/data_bsd/arffs/"
+    			+ "9files_50authors_snowmanDecompiledOptimizationLevel2_joern.arff" ;
     	
 
        	List test_file_paths = Util.listTextFiles(test_dir);
