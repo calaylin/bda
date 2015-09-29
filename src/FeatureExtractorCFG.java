@@ -70,6 +70,8 @@ public class FeatureExtractorCFG {
 		    	String[] cfgBigrams =getCFGBigrams(test_dir);
 		     	for (int i=0; i<cfgBigrams.length; i++)	   	
 			       {  	cfgBigrams[i] = cfgBigrams[i].replace("'", "apostrophesymbol");
+			         	cfgBigrams[i] = cfgBigrams[i].replace("\n", "newline");
+
 			            	Util.writeFile("@attribute 'CFGBigrams "+i+"=["+cfgBigrams[i]+"]' numeric"+"\n", output_filename, true);}
 
 
@@ -268,7 +270,7 @@ public class FeatureExtractorCFG {
 						line=	line.replaceAll("\\[shape=box,label=", " ");
 						line=	line.replaceAll("\\\\n", " nodeNewline ");
 						line=	line.replaceAll("\n\"];" , " ");
-						uniGrams.add(temp + line);
+						uniGrams.add(temp + "\n"+ line);
 						temp = line;
 					}
  	    }	 	       	      
