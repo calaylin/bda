@@ -55,7 +55,7 @@ public class AuthorClassificationForFeatureAnalysis {
 		data.setClassIndex(data.numAttributes() - 1);
 
 		//remove the instanceID
-	    //data.deleteAttributeAt(0);
+	    data.deleteAttributeAt(0);
 	     
 		//the IG features in the decompiled data
 	     int firstFeatureSetSize= 542;

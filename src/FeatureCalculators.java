@@ -32,9 +32,10 @@ public class FeatureCalculators {
 
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
-    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/featureTransformations/";
-
-    	
+    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
+    		//	+ "featureTransformations/";
+    			+"featureTransformations/";
+    //	+ "featureTransformationsReady/9files_50authors_snowmanDecompiledOptimizationLevel2/";
 
 /*    	//check if the same authors exist
     	String mainFolder ="/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/bigExperiments/9FilesExactlyPerAuthor_2012_validation_exact";
@@ -1344,24 +1345,25 @@ public static int functionIDCount (String featureText)
 		          
 		          
 		        
-		          br.close();
-		          br1.close();
-		          br2.close();
-		          br3.close();
-		          br5.close();
-		          br6.close();
-		          br7.close();
-		          br8.close();
 	          
 	          
-/*	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
+	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
 	 		   "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/joern_related/neo4j-community-1.9.7/bin/neo4j stop"        		   
 	    });
 	    stopDB.waitFor();
 	    BufferedReader br4 = new BufferedReader(new InputStreamReader(stopDB.getInputStream()));
 	    while(br4.ready())
-	        System.out.println(br4.readLine());*/
+	        System.out.println(br4.readLine());
 	
+
+        br.close();
+        br1.close();
+        br2.close();
+        br3.close();
+        br5.close();
+        br6.close();
+        br7.close();
+        br8.close();
 		
 	}
 	
@@ -1458,13 +1460,13 @@ public static int functionIDCount (String featureText)
 	          
 	          
 	          
-/*	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
+	    stopDB = dbTime.exec(new String[]{"/bin/sh", "-c",
 	 		   "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/joern_related/neo4j-community-1.9.7/bin/neo4j stop"        		   
 	    });
 	    stopDB.waitFor();
 	    BufferedReader br4 = new BufferedReader(new InputStreamReader(stopDB.getInputStream()));
 	    while(br4.ready())
-	        System.out.println(br4.readLine());*/
+	        System.out.println(br4.readLine());
 		      	
 		         br.close();
 		          br1.close();

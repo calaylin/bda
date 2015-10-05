@@ -357,7 +357,7 @@ public class Util {
         return textFiles;
 
 }
-    public static List <File> listCFGFiles(String dirPath)
+    public static List <File> listDotFiles(String dirPath)
     {
 
         File topDir = new File(dirPath);
@@ -368,7 +368,7 @@ public class Util {
         List<File> textFiles = new ArrayList<>();
 
         List<String> filterWildcards = new ArrayList<>();
-        filterWildcards.add("*.cfg");
+        filterWildcards.add("*.dot");
 
 
         FileFilter typeFilter = new WildcardFileFilter(filterWildcards);
@@ -727,6 +727,42 @@ public class Util {
 		
 		        List<String> filterWildcards = new ArrayList<>();
 		        filterWildcards.add("*.dis");
+		
+		
+		        FileFilter typeFilter = new WildcardFileFilter(filterWildcards);
+		
+		        while (directories.isEmpty() == false)
+		        {
+		            List<File> subDirectories = new ArrayList<File>();
+		
+		            for(File f : directories)
+		            {
+		                subDirectories.addAll(Arrays.asList(f.listFiles((FileFilter)DirectoryFileFilter.INSTANCE)));
+		                textFiles.addAll(Arrays.asList(f.listFiles(typeFilter)));
+		            }
+		
+		            directories.clear();
+		            directories.addAll(subDirectories);
+		
+		
+		        }
+		        Collections.sort(textFiles);
+		        return textFiles;
+		
+		}
+
+		public static List <File> listCFGFiles(String dirPath)
+		    {
+		
+		        File topDir = new File(dirPath);
+		
+		        List<File> directories = new ArrayList<>();
+		        directories.add(topDir);
+		
+		        List<File> textFiles = new ArrayList<>();
+		
+		        List<String> filterWildcards = new ArrayList<>();
+		        filterWildcards.add("*.cfg");
 		
 		
 		        FileFilter typeFilter = new WildcardFileFilter(filterWildcards);

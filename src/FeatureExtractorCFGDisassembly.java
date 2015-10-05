@@ -26,11 +26,11 @@ public class FeatureExtractorCFGDisassembly {
 		
 	
     				String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    						+ "c++/9Files_largescale_onlyCPP_and_binary_NOToptimized_snowmanDecompiledCFG/";
+    						+ "c++/CFGSnowman100authors/";
 		       		
 		        	String output_filename = "/Users/Aylin/Desktop/Princeton/"
 		        			+ "BAA/arffs/"
-		        			+ "9Files_largescale_onlyCPP_and_binary_NOToptimized_snowmanDisassemblyCFG.arff" ;
+		        			+ "CFGSnowman100authors.arff" ;
 
 		        	
 		        	
@@ -86,12 +86,12 @@ public class FeatureExtractorCFGDisassembly {
 			            	Util.writeFile("@attribute 'cfgNodeLastLine "+i+"=["+cfgNodeLastLine[i]+"]' numeric"+"\n", output_filename, true);}
 			
 			    	
-			    	
-			   	// write the unigram tfidf features	   	
+			    	//the slowest feature
+/*			   	// write the unigram tfidf features	   	
 			    	for (int i=0; i<cfgUnigrams.length; i++)	   	
 			       {  	//cfgUnigrams[i] = cfgUnigrams[i].replace("'", "apostrophesymbol");
 			            	Util.writeFile("@attribute 'CFGUnigramsTFIDF "+i+"=["+cfgUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
-				   
+				   */
 			    	
 		    	//get the bigrams in the CFG and write the bigram features
 		    	String[] cfgBigrams =getCFGBigrams(test_dir);
@@ -116,7 +116,7 @@ public class FeatureExtractorCFGDisassembly {
 				int testIDlength = test_dot_paths.get(i).toString().length();   
 				authorFileName= new File(test_dot_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
-
+				
 				text = text.concat(authorName + ",");  
 				String[] words = text.split( ",");
 				  Set<String> uniqueWords = new HashSet<String>();
@@ -156,9 +156,7 @@ public class FeatureExtractorCFGDisassembly {
 				int testIDlength = test_dot_paths.get(i).toString().length(); 
 				authorFileName= new File(test_dot_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
-				String disText = Util.readFile(test_dot_paths.get(i).toString().substring(0,testIDlength-3)+"dis");
-
-
+				String disText = Util.readFile(test_dot_paths.get(i).toString().substring(0,testIDlength-22)+".dis");
 				System.out.println(test_dot_paths.get(i));
 				System.out.println(authorName);
 				File fileCPPID = new File(test_dot_paths.get(i).toString());
@@ -193,10 +191,10 @@ public class FeatureExtractorCFGDisassembly {
 
 			    
 			    
-			    
-			    float[] uniTFIDF = getCFGUnigramsTFIDF(featureText, test_dir, cfgUnigrams);
+			    //tfidf is the slowest feature so far
+/*			    float[] uniTFIDF = getCFGUnigramsTFIDF(featureText, test_dir, cfgUnigrams);
 			    for (int j=0; j<uniTFIDF.length; j++)
-				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	
+				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	*/
 			    
 			    //get count of each bigram in in disassembly	 
 			    float[] wordBigramCount1 = getCFGBigramsTF(featureText, cfgBigrams);

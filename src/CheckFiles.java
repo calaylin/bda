@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import javax.script.ScriptException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -50,13 +51,15 @@ public class CheckFiles {
 	
 	//to clean files produced by joern
 	String cleanFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-			+ "c++/featureTransformations/9files_50authors_snowmanDecompiledOptimizationLevel2/";
+			+ "c++/featureTransformations/9files_50authors_snowmanDecompiledOptimizationLevel1/";
 	
 	String arffFile1 = "/Users/Aylin/Desktop/Princeton/BAA/arffs/"
 			+ "C_62Authors14files_decompiledfrom2C++.arff/";
 	
-	cleanNonCPPFromFolder(cleanFolder);
-	
+	//cleanNonCPPFromFolder(cleanFolder);
+	checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
+			+ "featureTransformations/featureAnalysisOriginalCode/"
+			,36);
 	//to change a particular feature (authorname)
 //	fixArffFeature(arffFile1);
 	
@@ -331,4 +334,25 @@ public static void cleanNonCPPFromFolder(String cleanFolder){
 	
 	
 }
+	
+	public static void checkFolderSizeAndDelete(String parentDir, int noFiles) throws IOException{
+		
+		File file = new File(parentDir);
+		String[] names = file.list();
+
+		for(String name : names)
+		{
+		    if (new File(parentDir + name).isDirectory())
+		    {
+		       File author = new File(parentDir+name);
+		       String[] files = author.list();
+		       if (files.length < noFiles)
+		       {
+		    	   FileUtils.deleteDirectory(new File(parentDir+name));
+		       }
+		       
+		    }
+		}
+		
+	}
 }

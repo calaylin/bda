@@ -51,9 +51,10 @@ public class FeatureExtractorDecompiledCodeSyntactic {
     	//TODO when time changes, output_filename changes every time which needs to be corrected
 //       	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/incremental/" +"CodeJam_14FilesPerAuthor_2014_"+ (month+1) + "." + 
 //    	dayOfMonth + "_"+ time +".arff" ;
-    	String test_dir ="/home/ubuntu/data_bsd/9files_50authors_snowmanDecompiledOptimizationLevel2_joern/";
+    	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
+    			+ "featureTransformations/";
    		
-    	String output_filename =  "syntactic.arff" ;
+    	String output_filename =  "/Users/Aylin/Desktop/Princeton/BAA/arffs/all_syntactic.arff" ;
 
     	
 
@@ -63,23 +64,26 @@ public class FeatureExtractorDecompiledCodeSyntactic {
   	//Writing the test arff
   	//first specify relation
 	Util.writeFile("@relation "+"syntactic"+"\n"+"\n", output_filename, true);
-	Util.writeFile("@attribute instanceID_original {", output_filename, true);
-   	List test_cpp_paths = Util.listSnowmanDecompiled(test_dir);
+	Util.writeFile("@attribute instanceID {", output_filename, true);
+   	List test_cpp_paths = Util.listCPPFiles(test_dir);
    	for(int j=0; j < test_cpp_paths.size();j++ )
 	{
 		File fileCPP = new File(test_cpp_paths.get(j).toString());
-		String fileName = fileCPP.getName();
+		String fileName = fileCPP.getParentFile().getParentFile().getName() 
+				+ "_"+ fileCPP.getName();
 		Util.writeFile(fileName+",", output_filename, true);
 		if ((j+1)==test_cpp_paths.size())
 			Util.writeFile("}"+"\n", output_filename, true);
 	}
 
-	Util.writeFile("@attribute 'functionIDCount_original' numeric"+"\n", output_filename, true);
-	Util.writeFile("@attribute 'CFGNodeCount_original' numeric"+"\n", output_filename, true);
-	Util.writeFile("@attribute 'ASTFunctionIDCount_original' numeric"+"\n", output_filename, true);
-	Util.writeFile("@attribute 'getMaxDepthASTLeaf_original' numeric"+"\n", output_filename, true);
+	Util.writeFile("@attribute 'functionIDCount' numeric"+"\n", output_filename, true);
+	Util.writeFile("@attribute 'CFGNodeCount' numeric"+"\n", output_filename, true);
+	Util.writeFile("@attribute 'ASTFunctionIDCount' numeric"+"\n", output_filename, true);
+	Util.writeFile("@attribute 'getMaxDepthASTLeaf' numeric"+"\n", output_filename, true);
 
     String[] APIsymbols = FeatureCalculators.uniqueAPISymbols(test_dir);
+   
+    
     //uniqueASTTypes does not contain user input, such as function and variable names
     //uniqueDepASTTypes contain user input, such as function and variable names
     
@@ -106,33 +110,34 @@ public class FeatureExtractorDecompiledCodeSyntactic {
     {	Util.writeFile("@attribute 'ASTtypesTFIDF["+i+"]' numeric"+"\n", output_filename, true);}
 */
        
-        	String[] ASTNodeBigrams = BigramExtractorC.getASTNodeBigrams(test_dir);
+        	String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
       	for (int i=0; i<ASTNodeBigrams.length; i++)		
     	  {  	ASTNodeBigrams[i] = ASTNodeBigrams[i].replace("'", "apostrophesymbol");
-    	    	Util.writeFile("@attribute 'ASTNodeBigramsTF_original "+i+"=["+ASTNodeBigrams[i]+"]' numeric"+"\n", output_filename, true);}
+    	    	Util.writeFile("@attribute 'ASTNodeBigramsTF "+i+"=["+ASTNodeBigrams[i]+"]' numeric"+"\n", output_filename, true);}
         
     for (int i=0; i<ASTtypes.length; i++)	   	
   {  	ASTtypes[i] = ASTtypes[i].replace("'", "apostrophesymbol");
-    	Util.writeFile("@attribute 'ASTNodeTypesTF_original "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);}
+    	Util.writeFile("@attribute 'ASTNodeTypesTF "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);}
     for (int i=0; i<ASTtypes.length; i++)	
   {	    ASTtypes[i] = ASTtypes[i].replace("'", "apostrophesymbol");
-    	Util.writeFile("@attribute 'ASTNodeTypesTFIDF_original "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);}
+    	Util.writeFile("@attribute 'ASTNodeTypesTFIDF "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);}
     for (int i=0; i<ASTtypes.length; i++)	
   {	    ASTtypes[i] = ASTtypes[i].replace("'", "apostrophesymbol");
-    	Util.writeFile("@attribute 'ASTNodeTypeAvgDep_original "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);}
+    	Util.writeFile("@attribute 'ASTNodeTypeAvgDep "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);}
     for (int i=0; i<cKeywords.length; i++)	
-  {	Util.writeFile("@attribute 'cKeyword_original "+i+"=["+cKeywords[i]+"]' numeric"+"\n", output_filename, true);}
+  {	Util.writeFile("@attribute 'cKeyword "+i+"=["+cKeywords[i]+"]' numeric"+"\n", output_filename, true);}
 
     File authorFileName = null;
 	//Writing the classes (authorname)
-	Util.writeFile("@attribute 'authorName_original' {",output_filename, true);
+	Util.writeFile("@attribute 'authorName' {",output_filename, true);
 	for(int i=0; i< test_file_paths.size(); i++){
 		int testIDlength = test_file_paths.get(i).toString().length();   
 		authorFileName= new File(test_file_paths.get(i).toString());
 	//	String authorName= authorFileName.getParentFile().getName();
 		
 		//for Fabian's output that is nested
-		String authorName= authorFileName.getParentFile().getName();
+		String authorName= authorFileName.getParentFile().getParentFile().getName()
+				+"_"+authorFileName.getParentFile().getName();
 		text = text.concat(authorName + ",");  
 		String[] words = text.split( ",");
 		  Set<String> uniqueWords = new HashSet<String>();
@@ -182,7 +187,8 @@ public class FeatureExtractorDecompiledCodeSyntactic {
 		System.out.println(authorName);
 		File fileCPPID = new File(test_cpp_paths.get(i).toString());
 		String fileNameID = fileCPPID.getName();
-		Util.writeFile(fileNameID+",", output_filename, true);
+		Util.writeFile(authorFileName.getParentFile().getParentFile().getName()
+				+ "_"+fileNameID+",", output_filename, true);
 		Util.writeFile(FeatureCalculators.functionIDCount(featureText)+",", output_filename, true);
 		String ASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"ast");
 		String DepASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"dep");
@@ -245,7 +251,8 @@ public class FeatureExtractorDecompiledCodeSyntactic {
 		{Util.writeFile(cKeywordsTF[k] +",", output_filename, true);}	
     	
     	
-		Util.writeFile(authorName+"\n", output_filename, true);
+		Util.writeFile(authorFileName.getParentFile().getParentFile().getName()
+				+ "_"+authorName+"\n", output_filename, true);
 
    	
    			}

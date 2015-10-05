@@ -25,7 +25,7 @@ public class BinaryDisassemble {
 		   		
 		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
         			+ "c++/"
-        			+ "9Files_largescale_onlyCPP_and_binary_NOToptimized_snowmanDecompiledCFG/";
+			+ "9Files_largescale_onlyCPP_and_binary_NOToptimized_snowmanDecompiled/";
         	
         	
 
