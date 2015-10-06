@@ -17,43 +17,52 @@ public class VectorDistances {
 		String arff1 = "file1.arff" ;
 		String arff2 = "file2.arff" ;
 		
+		
+		String arffFile ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+
+            + "all_syntactic_L0.arff";
+
+		String arffFile1 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+
+            + "all_syntactic_L1.arff";
+		String arffFile2 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+
+            + "all_syntactic_L2.arff";
+		
+		String arffFileorg ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+
+            + "all_syntactic_originalCode.arff";
+		
+		
 		Util.writeFile("first distances: \n",file1, true);	
 		Util.writeFile("second distances: \n",file2, true);	
 
-		Instances instances1 = new Instances(new FileReader(arff1));
-		instances1.setClassIndex(instances1.numAttributes() - 1);
-
-		Instances instances2 = new Instances(new FileReader(arff2));
-		instances2.setClassIndex(instances2.numAttributes() - 1);
+		Instances instances1 = new Instances(new FileReader(arffFileorg));
+		Instances instances2 = new Instances(new FileReader(arffFile2));
 		
 		EuclideanDistance distance = new EuclideanDistance();
 		//for public data
 		distance.setInstances(instances1);
-		
-		for (int i=0; i < instances1.numInstances(); i++){
-			for (int j=0; j < instances1.numInstances(); j++){
+		String instanceID="";
+		Instance first;
+		Instance second;
+		for(int i=0; i< instances1.numInstances(); i++){
+	 		 instanceID = instances1.instance(i).stringValue(0).substring(28, (instances1.instance(i).stringValue(0).toString()).length()-4);
+	 		System.out.println(instances1.instance(i).stringValue(0).substring(28, instances1.instance(i).stringValue(0).length()));
 
-		Instance first = instances1.instance(i);
-		Instance second = instances1.instance(j);
-		//this is Euclidean distance, check the others (cosine) as well
-		double d = distance.distance(first, second);
-		
-		
-		//for public
-		System.out.println("From: "+
-		instances1.classAttribute().value((int) instances1.instance(i).classValue())
-		+ " to: "+ instances1.classAttribute().value((int) instances1.instance(j).classValue())
-		+ " "+ d
-				);
-		
-		Util.writeFile("From: "+
-				instances1.classAttribute().value((int) instances1.instance(i).classValue())
-				+ " to: "+ instances1.classAttribute().value((int) instances1.instance(j).classValue())
-				+ " "+ d + "\n",file1, true);	
-		
-
-		}
+		System.out.println(instances1.instance(i).stringValue(0).substring(28, (instances1.instance(i).stringValue(0).toString()).length()-4));
+		for(int j=0; j<instances2.numInstances();j++){
+			if(instances2.instance(j).stringValue(0).contains(instanceID)){
+				 first = instances1.instance(i);
+				 second = instances2.instance(j);
+				//this is Euclidean distance, check the others (cosine) as well
+				double d = distance.distance(first, second);
+				System.out.println(instanceID + " cos distance: "+Double.toString(d));
+				Util.writeFile(instanceID + " cos distance: "+Double.toString(d) +"\n",
+				"/Users/Aylin/Desktop/Princeton/BAA/results/syntacticFeatureDistances"
+				+ "fromOriginalDecompiledL2.txt",true);
+			}
 		}
 		
 	}
-}
+}}
