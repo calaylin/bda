@@ -3,6 +3,7 @@ import sys
 
 #
 # Usage: python /directory/path/to/cjcompile.py [compiler flags]
+#  python /Users/Aylin/git/calaylin/bda/src/cjcompile.py
 # Compiles all C/C++ source files in the current working directory.
 # Also recursively compiles all C/C++ source files in all subdirectories.
 #check file format: 
@@ -22,11 +23,14 @@ for (path, dirs, files) in os.walk('.'):
 		if f.endswith(('.c', '.cpp')):
 			if f.endswith('.c'): # C file
 			#	command = "gcc -m32 "
-							command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-gcc -O1 "
+					#		command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-gcc -O1 "
+							command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-gcc "
+
 
 			else: # C++ file
 			#	command = "g++ -m32 "
-							command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-g++ -O1 "
+			#				command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-g++ -O1 "
+							command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-g++ "
 
 			# add full directory path of the source file
 			command += path
