@@ -3,7 +3,6 @@ import sys
 
 #
 # Usage: python /directory/path/to/cjcompile.py [compiler flags]
-#  /Users/Aylin/git/SCAAcorpus/Corpus/cjcompile2.py
 # Compiles all C/C++ source files in the current working directory.
 # Also recursively compiles all C/C++ source files in all subdirectories.
 #check file format: 
