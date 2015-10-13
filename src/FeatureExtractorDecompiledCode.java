@@ -51,11 +51,11 @@ public class FeatureExtractorDecompiledCode {
     	//TODO when time changes, output_filename changes every time which needs to be corrected
 //       	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/incremental/" +"CodeJam_14FilesPerAuthor_2014_"+ (month+1) + "." + 
 //    	dayOfMonth + "_"+ time +".arff" ;
-    	String test_dir ="/home/ubuntu/data_bsd/9files_50authors_snowmanDecompiledOptimizationLevel2_joern/";
-   		
+    	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+        			+"dataset-20151005/repos/";
 
-    	String output_filename =  "/home/ubuntu/data_bsd/arffs/"
-    			+ "9files_50authors_snowmanDecompiledOptimizationLevel2_joern.arff" ;
+    	String output_filename =  "/Users/Aylin/Desktop/Princeton/BAA/"
+    			+"arffs/dataset-20151005_cpp_145authors.arff";
     	
 
        	List test_file_paths = Util.listTextFiles(test_dir);
@@ -63,12 +63,13 @@ public class FeatureExtractorDecompiledCode {
 	String text = "";
   	//Writing the test arff
   	//first specify relation
-	Util.writeFile("@relation "+"9FilesPerAuthor_2014_hexrays_100authors"+"\n"+"\n", output_filename, true);
+	Util.writeFile("@relation "+"dataset-20151005_cpp_145authors"+"\n"+"\n", output_filename, true);
 	Util.writeFile("@attribute instanceID_original {", output_filename, true);
-   	List test_cpp_paths = Util.listSnowmanDecompiled(test_dir);
+  // 	List test_cpp_paths = Util.listSnowmanDecompiled(test_dir);
+	List test_cpp_paths = Util.listCPPFiles(test_dir);
    	for(int j=0; j < test_cpp_paths.size();j++ )
 	{
-		File fileCPP = new File(test_cpp_paths.get(j).toString());
+   		File fileCPP = new File(test_cpp_paths.get(j).toString());
 		String fileName = fileCPP.getName();
 		Util.writeFile(fileName+",", output_filename, true);
 		if ((j+1)==test_cpp_paths.size())
@@ -86,7 +87,7 @@ public class FeatureExtractorDecompiledCode {
     
 //Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
        String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);
-       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir, "snowman");
+       String[] wordUnigramsC =getWordUnigramsDecompiledCode(test_dir, "cpp");
 
     //if only interested in syntactic features use this if the dep file contains user input    
  //   String[] ASTtypes =FeatureCalculators.uniqueASTTypes(test_dir);
@@ -106,7 +107,7 @@ public class FeatureExtractorDecompiledCode {
        for (int i=0; i<wordUnigramsC.length; i++)	   	
        {  	wordUnigramsC[i] = wordUnigramsC[i].replace("'", "apostrophesymbol");
          	Util.writeFile("@attribute 'wordUnigramsC_original "+i+"=["+wordUnigramsC[i]+"]' numeric"+"\n", output_filename, true);}
-     	String[] ASTNodeBigrams = BigramExtractorC.getASTNodeBigrams(test_dir);
+     	String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
       	for (int i=0; i<ASTNodeBigrams.length; i++)		
     	  {  	ASTNodeBigrams[i] = ASTNodeBigrams[i].replace("'", "apostrophesymbol");
     	    	Util.writeFile("@attribute 'ASTNodeBigramsTF_original "+i+"=["+ASTNodeBigrams[i]+"]' numeric"+"\n", output_filename, true);}
@@ -132,7 +133,11 @@ public class FeatureExtractorDecompiledCode {
 	//	String authorName= authorFileName.getParentFile().getName();
 		
 		//for Fabian's output that is nested
-		String authorName= authorFileName.getParentFile().getName();
+		
+		String[] authorNameSplit= test_file_paths.get(i).toString().split("/");
+		String authorName = authorNameSplit[9];
+		System.out.println(authorName);
+		//between 9-10 /
 		text = text.concat(authorName + ",");  
 		String[] words = text.split( ",");
 		  Set<String> uniqueWords = new HashSet<String>();
@@ -176,10 +181,16 @@ public class FeatureExtractorDecompiledCode {
 		//for Fabian's output that is nested
 	//	String authorName= authorFileName.getParentFile().getName();
 		
-		//for Fabian's output that is nested
+/*		//for Fabian's output that is nested
 		String authorName= authorFileName.getParentFile().getName();
 		System.out.println(test_file_paths.get(i));
+		System.out.println(authorName);*/
+		
+		//when there are subdirectories in author folder use the following to get the authorname
+		String[] authorNameSplit= test_file_paths.get(i).toString().split("/");
+		String authorName = authorNameSplit[9];
 		System.out.println(authorName);
+		
 		File fileCPPID = new File(test_cpp_paths.get(i).toString());
 		String fileNameID = fileCPPID.getName();
 		Util.writeFile(fileNameID+",", output_filename, true);

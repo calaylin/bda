@@ -57,9 +57,12 @@ public class CheckFiles {
 			+ "C_62Authors14files_decompiledfrom2C++.arff/";
 	
 	//cleanNonCPPFromFolder(cleanFolder);
-	checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
+/*	checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
 			+ "featureTransformations/featureAnalysisOriginalCode/"
-			,36);
+			,36);*/
+	
+	
+	
 	//to change a particular feature (authorname)
 //	fixArffFeature(arffFile1);
 	
@@ -72,14 +75,48 @@ public class CheckFiles {
        System.out.println(test_c_paths.size());
  */
 
-	String fromFileName = "";
-	String toFileName = ".c";
-	String foldername ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-			+ "c++/9Files_largescale_onlydecompiled/";
+	String fromFileName = ".cc";
+	String toFileName = ".cpp";
+	String foldername ="/Users/Aylin/Desktop/Princeton/BAA/"
+			+ "datasets/c++/100authors_noOptimization/";
 	//changeFileType( fromFileName,  toFileName,  foldername, false);
+	//removeIncludeH(foldername);
+	cleanNonCPPFromFolder(foldername);
+
 
 
     }
+	
+    public static void removeIncludeH(String folderName) throws IOException{
+	List test_file_paths = Util.listAllFiles(folderName); //use this for preprocessing       
+	for(int i=0; i< test_file_paths.size(); i++)
+	{
+		    	 File inputFile = new File(test_file_paths.get(i).toString());
+		    	 if(!inputFile.isDirectory())
+		    	 {
+		         File tempFile = new File(test_file_paths.get(i).toString() + "TMP");
+		         
+		         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+		         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+		         String currentLine;
+
+		         while((currentLine = reader.readLine()) != null) 
+		         {
+		             if(null!=currentLine && !currentLine.contains("#include")  )
+		             {
+		                 writer.write(currentLine + System.getProperty("line.separator"));
+		             }
+		         }
+		         writer.close(); 
+		         reader.close(); 
+		         boolean successful = tempFile.renameTo(inputFile);
+		         System.out.println(successful);
+		         System.out.println(inputFile);
+		    	 }
+		    }
+}
+	
 	
 	
 	public static void rearrangeFolders(String testFolder_compiled) throws IOException
@@ -221,6 +258,24 @@ public static void cleanNonCPPFromFolder(String cleanFolder){
 			
 		}
 		}
+
+
+public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
+	List test_cpp_files = Util.listAllFilesFolders(cleanFolder);
+	for(int i=0; i< test_cpp_files.size(); i++){
+		String fileName = test_cpp_files.get(i).toString();
+		File nonCppFile = new File(fileName);
+		if(!nonCppFile.isDirectory()){
+//		if(!(FilenameUtils.getExtension(fileName).equals("cpp"))){
+			if(!((fileName.contains(".cpp") || FilenameUtils.getExtension(fileName).equals("")))){
+
+			nonCppFile.delete();    	
+		}
+		}
+			
+		}
+		}
+   
    
 
     	
