@@ -81,7 +81,7 @@ public class CheckFiles {
 			+ "datasets/c++/100authors_noOptimization/";
 	//changeFileType( fromFileName,  toFileName,  foldername, false);
 	//removeIncludeH(foldername);
-	cleanNonCPPFromFolder(foldername);
+	cleanNonBinaryFromFolder(foldername);
 
 
 
@@ -243,14 +243,14 @@ public static void cleanNonCodeFromFolder(String cleanFolder){
         }}}
 
 
-public static void cleanNonCPPFromFolder(String cleanFolder){
+public static void cleanNonBinaryFromFolder(String cleanFolder){
 	List test_cpp_files = Util.listAllFilesFolders(cleanFolder);
 	for(int i=0; i< test_cpp_files.size(); i++){
 		String fileName = test_cpp_files.get(i).toString();
 		File nonCppFile = new File(fileName);
 		if(!nonCppFile.isDirectory()){
-//		if(!(FilenameUtils.getExtension(fileName).equals("cpp"))){
-			if(!(fileName.contains("SnowmanDecompiled.cpp"))){
+			String ext = FilenameUtils.getExtension(fileName);
+    		if (!ext.isEmpty()){		
 
 			nonCppFile.delete();    	
 		}
@@ -267,14 +267,15 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 		File nonCppFile = new File(fileName);
 		if(!nonCppFile.isDirectory()){
 //		if(!(FilenameUtils.getExtension(fileName).equals("cpp"))){
-			if(!((fileName.contains(".cpp") || FilenameUtils.getExtension(fileName).equals("")))){
+				if(!(FilenameUtils.getExtension(FilenameUtils.getName(fileName)).isEmpty()))
+					{
 
 			nonCppFile.delete();    	
-		}
+		}}
 		}
 			
 		}
-		}
+		
    
    
 
