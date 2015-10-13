@@ -55,7 +55,7 @@ public class FeatureExtractorDecompiledCode {
         			+"dataset-20151005/repos/";
 
     	String output_filename =  "/Users/Aylin/Desktop/Princeton/BAA/"
-    			+"arffs/dataset-20151005_cpp_145authors.arff";
+    			+"arffs/dataset-20151005_cpp_100authors.arff";
     	
 
        	List test_file_paths = Util.listTextFiles(test_dir);
@@ -63,7 +63,7 @@ public class FeatureExtractorDecompiledCode {
 	String text = "";
   	//Writing the test arff
   	//first specify relation
-	Util.writeFile("@relation "+"dataset-20151005_cpp_145authors"+"\n"+"\n", output_filename, true);
+	Util.writeFile("@relation "+"dataset-20151005_cpp_100authors"+"\n"+"\n", output_filename, true);
 	Util.writeFile("@attribute instanceID_original {", output_filename, true);
   // 	List test_cpp_paths = Util.listSnowmanDecompiled(test_dir);
 	List test_cpp_paths = Util.listCPPFiles(test_dir);

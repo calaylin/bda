@@ -24,13 +24,13 @@ for (path, dirs, files) in os.walk('.'):
 			if f.endswith('.c'): # C file
 			#	command = "gcc -m32 "
 					#		command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-gcc -O1 "
-							command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-gcc "
+				command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-gcc -S "
 
 
 			else: # C++ file
 			#	command = "g++ -m32 "
 			#				command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-g++ -O1 "
-							command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-g++ "
+				command = "/usr/local/gcc-4.8.1-for-linux32/bin/i586-pc-linux-g++ -S "
 
 			# add full directory path of the source file
 			command += path

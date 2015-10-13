@@ -32,9 +32,9 @@ public class FeatureCalculators {
 
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
-    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
-    		//	+ "featureTransformations/";
-    			+"featureTransformations/";
+    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+    		//	+ "c++/featureTransformations/";
+    			+"dataset-20151005/repos/";
     //	+ "featureTransformationsReady/9files_50authors_snowmanDecompiledOptimizationLevel2/";
 
 /*    	//check if the same authors exist
@@ -106,7 +106,8 @@ public class FeatureCalculators {
   //  	List test_file_paths = Util.listCFiles(testFolder); //use this for preprocessing       
  //   	List test_file_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
     	
-
+//NOTE: NEXT TO DO
+//process the c files in the dataset    	
     	
     	for(int i=0; i< test_file_paths.size(); i++){
     		System.out.println(test_file_paths.get(i).toString());
@@ -125,7 +126,7 @@ public class FeatureCalculators {
     	   	
       //if dep file is not created because of the unknown bug, create the dep file again
         List test_dep_paths = Util.listDepFiles(testFolder); //use this for preprocessing       
-        List test_code_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
+        List test_code_paths = Util.listCPPFiles(testFolder); //use this for preprocessing       
   //  	List test_file_paths = Util.listSnowmanDecompiled(testFolder); //use this for preprocessing       
 
         File code_file=null;
@@ -133,13 +134,13 @@ public class FeatureCalculators {
         for(int i=0; i< test_code_paths.size(); i++){
         	code_file = new File(test_code_paths.get(i).toString());
         	
-        	int fileNo=9;
+        	int fileNo=100;
         	//check if there are correct number of dep files for each author
         	//for CPP
 //        	 List author_code_paths = Util.listCPPFiles(code_file.getParent());
         	
         	//for C
-       	     List author_code_paths = Util.listSnowmanDecompiled(code_file.getParent());
+       	     List author_code_paths = Util.listCPPFiles(code_file.getParent());
         	 if(author_code_paths.size()<fileNo){
        // 	System.out.println(author_code_paths.size()+" code files "+code_file.getParent());
         		 }
@@ -182,10 +183,12 @@ public class FeatureCalculators {
                 	File txt = new File (dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3)+"txt");
                 	File dep = new File (dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3)+"dep");
                 	File ast = new File (dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3)+"ast");
-   
+      //          	File cpp = new File (dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3)+"cpp");
+
                 	txt.delete();
                 	dep.delete();
                 	ast.delete();
+      //          	cpp.delete();
                 //preprocessDataToASTFeatures(depFileName.substring(0, depFileName.length()-3)+"cpp");  
             		System.out.println((dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3))+"cpp");  
         	//	preprocessCDataToTXTdepAST((dep_file.getPath().toString().substring(0, dep_file.getPath().toString().length()-3))+"c");  
