@@ -26,6 +26,18 @@ public class DecompileBinaries {
 	        
 	        for(int i =0; i< binary_files.size();i++){
 	        
+/*	        	//to generate decompiled code
+				filename = binary_files.get(i).toString();
+				outputFile = filename.concat("_SnowmanDecompiled.cpp");
+				System.out.println(filename);
+			Runtime decompiler = Runtime.getRuntime();
+					Process process = decompiler.exec(new String[]{"cmd.exe","/c",
+					workingDirectory + File.separator + "snowman-v0.0.7-win-x64"+ File.separator+"nocode.exe "
+					+  filename +" > "
+					+  outputFile});
+	        	//end of decompiled code generation
+*/	        	
+	        	//to generate cfgs
 	            filename = binary_files.get(i).toString();
 	            outputFile = filename.concat("_SnowmanDecompiled.cfg");
 	            System.out.println(filename);
@@ -35,7 +47,10 @@ public class DecompileBinaries {
 	                File.separator+"nocode.exe "
 	                +  filename +" --print-cfg > "
 	                +  outputFile });    
-	    
+	    //end of generating cfg
+	                
+	                
+	                
 	                //use the --print-cfg flag to print the dot formatted cfg to a file
 	        process.waitFor();
 	    
