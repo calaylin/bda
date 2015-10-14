@@ -28,16 +28,17 @@ public class FeatureExtractorBjoern {
 		
 	
     				String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    						+ "c++/100authors_noOptimization_bjoern_snowmanCFG";
+    						+ "c++/100authors_noOptimization_bjoern_snowmanCFG/";
 		       		
 		        	String output_filename = "/Users/Aylin/Desktop/Princeton/"
 		        			+ "BAA/arffs/"
-		        			+ "100authors_noOptimization_bjoern_snowmanCFG.arff" ;
+		        			+ "TEST100authors_noOptimization_bjoern_snowmanCFG.arff" ;
 
 		        	
 		        	
 
 		           	List test_binary_paths = Util.listBinaryFiles(test_dir);
+
 		           	List test_dis_paths = listBjoernNodeFiles(test_dir);
 			
 		 
@@ -46,7 +47,7 @@ public class FeatureExtractorBjoern {
 		    	String text = "";
 		      	//Writing the test arff
 		      	//first specify relation
-		    	Util.writeFile("@relation "+"Disassembly_Unigrams_Bigrams"+"\n"+"\n",
+		    	Util.writeFile("@relation "+"100authors_noOptimization_bjoern_snowmanCFG"+"\n"+"\n",
 		    			output_filename, true);
 		    	Util.writeFile("@attribute instanceID_original {", output_filename, true);
 		  
@@ -71,12 +72,57 @@ public class FeatureExtractorBjoern {
 			   
 		   	
 		    	//get the bigrams in the disassembly and write the bigram features
-		    	String[] disassemblyBigrams =getDisBigrams(test_dir);
+		    	String[] disassemblyBigrams =getBjoernBigrams(test_dir);
 		     	for (int i=0; i<disassemblyBigrams.length; i++)	   	
 			       {  	disassemblyBigrams[i] = disassemblyBigrams[i].replace("'", "apostrophesymbol");
 			            	Util.writeFile("@attribute 'disassemblyBigrams "+i+"=["+disassemblyBigrams[i]+"]' numeric"+"\n", output_filename, true);}
 
 
+		     	//CFG Features from snowman CFGs
+			   	//get the Unigrams in the CFG and write the unigram features
+			       String[] cfgUnigrams =FeatureExtractorCFGDisassembly.getCFGUnigrams(test_dir);
+			    	for (int i=0; i<cfgUnigrams.length; i++)	   	
+			       {  	//cfgUnigrams[i] = cfgUnigrams[i].replace("'", "apostrophesymbol");
+			            	Util.writeFile("@attribute 'CFGUnigrams "+i+"=["+cfgUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
+				   
+			    	
+			    	  String[] cfgNodeLastLine =FeatureExtractorCFGDisassembly.getCFGNodeLine(test_dir);
+				    	for (int i=0; i<cfgNodeLastLine.length; i++)	   	
+				       {  	//cfgUnigrams[i] = cfgUnigrams[i].replace("'", "apostrophesymbol");
+				            	Util.writeFile("@attribute 'cfgNodeLastLine "+i+"=["+cfgNodeLastLine[i]+"]' numeric"+"\n", output_filename, true);}
+				
+				    	
+				    	//the slowest feature
+	/*			   	// write the unigram tfidf features	   	
+				    	for (int i=0; i<cfgUnigrams.length; i++)	   	
+				       {  	//cfgUnigrams[i] = cfgUnigrams[i].replace("'", "apostrophesymbol");
+				            	Util.writeFile("@attribute 'CFGUnigramsTFIDF "+i+"=["+cfgUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
+					   */
+				    	
+			    	//get the bigrams in the CFG and write the bigram features
+			    	String[] cfgBigrams =FeatureExtractorCFGDisassembly.getCFGBigrams(test_dir);
+			     	for (int i=0; i<cfgBigrams.length; i++)	   	
+				       {  //	cfgBigrams[i] = cfgBigrams[i].replace("'", "apostrophesymbol");
+			     				String temp= cfgBigrams[i];
+				            	Util.writeFile("@attribute 'CFGBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}
+
+			    	//get the bigrams in the CFG and write the bigram features
+			    	String[] cfgLineBigrams =FeatureExtractorCFGDisassembly.getCFGNodeLineBigram(test_dir);
+			     	for (int i=0; i<cfgLineBigrams.length; i++)	   	
+				       {  //	cfgBigrams[i] = cfgBigrams[i].replace("'", "apostrophesymbol");
+			     				String temp= cfgLineBigrams[i];
+				            	Util.writeFile("@attribute 'cfgLineBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}
+
+
+		     	
+		     	
+		     	
+		     	
+		     	
+		     	
+		     	
+		     	
+		     	
 		    File authorFileName = null;
 			//Writing the classes (authorname)
 			Util.writeFile("@attribute 'authorName_original' {",output_filename, true);
@@ -120,17 +166,19 @@ public class FeatureExtractorBjoern {
 			
 			//EXTRACT LABELED FEATURES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
-				String featureText = Util.readFile(test_binary_paths.get(i).toString());
+				String featureText = Util.readFile(test_binary_paths.get(i).toString()+"_SnowmanDecompiled.dot");
 				int testIDlength = test_binary_paths.get(i).toString().length(); 
 				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
 
-				System.out.println(test_binary_paths.get(i));
-				System.out.println(authorName);
+			//	System.out.println(test_binary_paths.get(i));
+			//	System.out.println(authorName);
 				File fileCPPID = new File(test_binary_paths.get(i).toString());
 				String fileNameID = fileCPPID.getName();
 				Util.writeFile(fileNameID+",", output_filename, true);
-				String disText = Util.readFile(test_binary_paths.get(i).toString());
+				String disText = Util.readFile(authorFileName.getParentFile()
+						+ File.separator + "output_"+fileCPPID.getName()+
+						File.separator + "nodes.csv");
 
 				
 		   
@@ -141,10 +189,45 @@ public class FeatureExtractorBjoern {
 				{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
 			    
 			    //get count of each bigram in in disassembly	 
-			    float[] wordBigramCount = getDisBigramsTF(disText, disassemblyBigrams);
+			    float[] wordBigramCount = getBjoernBigramsTF(disText, disassemblyBigrams);
 			    for (int j=0; j<wordBigramCount.length; j++)
 				{Util.writeFile(wordBigramCount[j] +",", output_filename, true);}
 			   	
+			    
+			    
+				
+			    //get count of each wordUnigram in cfg 
+				String [] cfgUnigramsTFIDF= cfgUnigrams;
+			    float[] wordUniCount1 = FeatureExtractorCFGDisassembly.getCFGUnigramTF(featureText, cfgUnigrams);
+			    for (int j=0; j<wordUniCount1.length; j++)
+				{Util.writeFile(wordUniCount1[j] +",", output_filename, true);}	
+			    
+			    
+			    float[] cfgNodeLastLineCount = FeatureExtractorCFGDisassembly.getCFGNodeLineTF(featureText, cfgNodeLastLine);
+			    for (int j=0; j<cfgNodeLastLineCount.length; j++)
+				{Util.writeFile(cfgNodeLastLineCount[j] +",", output_filename, true);}	
+			    
+			    
+
+			    
+			    
+			    //tfidf is the slowest feature so far
+/*			    float[] uniTFIDF = getCFGUnigramsTFIDF(featureText, test_dir, cfgUnigrams);
+			    for (int j=0; j<uniTFIDF.length; j++)
+				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	*/
+			    
+			    //get count of each bigram in in disassembly	 
+			    float[] wordBigramCount1 = FeatureExtractorCFGDisassembly.getCFGBigramsTF(featureText, cfgBigrams);
+			    for (int j=0; j<wordBigramCount1.length; j++)
+				{Util.writeFile(wordBigramCount1[j] +",", output_filename, true);}
+			    
+			    //get count of each bigram in in disassembly	 
+			    float[] lineBigramCount = FeatureExtractorCFGDisassembly.getCFGNodeLineBigramTF(featureText, cfgLineBigrams);
+			    for (int j=0; j<lineBigramCount.length; j++)
+				{Util.writeFile(lineBigramCount[j] +",", output_filename, true);}
+			    
+			    
+			    
 		    	
 				Util.writeFile(authorName+"\n", output_filename, true);
 
@@ -190,19 +273,55 @@ public class FeatureExtractorBjoern {
  	    for(int i=0; i< test_file_paths.size(); i++){
  	    	
  	    	filePath = test_file_paths.get(i).toString();  
-			System.out.println(filePath);						   
+		//	System.out.println(filePath);						   
 			   String[] arr;
 			   String[] toAdd;
 
 				BufferedReader br = new BufferedReader(new FileReader(filePath));
 				String line;
 				
+				
+				
+				
+				
+				while ((line = br.readLine()) != null)
+				{
+					arr = line.split("\\s+",2);
+					if (arr.length > 1){
+/*						System.out.println("Redundant " + arr[0] 
+		                                 + " , needed " + arr[1] 
+		                            );*/
+
+						arr[1]=	arr[1].replaceAll("\\\"", " ");	
+						arr[1]=	arr[1].replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+						arr[1]=	arr[1].replaceAll("\\d+", "number");
+					
+						
+						toAdd = arr[1].trim().split("\\s+");
+						for(int i11 =0; i11< toAdd.length; i11++)
+						{
+						if(toAdd[i11].contains("0x")){
+							toAdd[i11]="hexadecimal";
+						}
+						uniGrams.add(toAdd[i11].trim());
+				//				System.out.println(toAdd[i11]);
+		            	}		
+					}	
+				
+		    }
+				
+				
+				
+				
+				
+				
+				
 				while ((line = br.readLine()) != null)
 				{
 					arr = line.split("\\\t");
-					if (arr.length > 2){
-/*					System.out.println("Redundant " + arr[0] 
-		                                 + " , needed " + arr[2] 
+					if (arr.length > 1){
+	/*				System.out.println("Redundant " + arr[0] 
+		                                 + " , needed1 " +arr[1]  
 		                            );*/
 						for(int i1=1; i1< arr.length; i1++){
 
@@ -217,19 +336,18 @@ public class FeatureExtractorBjoern {
 						if(toAdd[i11].contains("0x")){
 							toAdd[i11]="hexadecimal";
 						}
-						uniGrams.add(toAdd[i11]);
-							//	System.out.println(toAdd[i1]);
+						uniGrams.add(toAdd[i11].trim());
+						//		System.out.println(toAdd[i11]);
 		            	}	
 					}}
 				}
+				br.close();
 				
 				
  	    }	 	      
  	      
        
  	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
-			    System.out.println(words);
-
 			    return words;
  
 		
@@ -252,8 +370,9 @@ public class FeatureExtractorBjoern {
  		featureText=	featureText.replaceAll("\\\"", " ");	
  		featureText=	featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
+ 		featureText=	featureText.replaceAll("\\s+", " ");	
 	
- 	 counter[i] = StringUtils.countMatches(featureText, str); 
+ 	 counter[i] = StringUtils.countMatches(featureText, str.trim()); 
  	 }
 
     
@@ -265,21 +384,20 @@ public class FeatureExtractorBjoern {
     
     
     
-    public static String [] getDisBigrams(String dirPath) throws IOException{
+    public static String [] getBjoernBigrams(String dirPath) throws IOException{
 
     	
     
 
-    List test_file_paths = Util.listDisFiles(dirPath);
+    List test_file_paths = listBjoernNodeFiles(dirPath);
 	Set<String> bigrams = new LinkedHashSet<String>();
 	String[] uniquebigrams = null;
-	ArrayList<String> ar = new ArrayList<String>();
 	String filePath="";
 
 	    for(int i=0; i< test_file_paths.size(); i++){
 	    	
 	    	filePath = test_file_paths.get(i).toString();  
-		System.out.println(filePath);						   
+	//	System.out.println(filePath);						   
 		   String[] arr;
 		   String[] toAdd;
 
@@ -288,31 +406,33 @@ public class FeatureExtractorBjoern {
 			
 			while ((line = br.readLine()) != null)
 			{
-				arr = line.split("\\\t");
-				if (arr.length > 2){
+				arr = line.split("\\s+",2);
+				if (arr.length > 1){
 /*					System.out.println("Redundant " + arr[0] 
-	                                 + " , needed " + arr[2] 
+	                                 + " , needed " + arr[1] 
 	                            );*/
-					for(int i1=1; i1< arr.length; i1++){
 
-					arr[i1]=	arr[i1].replaceAll("\\\"", " ");	
-					arr[i1]=	arr[i1].replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
-					arr[i1]=	arr[i1].replaceAll("\\d+", "number");
+					arr[1]=	arr[1].replaceAll("\\\"", " ");	
+					arr[1]=	arr[1].replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+					arr[1]=	arr[1].replaceAll("\\d+", "number");
 				
-					toAdd = arr[i1].split("\\s+");
 					
+					toAdd = arr[1].trim().split("\\s+");
+					if(toAdd.length > 1){
 				for(int i11 =1; i11< toAdd.length; i11++)
 					{
 					if(toAdd[i11].contains("0x")){
 						toAdd[i11]="hexadecimal";}
 					bigrams.add(toAdd[i11-1].trim() + " " +toAdd[i11].trim());
-						//	System.out.println(toAdd[i1-1]+ " " +toAdd[i1]);
-	            	}	
-				}
+				//			System.out.println("1stgram "+toAdd[i11-1]+ " " +"2ndgram "+toAdd[i11]);
+	            	}	}
+					
+				
 			}
 			
 			
-	    }	 	      
+	    }
+			br.close();
 		       
 	    }
 	    uniquebigrams = bigrams.toArray(new String[bigrams.size()]);
@@ -323,7 +443,7 @@ public class FeatureExtractorBjoern {
     }
     
     
-    public static float [] getDisBigramsTF (String featureText, String[] DisBigrams ) throws IOException
+    public static float [] getBjoernBigramsTF (String featureText, String[] DisBigrams ) throws IOException
     {    
         float symbolCount = DisBigrams.length;
         float [] counter = new float[(int) symbolCount];
@@ -335,6 +455,8 @@ public class FeatureExtractorBjoern {
    		featureText=	featureText.replaceAll("\\\"", " ");	
    		featureText=	featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
    		featureText=	featureText.replaceAll("\\d+", "number");
+ 		featureText=	featureText.replaceAll("\\s+", " ");	
+
   	
      	 counter[i] = StringUtils.countMatches(featureText, str);  	   
 
