@@ -28,7 +28,7 @@ public class CheckFiles {
     public static void main(String[] args) throws Exception, IOException, InterruptedException {
 
  String file = "/mnt/data_bsd/arffs/repos_incomplete.arff";
- deleteLastLineFromIncompleteArff(file);
+// deleteLastLineFromIncompleteArff(file);
 //addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
 	String dirToAddBinaries ="/Users/Aylin/Desktop/Princeton/"
 			+ "BAA/datasets/c++/100authors_hexraysDecompiled_noOptimization/";
@@ -45,8 +45,9 @@ public class CheckFiles {
 
 	
 	//to clean files produced by joern
-	String cleanFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-			+ "c++/featureTransformations/9files_50authors_snowmanDecompiledOptimizationLevel1/";
+	String cleanFolder="/mnt/data_bsd/repos2/repos/";
+	String targetDirPath = "/mnt/data_bsd/repos_9files/";
+	copyDataWithCertainSizeCPP(cleanFolder, 9,targetDirPath );
 	
 	String arffFile1 = "/Users/Aylin/Desktop/Princeton/BAA/arffs/"
 			+ "C_62Authors14files_decompiledfrom2C++.arff/";
@@ -76,7 +77,7 @@ public class CheckFiles {
 			+ "datasets/c++/100authors_noOptimization/";
 	//changeFileType( fromFileName,  toFileName,  foldername, false);
 	//removeIncludeH(foldername);
-	cleanNonBinaryFromFolder(foldername);
+	//cleanNonBinaryFromFolder(foldername);
 
 
 
@@ -406,6 +407,38 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 		}
 		
 	}
+	
+	
+	public static void copyDataWithCertainSizeCPP(String parentDir, int noFiles, String targetDirPath) throws IOException{
+		
+		File file = new File(parentDir);
+		String[] names = file.list();
+
+		for(String name : names)
+		{
+		    if (new File(parentDir + name).isDirectory())
+		    {
+		       List files = Util.listCPPFiles(parentDir+name+File.separator);
+		       if (files.size() >= noFiles)
+		       {
+		    	   File dir = new File(targetDirPath+ name + File.separator);
+		    	   dir.mkdir();
+		    	   
+		    	   for(int i=0; i < noFiles; i++){
+
+		    	   File toCopy =new File(files.get(i).toString());
+		   			System.out.println(targetDirPath+ name + File.separator+ toCopy.getName().toString());
+
+		    	   toCopy.renameTo(new File(targetDirPath+ name + File.separator+ toCopy.getName()));
+		    	   
+		    	   }
+		       }
+		       
+		    }
+		}
+		
+	}
+	
 	
 	public static void deleteLastLineFromIncompleteArff(String arffFile) throws IOException{
 		RandomAccessFile file = new RandomAccessFile(arffFile, "rw");
