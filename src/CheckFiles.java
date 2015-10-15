@@ -27,13 +27,8 @@ public class CheckFiles {
 	
     public static void main(String[] args) throws Exception, IOException, InterruptedException {
 
-    String testFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/14FilesPerAuthor_2014_linux32/";
-
-
-
-	String testFolder_compiled ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-        			+ "c++/9Files_largescale_CPP_and_binary_NOToptimized_hexrays/";
-	
+ String file = "/mnt/data_bsd/arffs/repos_incomplete.arff";
+ deleteLastLineFromIncompleteArff(file);
 //addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
 	String dirToAddBinaries ="/Users/Aylin/Desktop/Princeton/"
 			+ "BAA/datasets/c++/100authors_hexraysDecompiled_noOptimization/";
@@ -410,5 +405,19 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 		    }
 		}
 		
+	}
+	
+	public static void deleteLastLineFromIncompleteArff(String arffFile) throws IOException{
+		RandomAccessFile file = new RandomAccessFile(arffFile, "rw");
+		long len = file.length()-1;
+		byte by;
+		do{
+			len -= 1;
+			file.seek(len);
+			 by = file.readByte();
+		}
+		while(by!=10);
+		file.setLength(len+1);
+		file.close();
 	}
 }
