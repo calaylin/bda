@@ -427,10 +427,20 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 		    	   for(int i=0; i < noFiles; i++){
 
 		    	   File toCopy =new File(files.get(i).toString());
+		    	   File toCopyAST =new File(files.get(i).toString().
+		    			   substring(0, files.get(i).toString().length()-3)+"ast");
+		    	   File toCopyDEP =new File(files.get(i).toString().
+		    			   substring(0, files.get(i).toString().length()-3)+"dep");
+		    	   File toCopyTXT =new File(files.get(i).toString().
+		    			   substring(0, files.get(i).toString().length()-3)+"txt");
+
 		   			System.out.println(targetDirPath+ name + File.separator+ toCopy.getName().toString());
 
 		    	   toCopy.renameTo(new File(targetDirPath+ name + File.separator+ toCopy.getName()));
-		    	   
+		    	   toCopyAST.renameTo(new File(targetDirPath+ name + File.separator+ toCopyAST.getName()));
+		    	   toCopyDEP.renameTo(new File(targetDirPath+ name + File.separator+ toCopyDEP.getName()));
+		    	   toCopyTXT.renameTo(new File(targetDirPath+ name + File.separator+ toCopyTXT.getName()));
+
 		    	   }
 		       }
 		       
