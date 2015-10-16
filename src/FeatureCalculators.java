@@ -32,9 +32,14 @@ public class FeatureCalculators {
 
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
-    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    		//	+ "c++/featureTransformations/";
-    			+"dataset-20151005/repos/";
+    	
+    	String testFolder= "/Users/Aylin/Desktop/Princeton/BAA/datasets/200NoOptimization/";
+    	
+    	//do the following next
+/*    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+    			+ "c++/featureTransformations_allFeatures/";*/
+    	
+    	
     //	+ "featureTransformationsReady/9files_50authors_snowmanDecompiledOptimizationLevel2/";
 
 /*    	//check if the same authors exist
@@ -111,8 +116,32 @@ public class FeatureCalculators {
     	
     	for(int i=0; i< test_file_paths.size(); i++){
     		System.out.println(test_file_paths.get(i).toString());
+    		
+    //rename cc files and their ast info		
+/*    		if(test_file_paths.get(i).toString().contains(".cc")){
+        		System.out.println("to rename:"+test_file_paths.get(i).toString());
+
+    			File renameCC = new File(test_file_paths.get(i).toString());
+    			renameCC.renameTo(new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-2)+"cpp"));
+    			
+    			File renameDep = new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-3)+"dep");
+    			renameDep.renameTo(new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-3)+".dep"));
+    			
+    			File renameAST = new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-3)+"ast");
+    			renameAST.renameTo(new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-3)+".ast"));
+    			
+    			File renameTXT = new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-3)+"txt");
+    			renameTXT.renameTo(new File(test_file_paths.get(i).toString().substring(0,
+    					test_file_paths.get(i).toString().length()-3)+".txt"));
+    		}*/
     	//	preprocessCDataToTXTdepAST(test_file_paths.get(i).toString());
-    	//	preprocessDataToTXTdepAST(test_file_paths.get(i).toString());
+    		preprocessDataToTXTdepAST(test_file_paths.get(i).toString());
 
     	//	preprocessCDataToTXTdepAST("/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets"
     	//			+ "/obfuscated_C/obfuscated3/9FilesAtLeastPerAuthor_2014_C/Konrad127123/2974486_5690574640250880_Konrad127123.c");
@@ -134,7 +163,7 @@ public class FeatureCalculators {
         for(int i=0; i< test_code_paths.size(); i++){
         	code_file = new File(test_code_paths.get(i).toString());
         	
-        	int fileNo=100;
+        	int fileNo=9;
         	//check if there are correct number of dep files for each author
         	//for CPP
 //        	 List author_code_paths = Util.listCPPFiles(code_file.getParent());

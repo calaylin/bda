@@ -9,6 +9,7 @@ import weka.attributeSelection.Ranker;
 import weka.classifiers.Evaluation;
 import weka.classifiers.evaluation.ThresholdCurve;
 import weka.classifiers.functions.LinearRegression;
+import weka.classifiers.functions.SMOreg;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -28,13 +29,12 @@ public class RegressionForFeatureAnalysis {
 	double average =0;
 
 	String fileName  ="/Users/Aylin/Desktop/Princeton/BAA/"
-			+ "featureAnalysis/all_syntactic_L0_and_original_ready.txt";
+			+ "featureAnalysis/all_syntactic_L0_and_original_ready_RF.txt";
 	
 	
 	String arffFile ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
 			+ "all_syntactic_L0_and_original_ready.arff";
 	
-		  Util.writeFile(numberFiles+"FilesPerAuthor: \n",fileName, true);	
 		  for(int relaxPar = 1; relaxPar<=endRelax; relaxPar++){
 			  total=0;				  
 			  average=0;
@@ -56,12 +56,21 @@ public class RegressionForFeatureAnalysis {
     remove.setInputFormat(inst);
     instNew = Filter.useFilter(inst, remove);
     instNew.setClassIndex(1495);
-    System.out.print("When the class is: "+instNew.classAttribute());
+ //   System.out.print("When the class is: "+instNew.classAttribute());
 
 	
-    LinearRegression model = new LinearRegression();
-    model.buildClassifier(instNew); 
+//    LinearRegression model = new LinearRegression();
+  //  SMOreg model = new SMOreg();
 //    System.out.println(" The model is"+ model);
+    
+    
+	 String[] options = weka.core.Utils.splitOptions("-I 300 -K "+numFeatures+" -S "+seedNumber);
+		RandomForest model = new RandomForest();
+		model.setOptions(options);
+	    model.buildClassifier(instNew); 
+
+
+	
     
     
 	Evaluation eval=null;
@@ -70,6 +79,8 @@ public class RegressionForFeatureAnalysis {
 
     System.out.println("The correlation coefficient is: "+eval.correlationCoefficient()
     		+" for feature " +instNew.classAttribute());
+	  Util.writeFile("The correlation coefficient is: "+eval.correlationCoefficient()	    		+" for feature " +instNew.classAttribute()+"\n",fileName, true);	
+
 
      }}	
 }}

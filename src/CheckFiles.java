@@ -33,21 +33,19 @@ public class CheckFiles {
 	String dirToAddBinaries ="/Users/Aylin/Desktop/Princeton/"
 			+ "BAA/datasets/c++/100authors_hexraysDecompiled_noOptimization/";
 	
-	String dirToLookForBinaries ="/Users/Aylin/Desktop/Princeton/"
-			+ "BAA/datasets/c++/9Files_largescale_CPP_and_binary_NOToptimized/";
 	
 	//addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
 	//this won't recognize binaries, so convert to c first
     //to add .c to decompiled filenames
-//	addDotCToDecompiledFileName(testFolder_compiled);
-
-	//rearrangeFolders(testFolder_compiled);
+	
+	//addDotCPPToDecompiledFileName("/Users/Aylin/Desktop/Princeton/BAA/datasets/200NoOptimization/");
+	//rearrangeFolders("/Users/Aylin/Desktop/Princeton/BAA/datasets/200NoOptimization/");
 
 	
 	//to clean files produced by joern
-	String cleanFolder="/mnt/data_bsd/repos2/repos/";
-	String targetDirPath = "/mnt/data_bsd/repos_9files/";
-	copyDataWithCertainSizeCPP(cleanFolder, 9,targetDirPath );
+	String cleanFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/dataset-20151012_9files/repos/";
+	String targetDirPath = "/Users/Aylin/Desktop/Princeton/BAA/datasets/dataset-20151012_9files/";
+	//copyDataWithCertainSizeCPP(cleanFolder, 9,targetDirPath );
 	
 	String arffFile1 = "/Users/Aylin/Desktop/Princeton/BAA/arffs/"
 			+ "C_62Authors14files_decompiledfrom2C++.arff/";
@@ -170,7 +168,7 @@ public class CheckFiles {
 		
 		
 	}
-	public static void addDotCToDecompiledFileName(String testFolder_compiled) throws IOException
+	public static void addDotCPPToDecompiledFileName(String testFolder_compiled) throws IOException
 	{
    //add .c to each filename
 	List test_file_paths = Util.listAllFilesFolders(testFolder_compiled); //use this for preprocessing 
@@ -185,7 +183,7 @@ public class CheckFiles {
 					if(children==null)
 					{
 					 if(!test_file_paths.get(k).toString().contains(".DS_Store")){
-			  				File newFile = new File(test_file_paths.get(k).toString() + ".c");
+			  				File newFile = new File(test_file_paths.get(k).toString() + "_hexrays_decompiled.cpp");
 			  				System.out.println(newFile.getPath());
 						testFiles.renameTo(newFile);
   				System.out.println("newCfile");
@@ -427,20 +425,21 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 		    	   for(int i=0; i < noFiles; i++){
 
 		    	   File toCopy =new File(files.get(i).toString());
-		    	   File toCopyAST =new File(files.get(i).toString().
+		    	
+		   			System.out.println(targetDirPath+ name + File.separator+ toCopy.getName().toString());
+
+		    	   toCopy.renameTo(new File(targetDirPath+ name + File.separator+ toCopy.getName()));
+/*		    	   File toCopyAST =new File(files.get(i).toString().
 		    			   substring(0, files.get(i).toString().length()-3)+"ast");
 		    	   File toCopyDEP =new File(files.get(i).toString().
 		    			   substring(0, files.get(i).toString().length()-3)+"dep");
 		    	   File toCopyTXT =new File(files.get(i).toString().
 		    			   substring(0, files.get(i).toString().length()-3)+"txt");
 
-		   			System.out.println(targetDirPath+ name + File.separator+ toCopy.getName().toString());
-
-		    	   toCopy.renameTo(new File(targetDirPath+ name + File.separator+ toCopy.getName()));
 		    	   toCopyAST.renameTo(new File(targetDirPath+ name + File.separator+ toCopyAST.getName()));
 		    	   toCopyDEP.renameTo(new File(targetDirPath+ name + File.separator+ toCopyDEP.getName()));
 		    	   toCopyTXT.renameTo(new File(targetDirPath+ name + File.separator+ toCopyTXT.getName()));
-
+*/
 		    	   }
 		       }
 		       

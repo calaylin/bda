@@ -38,7 +38,6 @@ public class FeatureExtractorBjoern {
 		        	
 
 		           	List test_binary_paths = Util.listBinaryFiles(test_dir);
-
 		           	List test_dis_paths = listBjoernNodeFiles(test_dir);
 			
 		 
@@ -171,8 +170,8 @@ public class FeatureExtractorBjoern {
 				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
 
-			//	System.out.println(test_binary_paths.get(i));
-			//	System.out.println(authorName);
+				System.out.println(test_binary_paths.get(i));
+				System.out.println(authorName);
 				File fileCPPID = new File(test_binary_paths.get(i).toString());
 				String fileNameID = fileCPPID.getName();
 				Util.writeFile(fileNameID+",", output_filename, true);
@@ -397,7 +396,7 @@ public class FeatureExtractorBjoern {
 	    for(int i=0; i< test_file_paths.size(); i++){
 	    	
 	    	filePath = test_file_paths.get(i).toString();  
-	//	System.out.println(filePath);						   
+//	    	System.out.println(filePath);						   
 		   String[] arr;
 		   String[] toAdd;
 

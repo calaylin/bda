@@ -38,19 +38,19 @@ public class MergeArffFilesNew {
 
            
 
-            String file2 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+            String file1 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
 
-            		+"42authors_hexraysDecompiled_noOptimization_decompilecodefeatures.arff";
+            		+"all_syntactic_L0.arff";
             
             
-            String file1 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+            String file2 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
 
-            + "42authors_hexraysDecompiled_noOptimizationDisassemblyUnigramsBigrams.arff";
+            + "all_syntactic_OriginalsubsetIG.arff";
 
 
-            String outputArffName ="/Users/Aylin/Desktop/Princeton/BAA/arffs/merged/"
+            String outputArffName ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
 
-            + "42authors_hexraysDecompiled_noOptimizationDisassemblyDecompiledFeatures.arff";
+            + "all_syntactic_L0_and_original.arff";
 
            
 
@@ -177,8 +177,9 @@ public class MergeArffFilesNew {
 		for (int i=0;i< instances.numInstances();i++){
 			for(int j=0; j< instances2.numInstances();j++){
 				//one of the instanceID's ends with .c and the other with .cpp, so make sure this is correct
-				if(instances2.instance(j).stringValue(0).contains(instances.instance(i).stringValue(0)))
-	//			if(instances.instance(i).stringValue(0).contains(instances2.instance(j).stringValue(0)))
+	//			if(instances2.instance(j).stringValue(0).contains(instances.instance(i).stringValue(0)))
+				if(instances.instance(i).stringValue(0).
+						contains(instances2.instance(j).stringValue(0).substring(0,instances2.instance(j).stringValue(0).length()-4)))
 					{
 		        System.out.println(i+" \n"); 
 

@@ -51,11 +51,11 @@ public class FeatureExtractorDecompiledCode {
     	//TODO when time changes, output_filename changes every time which needs to be corrected
 //       	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/incremental/" +"CodeJam_14FilesPerAuthor_2014_"+ (month+1) + "." + 
 //    	dayOfMonth + "_"+ time +".arff" ;
-    	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-        			+"dataset-20151005/repos/";
+    	String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/"
+    			+ "datasets/dataset-20151012_9files/repos/";
 
     	String output_filename =  "/Users/Aylin/Desktop/Princeton/BAA/"
-    			+"arffs/dataset-20151005_cpp_100authors.arff";
+    			+"arffs/dataset-20151012_SCAA.arff";
     	
 
        	List test_file_paths = Util.listTextFiles(test_dir);
@@ -63,14 +63,19 @@ public class FeatureExtractorDecompiledCode {
 	String text = "";
   	//Writing the test arff
   	//first specify relation
-	Util.writeFile("@relation "+"dataset-20151005_cpp_100authors"+"\n"+"\n", output_filename, true);
+	Util.writeFile("@relation "+"dataset-20151012_SCAA"+"\n"+"\n", output_filename, true);
 	Util.writeFile("@attribute instanceID_original {", output_filename, true);
   // 	List test_cpp_paths = Util.listSnowmanDecompiled(test_dir);
 	List test_cpp_paths = Util.listCPPFiles(test_dir);
    	for(int j=0; j < test_cpp_paths.size();j++ )
 	{
    		File fileCPP = new File(test_cpp_paths.get(j).toString());
-		String fileName = fileCPP.getName();
+		String fileName = fileCPP.getAbsolutePath();
+/*		String[] authorNameSplit= test_file_paths.get(j).toString().split("/");
+		String authorName = authorNameSplit[9];
+		System.out.println(authorName);
+		System.out.println(fileName);*/
+
 		Util.writeFile(fileName+",", output_filename, true);
 		if ((j+1)==test_cpp_paths.size())
 			Util.writeFile("}"+"\n", output_filename, true);
@@ -192,7 +197,7 @@ public class FeatureExtractorDecompiledCode {
 		System.out.println(authorName);
 		
 		File fileCPPID = new File(test_cpp_paths.get(i).toString());
-		String fileNameID = fileCPPID.getName();
+		String fileNameID = fileCPPID.getAbsolutePath();
 		Util.writeFile(fileNameID+",", output_filename, true);
 		Util.writeFile(FeatureCalculators.functionIDCount(featureText)+",", output_filename, true);
 		String ASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"ast");
