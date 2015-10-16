@@ -61,9 +61,15 @@ public class RegressionForFeatureAnalysis {
 	
     LinearRegression model = new LinearRegression();
     model.buildClassifier(instNew); 
-    System.out.println(" The model is"+ model);
+//    System.out.println(" The model is"+ model);
+    
+    
+	Evaluation eval=null;
+	eval = new Evaluation(instNew);
+	eval.crossValidateModel(model, instNew,foldNumber , new Random(seedNumber));
 
-
+    System.out.println("The correlation coefficient is: "+eval.correlationCoefficient()
+    		+" for feature " +instNew.classAttribute());
 
      }}	
 }}
