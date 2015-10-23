@@ -5,6 +5,7 @@ import weka.classifiers.evaluation.ThresholdCurve;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
+import weka.core.AttributeStats;
 import weka.core.Instances;
 import weka.core.Range;
 import weka.core.Utils;
@@ -32,13 +33,10 @@ public class AuthorClassificationBasic {
 		double total =0;
 		double average =0;
 
-		String fileName  ="/Users/Aylin/Desktop/Princeton/BAA/results/"
-				+	"CFGSnowman100authors_ready.txt";
+		String fileName  ="/mnt/data_bsd/repos_results.txt";
 		
 		
-		String arffFile ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
-
-            + "CFGSnowman100authors_ready.arff";
+		String arffFile ="/mnt/data_bsd/repos.arff";
 		
 			  Util.writeFile(numberFiles+"FilesPerAuthor: \n",fileName, true);	
 			  for(int relaxPar = 1; relaxPar<=endRelax; relaxPar++){
@@ -55,20 +53,32 @@ public class AuthorClassificationBasic {
 		data.setClassIndex(data.numAttributes() - 1);
 
 		//remove the instanceID
-	    data.deleteAttributeAt(0);
-	 
-		//classify by removing features *one by one* starting from the end
-	    data = new Instances(new FileReader(arffFile));
-	 	data.setClassIndex(data.numAttributes() - 1);
+	 //   data.deleteAttributeAt(0);
+		System.out.println("hi1");
+		AttributeStats stats = data.attributeStats(data.classIndex());
+		int[] attStats = stats.nominalCounts;
+		System.out.println(stats.toString());
 
+		for(int i=0; i< attStats.length; i++){
+			System.out.println(i + "no:" + attStats[i]);
+			
+		}
+		//you need to use the remove with values filter, set the filter to the class attribute 
+		//and then specify the indeces of classes to be removed (you can get the indeces from stats.
+
+	 	 BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/arffs/repos_noSmallclasses.arff"));
+		 writer.write(data.toString());
+		 writer.flush();
+		 writer.close();
+
+		 
 		//do not stratify if you are going to remove instances for training and testing
 	     data.stratify(foldNumber);
 	     //be careful about this for removing instanceID only
 	 	 //filteredData.deleteAttributeAt(0);
 
-/*		 BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/Aylin/Desktop/Princeton/BAA/arffs/merged/"
-		 		+ "tmp.arff"));
-		 writer.write(filteredData.toString());
+	/* BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/repos_ready.arff"));
+		 writer.write(data.toString());
 		 writer.flush();
 		 writer.close();*/
 		
@@ -86,11 +96,14 @@ public class AuthorClassificationBasic {
 	     attributeSelection.setSearch(ranker); 
 	     attributeSelection.setInputFormat(data); 
 	     data = Filter.useFilter(data, attributeSelection); 
-
+/*	 	 BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/repos_ready.arff"));
+		 writer.write(data.toString());
+		 writer.flush();
+		 writer.close();*/
 
 		   
 		 
-	     
+	     System.out.println("before building classifier");
 		 String[] options = weka.core.Utils.splitOptions("-I 300 -K "+numFeatures+" -S "+seedNumber);
 			cls.setOptions(options);
 		cls.buildClassifier(data);
@@ -113,14 +126,14 @@ public class AuthorClassificationBasic {
 		Util.writeFile("Relaxed by, "+relaxPar+", seedNo,"+seedNumber+", files,"+numberFiles+", authors,"+filteredData.numClasses(),
 				fileName, true);*/
 		
-		//generate curve
+		/*//generate curve
 		 ThresholdCurve tc = new ThresholdCurve();
 	     int classIndex = data.numAttributes() - 1;
 	     Instances result = tc.getCurve(eval.predictions(), 1);	
 		 System.out.println("Area under the curve is: "+ThresholdCurve.getROCArea(result));
 		 Util.writeFile("Area under the curve for class "+classIndex+ " is:"+
 		 ThresholdCurve.getROCArea(result), fileName, true);
-
+*/
 	     
 	     
 
