@@ -47,15 +47,25 @@ public class CheckFiles {
 	String targetDirPath = "/Users/Aylin/Desktop/Princeton/BAA/datasets/dataset-20151012_9files/";
 	//copyDataWithCertainSizeCPP(cleanFolder, 9,targetDirPath );
 	
-	String arffFile1 = "/Users/Aylin/Desktop/Princeton/BAA/arffs/"
-			+ "C_62Authors14files_decompiledfrom2C++.arff/";
+
 	
 	//cleanNonCPPFromFolder(cleanFolder);
-/*	checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
-			+ "featureTransformations/featureAnalysisOriginalCode/"
-			,36);*/
-	
-	
+	//checkFolderSizeAndDelete("/mnt/data_bsd/200NoOptimization_binaries_bjoern_cfg/"
+	//		,54);
+/*    List test_all_paths = Util.listAllFilesFolders("/mnt/data_bsd/200NoOptimization_binaries_bjoern_cfg"); //use this for preprocessing 
+for(int i=0; i< test_all_paths.size(); i++){
+	if(test_all_paths.get(i).toString().contains(".ast_SnowmanDecompiled.dot"))
+	{File newd = new File(test_all_paths.get(i).toString());
+	newd.delete();
+	}
+	if(test_all_paths.get(i).toString().contains(".dep_SnowmanDecompiled.dot"))
+	{File newd = new File(test_all_paths.get(i).toString());
+	newd.delete();
+	}	if(test_all_paths.get(i).toString().contains(".txt_SnowmanDecompiled.dot"))
+	{File newd = new File(test_all_paths.get(i).toString());
+	newd.delete();
+	}
+}*/
 	
 	//to change a particular feature (authorname)
 //	fixArffFeature(arffFile1);
@@ -253,7 +263,24 @@ public static void cleanNonBinaryFromFolder(String cleanFolder){
 		}
 		}
 
+public static void cleanGivenNamedFiles (String dir, String fileContains){
+	
+	List test_all_files = Util.listAllFilesFolders(dir);
+	for(int i=0; i< test_all_files.size(); i++){
+		String fileName = test_all_files.get(i).toString();
+		File nonCppFile = new File(fileName);
+		if(!nonCppFile.isDirectory()){
+//		if(!(FilenameUtils.getExtension(fileName).equals("cpp"))){
+				if(nonCppFile.getName().contains(fileContains))
+					{
 
+			nonCppFile.delete();    	
+		}}
+		}
+			
+	
+	
+}
 public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 	List test_cpp_files = Util.listAllFilesFolders(cleanFolder);
 	for(int i=0; i< test_cpp_files.size(); i++){
