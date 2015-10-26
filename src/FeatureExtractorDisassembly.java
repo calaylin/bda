@@ -24,12 +24,13 @@ public class FeatureExtractorDisassembly {
 	public static void main(String[] args) throws IOException{
 		
 	
-    				String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-    						+ "c++/9Files_largescale_CPP_and_binary_NOToptimized/";
+    				String test_dir =""
+    						+ "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
+    						+ "100authors/100NoOptimization_binaries_bjoern_cfg/";
 		       		
 		        	String output_filename = "/Users/Aylin/Desktop/Princeton/"
 		        			+ "BAA/arffs/"
-		        			+ "9Files_largescale_CPP_and_binary_NOToptimized.arff" ;
+		        			+ "100NoOptimization_ndisasm_features.arff" ;
 
 		        	
 		        	

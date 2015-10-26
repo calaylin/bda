@@ -79,7 +79,7 @@ public class RegressionForFeatureAnalysis {
 
     System.out.println("The correlation coefficient is: "+eval.correlationCoefficient()
     		+" for feature " +instNew.classAttribute());
-	  Util.writeFile("The correlation coefficient is: "+eval.correlationCoefficient()	    		+" for feature " +instNew.classAttribute()+"\n",fileName, true);	
+//	  Util.writeFile("The correlation coefficient is: "+eval.correlationCoefficient()	    		+" for feature " +instNew.classAttribute()+"\n",fileName, true);	
 
 
      }}	

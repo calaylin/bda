@@ -30,16 +30,17 @@ public class CheckFiles {
  String file = "/mnt/data_bsd/arffs/repos_incomplete.arff";
 // deleteLastLineFromIncompleteArff(file);
 //addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
-	String dirToAddBinaries ="/Users/Aylin/Desktop/Princeton/"
-			+ "BAA/datasets/c++/100authors_hexraysDecompiled_noOptimization/";
+
 	
+	String dirToAddBinaries= "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
+	String dirToLookForBinaries="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/9Files_largescale_CPP_and_binary_NOToptimized/";
 	
 	//addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
 	//this won't recognize binaries, so convert to c first
     //to add .c to decompiled filenames
 	
-	//addDotCPPToDecompiledFileName("/Users/Aylin/Desktop/Princeton/BAA/datasets/200NoOptimization/");
-	//rearrangeFolders("/Users/Aylin/Desktop/Princeton/BAA/datasets/200NoOptimization/");
+//	addDotCPPToDecompiledFileName("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/");
+//	rearrangeFolders("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/");
 
 	
 	//to clean files produced by joern

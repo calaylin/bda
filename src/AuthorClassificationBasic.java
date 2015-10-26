@@ -33,10 +33,11 @@ public class AuthorClassificationBasic {
 		double total =0;
 		double average =0;
 
-		String fileName  ="/mnt/data_bsd/repos_results.txt";
+		String fileName  ="/Users/Aylin/Desktop/Princeton/BAA//100authors_relaxed.txt";
 		
 		
-		String arffFile ="/mnt/data_bsd/repos.arff";
+		String arffFile ="/Users/Aylin/Desktop/Princeton/BAA/arffs/"
+				+ "100authors/100fullNoOptimization_SCAAbinaries_bjoern_edgesTF_cfg_ndisasm_ready.arff";
 		
 			  Util.writeFile(numberFiles+"FilesPerAuthor: \n",fileName, true);	
 			  for(int relaxPar = 1; relaxPar<=endRelax; relaxPar++){
@@ -52,7 +53,7 @@ public class AuthorClassificationBasic {
 		Instances data = new Instances(new FileReader(arffFile));
 		data.setClassIndex(data.numAttributes() - 1);
 
-		//remove the instanceID
+/*		//remove the instanceID
 	 //   data.deleteAttributeAt(0);
 		System.out.println("hi1");
 		AttributeStats stats = data.attributeStats(data.classIndex());
@@ -62,14 +63,14 @@ public class AuthorClassificationBasic {
 		for(int i=0; i< attStats.length; i++){
 			System.out.println(i + "no:" + attStats[i]);
 			
-		}
+		}*/
 		//you need to use the remove with values filter, set the filter to the class attribute 
 		//and then specify the indeces of classes to be removed (you can get the indeces from stats.
 
-	 	 BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/arffs/repos_noSmallclasses.arff"));
+	 /*	 BufferedWriter writer = new BufferedWriter(new FileWriter("/mnt/data_bsd/arffs/repos_noSmallclasses.arff"));
 		 writer.write(data.toString());
 		 writer.flush();
-		 writer.close();
+		 writer.close();*/
 
 		 
 		//do not stratify if you are going to remove instances for training and testing
@@ -104,7 +105,7 @@ public class AuthorClassificationBasic {
 		   
 		 
 	     System.out.println("before building classifier");
-		 String[] options = weka.core.Utils.splitOptions("-I 300 -K "+numFeatures+" -S "+seedNumber);
+		 String[] options = weka.core.Utils.splitOptions("-I 500 -K "+numFeatures+" -S "+seedNumber);
 			cls.setOptions(options);
 		cls.buildClassifier(data);
 		

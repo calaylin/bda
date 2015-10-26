@@ -33,7 +33,7 @@ public class FeatureCalculators {
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
     	
-    	String testFolder= "/Users/Aylin/Desktop/Princeton/BAA/datasets/200NoOptimization/";
+    	String testFolder= "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
     	
     	//do the following next
 /*    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
@@ -141,7 +141,7 @@ public class FeatureCalculators {
     					test_file_paths.get(i).toString().length()-3)+".txt"));
     		}*/
     	//	preprocessCDataToTXTdepAST(test_file_paths.get(i).toString());
-    		preprocessDataToTXTdepAST(test_file_paths.get(i).toString());
+    	//	preprocessDataToTXTdepAST(test_file_paths.get(i).toString());
 
     	//	preprocessCDataToTXTdepAST("/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets"
     	//			+ "/obfuscated_C/obfuscated3/9FilesAtLeastPerAuthor_2014_C/Konrad127123/2974486_5690574640250880_Konrad127123.c");

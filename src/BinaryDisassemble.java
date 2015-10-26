@@ -23,9 +23,7 @@ public class BinaryDisassemble {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, InterruptedException, ScriptException {
 		   		
-		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-        			+ "c++/"
-			+ "9Files_largescale_onlyCPP_and_binary_NOToptimized_snowmanDecompiled/";
+		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
         	
         	
 
@@ -36,17 +34,18 @@ public class BinaryDisassemble {
            	
            	
         	//delete all disassembled files
-           	for(int bin=0; bin< test_dis_paths.size(); bin++){
+/*           	for(int bin=0; bin< test_dis_paths.size(); bin++){
         		System.out.println(test_dis_paths.get(bin).toString());
         			File toDelete = new File(test_dis_paths.get(bin).toString());
         		//	toDelete.delete();
-        			}
+        			}*/
            	
            	
           	//disassemble the binaries from the test folder 
            	for(int bin=0; bin< test_binary_paths.size(); bin++){
         		System.out.println(test_binary_paths.get(bin).toString());
-        		disassembleBinaries(test_binary_paths.get(bin).toString(), "32");
+        		if(!(new File(test_binary_paths.get(bin).toString() + ".dis").exists())){
+        		disassembleBinaries(test_binary_paths.get(bin).toString(), "32");}
         			}
        	
    	}
