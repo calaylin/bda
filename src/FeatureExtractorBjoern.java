@@ -45,7 +45,6 @@ public class FeatureExtractorBjoern {
 
 		    	String text = "";
 		      	//Writing the test arff
-		      	//first specify relation
 		    	Util.writeFile("@relation "+"100authors_noOptimization_bjoern_snowmanCFG"+"\n"+"\n",
 		    			output_filename, true);
 		    	Util.writeFile("@attribute instanceID_original {", output_filename, true);
