@@ -52,9 +52,6 @@ public class FeatureExtractorInfoGain {
 			Util.writeFile("}"+"\n", output_filename, true);
 	}
 
-//	Util.writeFile("@attribute 'functionIDCount' numeric"+"\n", output_filename, true);
-//	Util.writeFile("@attribute 'CFGNodeCount' numeric"+"\n", output_filename, true);
-//	Util.writeFile("@attribute 'ASTFunctionIDCount' numeric"+"\n", output_filename, true);
 	Util.writeFile("@attribute 'getMaxDepthASTLeaf' numeric"+"\n", output_filename, true);
 
     
@@ -269,6 +266,8 @@ public class FeatureExtractorInfoGain {
     			"T RelationalExpression",	"AssignmentExpr Condition",	"RelationalExpression tt",	"IncDecOp tt",
     			"1 IdentifierDecl",	"out ExpressionStatement",	"open ArgumentList",	"out CallExpression",	
     			"Argument ReturnStatement",	"ExpressionStatement ShiftExpression",	"solve ExpressionStatement",	"int t",	"t IdentifierDecl",	"int tt",	"AssignmentExpr tt",	"IncDecOp t",	"t int",	"i int",	"Argument t",	"t CallExpression",	"t Callee",	"ShiftExpression cout",	"cout ShiftExpression",	"ShiftExpression cin",	"int c",	"cin t",	"i t",	"n fi",	"p t",	"t UnaryOp",	"t ShiftExpression",	"t cin",	"t RelationalExpression",	"RelationalExpression c",	"Expression UnaryExpression",	"ShiftExpression fo",	"Argument std",	"Callee freopen",	"freopen ArgumentList",	"tt AssignmentExpr",	"t 1",	"0 Condition",	"Argument stdin",	"stdin CallExpression",	"stdin Callee",	"stdin ExpressionStatement",	"Argument stdout",	"int argc",	"argc Parameter",	"stdout CallExpression",	"argv Parameter",	"argc int",	"argv char",	"stdout Callee",	"stdout IdentifierDeclStatement",	"n CallExpression",	"n cin",	"i i",	"t Argument",	"c Parameter",	"Callee solve",	"t Condition",	"Condition IncDecOp",	"1 int",	"ShiftExpression t"		
+    	
+    	
     	};
     	
         String[] ASTtypesTFIDF = {"solve",

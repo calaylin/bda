@@ -23,7 +23,7 @@ public class BinaryDisassemble {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, InterruptedException, ScriptException {
 		   		
-		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
+		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/";
         	
         	
 

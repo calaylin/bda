@@ -35,8 +35,11 @@ public class CheckFiles {
 	String dirToAddBinaries= "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
 	String dirToLookForBinaries="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/9Files_largescale_CPP_and_binary_NOToptimized/";
 	
-	//addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
-	//this won't recognize binaries, so convert to c first
+//	addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
+	
+/*	addBinaryToFolderByCodeName("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/"
+,"/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/9Files_largescale_onlyCPP_and_binary_Optimization1/");
+*/	//this won't recognize binaries, so convert to c first
     //to add .c to decompiled filenames
 	
 //	addDotCPPToDecompiledFileName("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/");
@@ -47,13 +50,15 @@ public class CheckFiles {
 	String cleanFolder="/Users/Aylin/Desktop/Princeton/BAA/datasets/dataset-20151012_9files/repos/";
 	String targetDirPath = "/Users/Aylin/Desktop/Princeton/BAA/datasets/dataset-20151012_9files/";
 	//copyDataWithCertainSizeCPP(cleanFolder, 9,targetDirPath );
-	
+//	changeClassAttribute("/Users/Aylin/Desktop/Princeton/BAA/arffs/100authors/"+ "originalVSLO_100programmers_9filesALL.arff");
 
 	
 	//cleanNonCPPFromFolder(cleanFolder);
-	//checkFolderSizeAndDelete("/mnt/data_bsd/200NoOptimization_binaries_bjoern_cfg/"
-	//		,54);
-/*    List test_all_paths = Util.listAllFilesFolders("/mnt/data_bsd/200NoOptimization_binaries_bjoern_cfg"); //use this for preprocessing 
+	checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+			+ "c++/optimizations/L0_150authors/",54);
+
+	
+	/*    List test_all_paths = Util.listAllFilesFolders("/mnt/data_bsd/200NoOptimization_binaries_bjoern_cfg"); //use this for preprocessing 
 for(int i=0; i< test_all_paths.size(); i++){
 	if(test_all_paths.get(i).toString().contains(".ast_SnowmanDecompiled.dot"))
 	{File newd = new File(test_all_paths.get(i).toString());
@@ -333,7 +338,7 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 			for (int i=0; i< cppFiles.size(); i++){
 				File cppFileName = new File(cppFiles.get(i).toString());
 				
-				String binaryFileName = cppFileName.getName().substring(0, cppFileName.getName().length()-4);
+				String binaryFileName = cppFileName.getName().substring(0, cppFileName.getName().length()-23);
 				String binaryAuthor = new File(cppFileName.getParent()).getName().toString();
 				//copy
 				  Files.copy(new File(dirToLookForBinaries + File.separator+ 
@@ -476,6 +481,26 @@ public static void cleanNonCPPandBinaryFromFolder(String cleanFolder){
 		
 	}
 	
+	public static void changeClassAttribute(String arffFile) throws FileNotFoundException, IOException{
+		
+	
+		BufferedReader br = new BufferedReader(new FileReader(arffFile));
+		    String line;
+		    while ((line = br.readLine()) != null) {
+		    	if (line.length()>70){
+		    	if(line.substring(0, 70).contains("hexrays") && 
+		    			(!(line.contains("@attribute")))){
+		    		line=line + "_hexrays";
+			    	Util.writeFile(line +"\n", arffFile + "classesRenamed", true );}
+		    	else
+			    	Util.writeFile(line +"\n", arffFile + "classesRenamed", true );
+		    	}
+		    	if (line.length()<=70){
+		    	Util.writeFile(line +"\n", arffFile + "classesRenamed", true );}
+
+		    	}
+			br.close();
+	}
 	
 	public static void deleteLastLineFromIncompleteArff(String arffFile) throws IOException{
 		RandomAccessFile file = new RandomAccessFile(arffFile, "rw");

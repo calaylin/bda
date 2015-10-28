@@ -77,8 +77,10 @@ public class RegressionForFeatureAnalysis {
 	eval = new Evaluation(instNew);
 	eval.crossValidateModel(model, instNew,foldNumber , new Random(seedNumber));
 
-    System.out.println("The correlation coefficient is: "+eval.correlationCoefficient()
-    		+" for feature " +instNew.classAttribute());
+/*    System.out.println("The correlation coefficient is: "+eval.correlationCoefficient()
+    		+" for feature " +instNew.classAttribute());*/
+	   System.out.println("The prediction is: "+eval.predictions()
+	+" for feature " +instNew.classAttribute());
 //	  Util.writeFile("The correlation coefficient is: "+eval.correlationCoefficient()	    		+" for feature " +instNew.classAttribute()+"\n",fileName, true);	
 
 

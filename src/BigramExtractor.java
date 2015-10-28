@@ -18,18 +18,12 @@ public class BigramExtractor {
 
     public static void main(String[] args) throws IOException
 	{   	
-      	Calendar cal = Calendar.getInstance();
-    	cal.getTime();
-    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-       	int month = cal.get(Calendar.MONTH);
-       	int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-       	String time = sdf.format(cal.getTime());
-    	String output_filename = "/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAAarffs/bigramArffs/"
-    			+(month+1) + "." + dayOfMonth + "_" +
-    			"9FilesExactlyPerAuthor_2012_validation_exact_bigrams.arff" ;
+      	
+    	String dirPath = "/Users/Aylin/Desktop/Princeton/"
+    			+ "BAA/datasets/c++/100authors/100NoOptimization_binaries_bjoern_cfg/" ;
 	
-    	String dirPath="/Users/Aylin/Desktop/Drexel/2014/ARLInternship/SCAA_Datasets/"
-    			+"bigExperiments/250authors/9FilesExactlyPerAuthor_2012_validation_exact_allfeatures/";      	List test_file_paths = Util.listTextFiles(dirPath);
+    	String output_filename="/Users/Aylin/Desktop/Princeton/BAA/arffs/100authors/100author_bigrams.arff";      
+    	List test_file_paths = Util.listTextFiles(dirPath);
       	
 
 	String text = "";
@@ -51,7 +45,7 @@ public class BigramExtractor {
 	
 	for (int i=0; i<ASTNodeBigrams.length; i++)	
     	
-	  {  	ASTNodeBigrams[i] = ASTNodeBigrams[i].replace("'", "apostrophesymbol");
+	  {  	
 	    	Util.writeFile("@attribute 'ASTNodeBigramsTF "+i+"=["+ASTNodeBigrams[i]+"]' numeric"+"\n", output_filename, true);}
 	Util.writeFile("@attribute 'authorName' {",output_filename, true);
 	for(int i=0; i< test_file_paths.size(); i++){
@@ -102,7 +96,7 @@ public class BigramExtractor {
 		String fileNameID = fileCPPID.getName();
 		Util.writeFile(fileNameID+",", output_filename, true);
 
-		String DepASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"dep");
+		String DepASTText = Util.readFile((test_file_paths.get(i).toString().substring(0,test_file_paths.get(i).toString().length()-3))+"dep");
 		  float[] typeCount = getASTNodeBigramsTF(DepASTText, ASTNodeBigrams );
 		    for (int j=0; j<ASTNodeBigrams.length; j++)
 			{Util.writeFile(typeCount[j] +",", output_filename, true);}	
@@ -188,16 +182,20 @@ public class BigramExtractor {
 		{
 			textAST = DepthASTNode.readLineNumber(featureText, lines[j]);
 			String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
-			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
+		    inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
 			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");
+		//		System.out.println(inputTextParanthesisRemoved);
 
-			
 			for (int i=0; i<symbolCount; i++){
 				//    	featureText remove paranthesis and replace with one space for feature text
 				String str = ASTNodeBigrams[i].toString();
+			//	System.out.println(str);
+
 				//if case insensitive, make lowercase
 				//   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
-				counter[i] = StringUtils.countMatches(inputTextParanthesisRemoved, str);  	   
+				counter[i] = StringUtils.countMatches(inputTextParanthesisRemoved, str);
+/*				if(counter[i]>0)
+				System.out.println(counter[i]);*/
  	 
     }
     }  

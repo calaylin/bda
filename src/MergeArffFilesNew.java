@@ -38,19 +38,20 @@ public class MergeArffFilesNew {
 
            
 
-            String file1 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
+            String file2 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/100authors/"
 
-            		+"all_syntactic_L0.arff";
+            		+"originalVSLO_100Originalprogrammers_9filesALLcls_IG.arff";
             
             
-            String file2 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
+            
+            String file1 ="/Users/Aylin/Desktop/Princeton/BAA/arffs/100authors/"
 
-            + "all_syntactic_OriginalsubsetIG.arff";
+            + "originalVSLO_100L0programmers_9filesALLcls_IG.arff";
 
 
-            String outputArffName ="/Users/Aylin/Desktop/Princeton/BAA/arffs/featureAnalysis/"
+            String outputArffName ="/Users/Aylin/Desktop/Princeton/BAA/arffs/100authors/"
 
-            + "all_syntactic_L0_and_original.arff";
+            + "originalVSLO_MERGEDFEATURES100programmers_9filesALLcls_IG.arff";
 
            
 

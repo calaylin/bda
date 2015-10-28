@@ -64,14 +64,14 @@ public class FeatureExtractorDisassembly {
 		   	//get the Unigrams in the disassembly and write the unigram features
 		       String[] disassemblyUnigrams =getDisUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyUnigrams.length; i++)	   	
-		       {  	disassemblyUnigrams[i] = disassemblyUnigrams[i].replace("'", "apostrophesymbol");
+		       {  
 		            	Util.writeFile("@attribute 'disassemblyUnigrams "+i+"=["+disassemblyUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
 			   
 		   	
 		    	//get the bigrams in the disassembly and write the bigram features
 		    	String[] disassemblyBigrams =getDisBigrams(test_dir);
 		     	for (int i=0; i<disassemblyBigrams.length; i++)	   	
-			       {  	disassemblyBigrams[i] = disassemblyBigrams[i].replace("'", "apostrophesymbol");
+			       {  	
 			            	Util.writeFile("@attribute 'disassemblyBigrams "+i+"=["+disassemblyBigrams[i]+"]' numeric"+"\n", output_filename, true);}
 
 
@@ -118,7 +118,6 @@ public class FeatureExtractorDisassembly {
 			
 			//EXTRACT LABELED FEATURES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
-				String featureText = Util.readFile(test_binary_paths.get(i).toString());
 				int testIDlength = test_binary_paths.get(i).toString().length(); 
 				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName();
@@ -292,9 +291,9 @@ public class FeatureExtractorDisassembly {
 	                                 + " , needed " + arr[2] 
 	                            );*/
 					
-					arr[2]=	arr[2].replaceAll(",", " ");
+/*					arr[2]=	arr[2].replaceAll(",", " ");
 					arr[2]=	arr[2].replaceAll("\\+", " ");
-					arr[2]=	arr[2].replaceAll("\\-", " ");
+					arr[2]=	arr[2].replaceAll("\\-", " ");*/
 
 					arr[2]=	arr[2].replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
 				toAdd = arr[2].split("\\s+");
@@ -332,11 +331,9 @@ public class FeatureExtractorDisassembly {
      	  str = DisBigrams[i].toString();
     //if case insensitive, make lowercase
     //   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
-     	featureText = featureText.replaceAll(",", " ");
-     	
+/*     	featureText = featureText.replaceAll(",", " ");
      	featureText=  featureText.replaceAll("\\+", " ");
-     	featureText=  featureText.replaceAll("\\-", " ");
-
+     	featureText=  featureText.replaceAll("\\-", " ");*/
      	featureText=  featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");   	
      	 counter[i] = StringUtils.countMatches(featureText, str);  	   
 
