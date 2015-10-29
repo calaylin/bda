@@ -40,13 +40,12 @@ public class FeatureExtractorSCAAInfoGain {
 				 };
 		  
 	
-    	String test_dir = "/Users/Aylin/Desktop/Princeton/BAA/"
-    			+ "datasets/c++/optimizations/originalVSLO/"
+    	String test_dir = "/mnt/data_bsd/optimizationsSCAA/"
     			;
     	
 
-    	String output_filename = "/Users/Aylin/Desktop/Princeton/BAA/"
-    			+ "arffs/100authors/originalVSLO.arff" ;
+    	String output_filename = "/mnt/data_bsd/"
+    			+ "arffs/optimizationsSCAA.arff" ;
 
     	
        	List test_file_paths = Util.listTextFiles(test_dir);
@@ -61,7 +60,14 @@ public class FeatureExtractorSCAAInfoGain {
    	for(int j=0; j < test_cpp_paths.size();j++ )
 	{
 		File fileCPP = new File(test_cpp_paths.get(j).toString());
-		String fileName = fileCPP.getName();
+		String fileName2 = fileCPP.getName();
+		
+		String authorName= (fileCPP.getParentFile().getName())+"_"+
+				(new File (fileCPP.getParent())).getParentFile().getName();
+		String fileName = authorName + "_" +fileName2;
+		System.out.println(fileName);
+		System.out.println(authorName);
+		
 		Util.writeFile(fileName+",", output_filename, true);
 		if ((j+1)==test_cpp_paths.size())
 			Util.writeFile("}"+"\n", output_filename, true);
@@ -468,7 +474,8 @@ public class FeatureExtractorSCAAInfoGain {
 	for(int i=0; i< test_file_paths.size(); i++){
 		int testIDlength = test_file_paths.get(i).toString().length();   
 		authorFileName= new File(test_file_paths.get(i).toString());
-		String authorName= authorFileName.getParentFile().getName();
+		String authorName= (authorFileName.getParentFile().getName())+"_"+
+				(new File (authorFileName.getParent())).getParentFile().getName();
 
 		text = text.concat(authorName + ",");  
 		String[] words = text.split( ",");
@@ -508,12 +515,14 @@ public class FeatureExtractorSCAAInfoGain {
 		String featureText = Util.readFile(test_file_paths.get(i).toString());
 		int testIDlength = test_file_paths.get(i).toString().length(); 
 		authorFileName= new File(test_file_paths.get(i).toString());
-		String authorName= authorFileName.getParentFile().getName();
+		String authorName= (authorFileName.getParentFile().getName())+"_"+
+				(new File (authorFileName.getParent())).getParentFile().getName();
+
 		System.out.println(test_file_paths.get(i));
 		System.out.println(authorName);
 
 		File fileCPPID = new File(test_cpp_paths.get(i).toString());
-		String fileNameID = fileCPPID.getName();
+		String fileNameID = authorName + "_"+fileCPPID.getName();
 		Util.writeFile(fileNameID+",", output_filename, true);
 //		Util.writeFile(FeatureCalculators.functionIDCount(featureText)+",", output_filename, true);
 		String ASTText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-3)+"ast");

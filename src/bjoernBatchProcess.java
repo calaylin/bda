@@ -18,7 +18,7 @@ public class bjoernBatchProcess {
 	
 	public static void main(String[] args) throws IOException, InterruptedException, ScriptException{
 		
-		String folderToProcess ="/home/ubuntu/data_bsd/100authors_noOptimization/";
+		String folderToProcess ="/mnt/data_bsd/allOptimizations/";
 		
 		List binary_paths = Util.listBinaryFiles(folderToProcess);
 		for(int i=0; i< binary_paths.size(); i++){

@@ -27,7 +27,7 @@ public class CheckFiles {
 	
     public static void main(String[] args) throws Exception, IOException, InterruptedException {
 
- String file = "/mnt/data_bsd/arffs/repos_incomplete.arff";
+ String file = "/mnt/data_bsd/arffs/100NoOptimization_binaries_cfgTFIDF2.arff";
 // deleteLastLineFromIncompleteArff(file);
 //addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
 
@@ -54,8 +54,8 @@ public class CheckFiles {
 
 	
 	//cleanNonCPPFromFolder(cleanFolder);
-	checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/"
-			+ "c++/optimizations/L0_150authors/",54);
+	//checkFolderSizeAndDelete("/Users/Aylin/Desktop/Princeton/BAA/datasets/"
+		//	+ "c++/optimizations/L0_150authors/",54);
 
 	
 	/*    List test_all_paths = Util.listAllFilesFolders("/mnt/data_bsd/200NoOptimization_binaries_bjoern_cfg"); //use this for preprocessing 
