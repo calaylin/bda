@@ -26,14 +26,16 @@ public class FeatureExtractorInfoGain {
 				 };
 		  
 	
-    	String test_dir = "/mnt/data_bsd/allOptimizations/"
-    			+ "";
+    	String test_dir = "/mnt/data_bsd/difficultyExp/"
+    			;
     	
 
-    	String output_filename = "/mnt/data_bsd/arffs/allOptimizations.arff" ;
+    	String output_filename = "/mnt/data_bsd/arffs/newNov9/"
+    			+ "difficultyExp.arff" ;
 
     	
-       	List test_file_paths = Util.listTextFiles(test_dir);
+   //    	List test_file_paths = Util.listTextFiles(test_dir);
+       	List test_file_paths = Util.listCPPFiles(test_dir);
 
 	String text = "";
   	//Writing the test arff
@@ -276,9 +278,22 @@ public class FeatureExtractorInfoGain {
     			"T RelationalExpression",	"AssignmentExpr Condition",	"RelationalExpression tt",	"IncDecOp tt",
     			"1 IdentifierDecl",	"out ExpressionStatement",	"open ArgumentList",	"out CallExpression",	
     			"Argument ReturnStatement",	"ExpressionStatement ShiftExpression",	"solve ExpressionStatement",	"int t",	"t IdentifierDecl",	"int tt",	"AssignmentExpr tt",	"IncDecOp t",	"t int",	"i int",	"Argument t",	"t CallExpression",	"t Callee",	"ShiftExpression cout",	"cout ShiftExpression",	"ShiftExpression cin",	"int c",	"cin t",	"i t",	"n fi",	"p t",	"t UnaryOp",	"t ShiftExpression",	"t cin",	"t RelationalExpression",	"RelationalExpression c",	"Expression UnaryExpression",	"ShiftExpression fo",	"Argument std",	"Callee freopen",	"freopen ArgumentList",	"tt AssignmentExpr",	"t 1",	"0 Condition",	"Argument stdin",	"stdin CallExpression",	"stdin Callee",	"stdin ExpressionStatement",	"Argument stdout",	"int argc",	"argc Parameter",	"stdout CallExpression",	"argv Parameter",	"argc int",	"argv char",	"stdout Callee",	"stdout IdentifierDeclStatement",	"n CallExpression",	"n cin",	"i i",	"t Argument",	"c Parameter",	"Callee solve",	"t Condition",	"Condition IncDecOp",	"1 int",	"ShiftExpression t"		
+    	,"Callee f",	"e f",	"open ArgumentList",	"Callee freopen",	
+		"freopen ArgumentList",	"Callee scanf",	"scanf ArgumentList",	"stdout Callee",	
+		"stdout CallExpression",	"Argument stdout",	"out Callee",	"f Argument",	
+		"f ArgumentList",	"stdout ExpressionStatement",	"Callee solve",	
+		"stdin ExpressionStatement",	"Argument stdin",	"stdin Callee",	
+		"in ExpressionStatement",	"stdin CallExpression",	"in CallExpression",	
+		"in Callee",	"UnaryOp DoStatement",	"UnaryOp D",	"_CTOR_LIST__ IfStatement",	
+		"oid ExpressionStatement",	"_CTOR_LIST__ UnaryOp",	"EqualityExpression _CTOR_LIST__",	
+		"_CTOR_LIST__ v3",	"EqualityExpression Condition",	"_CTOR_LIST__ _CTOR_LIST__",	
+		"_CTOR_LIST__ v2",	"_CTOR_LIST__ AssignmentExpr",	"ExpressionStatement _CTOR_LIST__",
+		"void ExpressionStatement",	"void IdentifierDeclStatement",	"v2 void",	"v3 void",	
+		"CompoundStatement DoStatement",	"v2 Condition",	"IncDecOp IfStatement",	"stdout std",
+		"out std",	"Callee ForInit",	"i T",	"Callee getc",	"Callee getchar",	
+		"getchar ExpressionStatement",	"char ExpressionStatement"
+};
     	
-    	
-    	};
     	
         String[] ASTtypesTFIDF = {"solve",
         		"InclusiveOrExpression",
@@ -619,7 +634,7 @@ public class FeatureExtractorInfoGain {
 		System.out.println(authorFileName);
 		System.out.println(authorName);
 
-		File fileCPPID = new File(test_cpp_paths.get(i).toString());
+		File fileCPPID = new File(test_file_paths.get(i).toString());
 		String fileNameID =authorName + "_"+fileCPPID.getName();
 		Util.writeFile(fileNameID+",", output_filename, true);
 //		Util.writeFile(FeatureCalculators.functionIDCount(featureText)+",", output_filename, true);
@@ -629,7 +644,7 @@ public class FeatureExtractorInfoGain {
 		String disText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-23)+".dis");
 		String cfgText = Util.readFile(test_file_paths.get(i).toString().substring(0,testIDlength-22)+"SnowmanDecompiled.dot");
 
-		String bjoernText = Util.readFile(authorFileName.getParentFile()
+		String bjoernText = Util.readFile(fileCPPID.getParentFile()
 				+ File.separator + "output_"+fileCPPID.getName().substring(0, (fileCPPID.getName().length()-23))+
 				File.separator + "nodes.csv");
 //		Util.writeFile(FeatureCalculators.CFGNodeCount(ASTText)+",", output_filename, true);
