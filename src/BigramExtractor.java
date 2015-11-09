@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -19,17 +20,16 @@ public class BigramExtractor {
     public static void main(String[] args) throws IOException
 	{   	
       	
-    	String dirPath = "/Users/Aylin/Desktop/Princeton/"
-    			+ "BAA/datasets/c++/100authors/100NoOptimization_binaries_bjoern_cfg/" ;
+    	String dirPath = "/mnt/data_bsd/100NoOptimization/100NoOptimization/" ;
 	
-    	String output_filename="/Users/Aylin/Desktop/Princeton/BAA/arffs/100authors/100author_bigrams.arff";      
+    	String output_filename="/mnt/data_bsd/100NoOptimization/100author_bigrams_test.arff";      
     	List test_file_paths = Util.listTextFiles(dirPath);
       	
 
 	String text = "";
   	//Writing the test arff
   	//first specify relation
-	Util.writeFile("@relation 9FilesExactlyPerAuthor_2012_validation_bigrams"+"\n"+"\n", output_filename, true);
+	Util.writeFile("@relation 100author_bigrams_test"+"\n"+"\n", output_filename, true);
 	Util.writeFile("@attribute instanceID {", output_filename, true);
    	List test_cpp_paths = Util.listCPPFiles(dirPath);
    	for(int j=0; j < test_cpp_paths.size();j++ )
@@ -178,27 +178,27 @@ public class BigramExtractor {
         float [] counter = new float[(int) symbolCount];
     	int [] lines = DepthASTNode.getASTDepLines(featureText);
 		String textAST=null;
-		for (int j=0; j<lines.length; j++)
-		{
+
+		for (int j=0; j<lines.length; j++){
+		
 			textAST = DepthASTNode.readLineNumber(featureText, lines[j]);
+		//System.out.println("line: "+ lines[j]);
 			String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
 		    inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
 			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");
-		//		System.out.println(inputTextParanthesisRemoved);
+		
+			//			System.out.println("inputText "+inputTextParanthesisRemoved);
 
-			for (int i=0; i<symbolCount; i++){
-				//    	featureText remove paranthesis and replace with one space for feature text
-				String str = ASTNodeBigrams[i].toString();
-			//	System.out.println(str);
 
-				//if case insensitive, make lowercase
-				//   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
-				counter[i] = StringUtils.countMatches(inputTextParanthesisRemoved, str);
-/*				if(counter[i]>0)
-				System.out.println(counter[i]);*/
- 	 
-    }
-    }  
+		for (int i=0; i<symbolCount; i++){
+			//    	featureText remove paranthesis and replace with one space for feature text
+			String str = ASTNodeBigrams[i].toString();
+		//	System.out.println(str);
+				counter[i] = counter[i] +StringUtils.countMatches(inputTextParanthesisRemoved, str.trim());
+			//	System.out.println("counter: "+ counter[i]);
+		}
+		}
 	    return counter;
 
 }}
+    
