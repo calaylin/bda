@@ -181,28 +181,31 @@ public class BigramExtractorC {
     
     
     public static float [] getASTNodeBigramsTF (String featureText, String[] ASTNodeBigrams ) throws IOException
-    {    
-    	float symbolCount = ASTNodeBigrams.length;
-        float [] counter = new float[(int) symbolCount];
-    	int [] lines = DepthASTNode.getASTDepLines(featureText);
-		String textAST=null;
-		for (int j=0; j<lines.length; j++)
-		{
-			textAST = DepthASTNode.readLineNumber(featureText, lines[j]);
-			String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
-			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
-			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");
+    {
+    float symbolCount = ASTNodeBigrams.length;
+    float [] counter = new float[(int) symbolCount];
+	int [] lines = DepthASTNode.getASTDepLines(featureText);
+	String textAST=null;
 
-			
-			for (int i=0; i<symbolCount; i++){
-				//    	featureText remove paranthesis and replace with one space for feature text
-				String str = ASTNodeBigrams[i].toString();
-				//if case insensitive, make lowercase
-				//   strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
-				counter[i] = StringUtils.countMatches(inputTextParanthesisRemoved, str);  	   
- 	 
+	for (int j=0; j<lines.length; j++){
+	
+		textAST = DepthASTNode.readLineNumber(featureText, lines[j]);
+	//System.out.println("line: "+ lines[j]);
+		String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
+	    inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
+		 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");
+	
+		//			System.out.println("inputText "+inputTextParanthesisRemoved);
+
+
+	for (int i=0; i<symbolCount; i++){
+		//    	featureText remove paranthesis and replace with one space for feature text
+		String str = ASTNodeBigrams[i].toString();
+	//	System.out.println(str);
+			counter[i] = counter[i] +StringUtils.countMatches(inputTextParanthesisRemoved, str.trim());
+		//	System.out.println("counter: "+ counter[i]);
+	}
+	}
+    return counter;
     }
-    }  
-	    return counter;
-
-}}
+}
