@@ -23,7 +23,7 @@ public class BinaryDisassemble {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, InterruptedException, ScriptException {
 		   		
-		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/";
+		String test_dir ="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/100authors_strippedS/";
         	
         	
 
@@ -45,7 +45,9 @@ public class BinaryDisassemble {
            	for(int bin=0; bin< test_binary_paths.size(); bin++){
         		System.out.println(test_binary_paths.get(bin).toString());
         		if(!(new File(test_binary_paths.get(bin).toString() + ".dis").exists())){
-        		disassembleBinaries(test_binary_paths.get(bin).toString(), "32");}
+        	//	disassembleBinaries(test_binary_paths.get(bin).toString(), "32");
+        		stripBinaries(test_binary_paths.get(bin).toString());	
+        		}
         			}
        	
    	}
@@ -61,7 +63,14 @@ public class BinaryDisassemble {
 		     disassemble.waitFor();
 		}
 
-
+		public static void stripBinaries(String filePath) throws IOException, InterruptedException, ScriptException{
+			
+			 Runtime disTime = Runtime.getRuntime();
+			 String output_filename = filePath;
+			 String cmd1 = "strip -s " + filePath.toString() + " > " + output_filename;      
+		     Process disassemble = disTime.exec((new String[]{"/bin/sh","-c", cmd1}));
+		     disassemble.waitFor();
+		}
 				
 	
 }
