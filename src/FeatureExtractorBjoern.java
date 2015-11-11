@@ -243,7 +243,67 @@ public class FeatureExtractorBjoern {
 	
 	
 	
+	public static String [] getBjoernLineBigrams(String dirPath) throws IOException{
+		
 	
+		List  test_file_paths = listBjoernNodeFiles(dirPath);
+		String[] words = null;
+		Set<String> uniGrams = new LinkedHashSet<String>();
+
+		ArrayList<String> ar = new ArrayList<String>();
+
+		String filePath="";
+		HashSet<String> uniqueWords = new HashSet<String>();
+
+ 	    for(int i=0; i< test_file_paths.size(); i++){
+ 	    	
+ 	    	filePath = test_file_paths.get(i).toString();  
+		//	System.out.println(filePath);						   
+			   String[] arr;
+			   String toAdd;
+
+				BufferedReader br = new BufferedReader(new FileReader(filePath));
+				String line;
+				String tmp="";
+				while ((line = br.readLine()) != null)
+				{
+						line =	line.replaceAll("\\\"", " ");	
+						line =line.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+						line =line.replaceAll("\\d+", "number");
+					uniGrams.add(tmp + "\n"+ line);
+						
+				tmp = line;		
+					
+ 	    }	 }	         
+       
+ 	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
+			    return words;
+ 
+		
+	}	
+	
+    public static float [] getBjoernLineBigramTF (String featureText, String[] lineBigrams  )
+    {    
+    	
+    	
+    	
+    	String str;
+    float symbolCount = lineBigrams.length;
+    float [] counter = new float[(int) symbolCount];
+    for (int i =0; i<symbolCount; i++){
+ 	  str = lineBigrams[i].toString();
+ 	
+ 		featureText=	featureText.replaceAll("\\\"", " ");	
+ 		featureText=	featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+ 		featureText=	featureText.replaceAll("\\d+", "number");
+ 		featureText=	featureText.replaceAll("\\s+", " ");	
+	
+ 	 counter[i] = StringUtils.countMatches(featureText, str.trim()); 
+ 	 }
+
+    
+    return counter;
+    }
 	
 	
 	
