@@ -26,7 +26,7 @@ public class FeatureExtractorDisassembly {
 	
     				String test_dir ="/mnt/data_bsd/allOptimizations/L0_150authors/";
 		       		
-		        	String output_filename = "/mnt/data_bsd/allOptimizations/L0_150authors_ndisasmLineBigram.arff" ;
+		        	String output_filename = "/mnt/data_bsd/allOptimizations/L0_150authors_ndisasmLineBigramNAMED.arff" ;
 
 		        	
 		        	
@@ -63,7 +63,7 @@ public class FeatureExtractorDisassembly {
 		       String[] disassemblyLineBigrams =getDisLineBigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineBigrams.length; i++)	   	
 		       {  
-		            	Util.writeFile("@attribute 'disassemblyUnigrams "+i+"]' numeric"+"\n", output_filename, true);}
+		            	Util.writeFile("@attribute 'disassemblyNDISASMLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]' numeric"+"\n", output_filename, true);}
 			   
 		
 
@@ -383,6 +383,11 @@ public class FeatureExtractorDisassembly {
 						line =line.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
 						line =line.replaceAll("\\d+", "number");
 						line =line.replaceAll("\\s+", " ");	
+						 arr = line.split(" ",2 );
+						 line = arr[1];
+						 arr = line.split(" ",2 );
+						 line = arr[1];
+
 					uniGrams.add(tmp.trim() + " "+ line.trim());
 				//	System.out.println(tmp.trim() + " "+ line.trim());
 
