@@ -26,12 +26,11 @@ public class FeatureExtractorInfoGain {
 				 };
 		  
 	
-    	String test_dir = "/mnt/data_bsd/difficultyExp/"
+    	String test_dir = "/mnt/data_bsd/100authors_strippedS/"
     			;
     	
 
-    	String output_filename = "/mnt/data_bsd/arffs/newNov9/"
-    			+ "difficultyExp.arff" ;
+    	String output_filename = "/mnt/data_bsd/arffs/100authors_strippedS1.arff" ;
 
     	
    //    	List test_file_paths = Util.listTextFiles(test_dir);
@@ -272,7 +271,15 @@ public class FeatureExtractorInfoGain {
     			"tc 1",	"ShiftExpression c",	"ShiftExpression ReturnStatement",	"Expression IncDecOp",	"in Callee",	
     			"out Callee",	"t Parameter",	"Argument i",	"t tt",	"in C",	"n UnaryExpression",	"e 1",	"t s",	
     			"Condition UnaryExpression",	"UnaryExpression CompoundStatement",	"UnaryOp C",	
-    			"RelationalExpression UnaryExpression",	"IncDecOp i",	"Expression t",	"n IncDecOp",	"l Condition",	"int cas",	"i T",	"T UnaryExpression",	"i CompoundStatement",	"t std",	"1 i",	"Argument te",	"int te",	"s int",	"s Callee",	"c int",	"IncDecOp c",	"t F",	"Argument A",	"CallExpression Callee",	"Argument W",	"p c",	"Callee fr",	"Callee scan",	"int ParameterList",	"se i",	"ParameterList Parameter",	"Parameter int",	"Argument IncDecOp",	"e ReturnStatement",	"e CallExpression",	"e int",	"Argument F",	"IdentifierDecl ofstream",	"out IdentifierDeclStatement",	"Callee ForInit",	"Callee ios",	"sync_with_stdio ArgumentList",	"false CallExpression",	"false Callee",	"Callee s",	"IdentifierDecl ifstream",	"e p",	"out IdentifierDecl",	"in c",	"c in",	"test A",	"int P",	"ExpressionStatement CallExpression",	"out ShiftExpression",	"AssignmentExpr C",	"e s",	"1 IdentifierDeclStatement",	"1 Condition",	"se int",	"Callee sol",	"ShiftExpression i",	"Argument FOR",	"int cases",	"ReturnStatement 0",	"0 IdentifierDeclStatement",	"r i",	"AdditiveExpression t",	"int ar",	"en Argument",	"c i",	"T E",	"T i",	"Argument Ret",	"solve ReturnStatement",	"Callee printf",	"t test",	"T C",	"printf ArgumentList",	"ArgumentList Argument",	"Argument Argument",	"ShiftExpression ci",	"int T",	"T IdentifierDecl",	"s IncDecOp",	"s RelationalExpression",
+    			"RelationalExpression UnaryExpression",	"IncDecOp i",	"Expression t",	"n IncDecOp",	"l Condition",
+    			"int cas",	"i T",	"T UnaryExpression",	"i CompoundStatement",	"t std",	"1 i",	"Argument te",	
+    			"int te",	"s int",	"s Callee",	"c int",	"IncDecOp c",	"t F",	"Argument A",
+    			"CallExpression Callee",	"Argument W",	"p c",	"Callee fr",	"Callee scan",	"int ParameterList",
+    			"se i",	"ParameterList Parameter",	"Parameter int",	"Argument IncDecOp",	"e ReturnStatement",	
+    			"e CallExpression",	"e int",	"Argument F",	"IdentifierDecl ofstream",	"out IdentifierDeclStatement",	
+    			"Callee ForInit",	"Callee ios",	"sync_with_stdio ArgumentList",	"false CallExpression",	"false Callee",	
+    			"Callee s",	"IdentifierDecl ifstream",	"e p",	"out IdentifierDecl",	"in c",	"c in",	"test A",	"int P",
+    			"ExpressionStatement CallExpression",	"out ShiftExpression",	"AssignmentExpr C",	"e s",	"1 IdentifierDeclStatement",	"1 Condition",	"se int",	"Callee sol",	"ShiftExpression i",	"Argument FOR",	"int cases",	"ReturnStatement 0",	"0 IdentifierDeclStatement",	"r i",	"AdditiveExpression t",	"int ar",	"en Argument",	"c i",	"T E",	"T i",	"Argument Ret",	"solve ReturnStatement",	"Callee printf",	"t test",	"T C",	"printf ArgumentList",	"ArgumentList Argument",	"Argument Argument",	"ShiftExpression ci",	"int T",	"T IdentifierDecl",	"s IncDecOp",	"s RelationalExpression",
     			"Callee scanf",	"scanf ArgumentList",	"Argument ForStatement",	"ForInit AssignmentExpr",	"T IncDecOp",
     			"T int",	"Argument UnaryOp",	"UnaryOp CallExpression",	"T Callee",	"T ForStatement",	
     			"T RelationalExpression",	"AssignmentExpr Condition",	"RelationalExpression tt",	"IncDecOp tt",
@@ -334,24 +341,24 @@ public class FeatureExtractorInfoGain {
 	    		   "sym.imp.printf","sym.imp._ZNSolsEi","sym.imp._ZNSolsEPFRSoS_E",
 	    	"sym.imp._ZNSolsEi","sym.imp._ZNSolsEPFRSoS_E","sym.imp._ZNStnumberios_basenumberInitCnumberEv",
 	    	"reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number",
-	    	"[reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number]",
+	    	"[reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number",
 	    	"reloc._ZNSolsEi_number",
-	    	"[reloc._ZNSolsEi_number]",
-	    	"[reloc._ZNSirsERi_number]",
+	    	"[reloc._ZNSolsEi_number",
+	    	"[reloc._ZNSirsERi_number",
 	    	"reloc._ZNSirsERi_number",
 	    	"reloc._ZNSolsEPFRSoS_E_number",
-	    	"[reloc._ZNSolsEPFRSoS_E_number]",
+	    	"[reloc._ZNSolsEPFRSoS_E_number",
 	    	"sym._ZStorStnumber_Ios_OpenmodeS_",
 	    	"sym.imp.__cxa_atexit",
 	    	"reloc.freopen_number",
-	    	"[reloc.freopen_number]",
+	    	"[reloc.freopen_number",
 	    	"sym._Znumber__static_initializ	ation_and_destruction_numberii",
 	    	"ebp+numberxffff","reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv_number",
 	    	"ebp+numberxff",
 	    	"ebp+numberxf",
 	    	"[numberxffff:number]=-number",
 	    	"numberxfff",
-	    	"numberxffff","[reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv_number]",
+	    	"numberxffff","[reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv_number",
 	    	"[numberxnumber:number]=numberxnumbercnumber",
 	    	"[numberxnumber:number]=numberxnumberc",
 	    	"sym.imp._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode",
@@ -359,11 +366,11 @@ public class FeatureExtractorInfoGain {
 	    	"sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode",
 	    	"sym._Znumbersolvev", "sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv",
 	    	"sym.imp._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv",
-	    	"[reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number]",
+	    	"[reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
 	    	"reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
 	      "reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number",
-	      "[reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number]",
-	      "[reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number]",
+	      "[reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number",
+	      "[reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
 	      "reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
 	      "[esp],numberxnumber",	"sym.imp.getc",
 			"sym.imp.getchar", "str.Case__",
@@ -380,14 +387,14 @@ public class FeatureExtractorInfoGain {
 				   "Func sym.imp._ZNStnumberios_basenumberInitCnumberEv","[esp], numberxnumber",
 				   "[; reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number",
 				   "[reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number] ;",
-				   "[dword [reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number]",
-				   "[reloc._ZNSolsEi_number] ;","; reloc._ZNSolsEi_number","dword [reloc._ZNSolsEi_number]",
-				   "dword [reloc._ZNSirsERi_number]", "Func sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv",
+				   "[dword [reloc._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc_number",
+				   "[reloc._ZNSolsEi_number] ;","; reloc._ZNSolsEi_number","dword [reloc._ZNSolsEi_number",
+				   "dword [reloc._ZNSirsERi_number", "Func sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv",
 				   "; reloc._ZNSirsERi_number","[reloc._ZNSirsERi_number] ;",
 				   "[reloc._ZNSolsEPFRSoS_E_number] ;","; reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv_number",
-				   "dword [reloc._ZNSolsEPFRSoS_E_number]",
-				   "; reloc._ZNSolsEPFRSoS_E_number","dword [reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv_number]",
-				   "Func sym.imp.__cxa_atexit",   "call sym.imp.__cxa_atexit",   "dword [reloc.freopen_number]", "[reloc.freopen_number] ;",
+				   "dword [reloc._ZNSolsEPFRSoS_E_number",
+				   "; reloc._ZNSolsEPFRSoS_E_number","dword [reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv_number",
+				   "Func sym.imp.__cxa_atexit",   "call sym.imp.__cxa_atexit",   "dword [reloc.freopen_number", "[reloc.freopen_number] ;",
 				   "; reloc.freopen_number","Func sym._Znumber__static_initialization_and_destruction_numberii",
 				   "int ebp+numberxffff", "numberxffff ;","numberxffff cmp",
 				   "int ebp+numberxff",  "numberxc], numberxffff",
@@ -401,13 +408,13 @@ public class FeatureExtractorInfoGain {
 		   "call sym.imp._ZNSirsERi","[reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number] ;",
 		   "Func sym._Znumbersolvev","; reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
 		   "Func sym.imp._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv",
-		   "dword [reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number]",
-		   "dword [reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number]",
+		   "dword [reloc._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
+		   "dword [reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number",
 		   "[reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number] ;",
 		   "; reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv_number",
 		   "[reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number] ;",
 		"; reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
-		"dword [reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number]",
+		"dword [reloc._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode_number",
 		"LEA str.Case__","; str.Case__","Func sym.imp.getchar",
 		"call sym._ZStorStnumber_Ios_OpenmodeS_","Func sym.imp.getc",
 		"call sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode",
@@ -421,11 +428,11 @@ public class FeatureExtractorInfoGain {
 			       
 		   String[] disassemblyBigramsNDISASM ={"arpl [cs:eax",	"ebp [fs:esi",	"gs outsd",	"inc ax",	
 				   "gs xor",	"[ebx eax*2",	"add [fs:ebx",	"ebp [edi",	"esi [esp",	"[esp eax*2",
-				   "ch [esi]",	"ch [esi",	"[fs:esi",	"xor ch",	"cmp [esi]",	"eax*2",	
+				   "ch [esi",	"ch [esi",	"[fs:esi",	"xor ch",	"cmp [esi",	"eax*2",	
 				   "cmp [esi",	"o16 add",	"jng near",	"ebp [cs:esi",	"or ch",	"[esi] ebp",	
 				   "fs outsd",	"[cs:esi",	"fs out",	"[cs:eax",	"esi [edx",	"si [edx",	"esp [edx",	
-				   "[ebx esi*2",	"[esi] dh",	"[ecx] dword",	"bound ebx",	"ecx [ecx]",	
-				   "pop eax",	"gs jna",	"inc edx",	"esi] dh",	"or [esi]",	"o16 jnc",	"imul ecx",
+				   "[ebx esi*2",	"[esi] dh",	"[ecx] dword",	"bound ebx",	"ecx [ecx",	
+				   "pop eax",	"gs jna",	"inc edx",	"esi] dh",	"or [esi",	"o16 jnc",	"imul ecx",
 				   "mul ecx",	"[ecx ebp*2",	"cs jz",	"[esi esi*2",	"cs outsd",	"cmp byte"};
 
 	       String[] cfgUnigrams ={"basicBlockhexadecimal   Address: hexadecimal nodeNewline <0:0> = [(<0:0> + hexadecimal)] nodeNewline <0:0> = ([(<0:0> + hexadecimal)] (unsigned)< <0:0>) nodeNewline <0:0> = intrinsic(0) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] == <0:0>) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] (signed)< <0:0>) nodeNewline <0:0> = intrinsic(0) nodeNewline <0:0> = intrinsic(0) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] (signed)< <0:0>) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] (signed)<= <0:0>) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] (unsigned)<= <0:0>) nodeNewline if choice(<0:0> over (<0:0> | ~(<0:0> == <0:0>))) goto address hexadecimal else goto basic block hexadecimal nodeNewline",
@@ -437,7 +444,7 @@ public class FeatureExtractorInfoGain {
 	    	"basicBlockhexadecimal   Address: hexadecimal nodeNewline [(<0:0> + hexadecimal)] = hexadecimal nodeNewline [<0:0>] = hexadecimal nodeNewline <0:0> = (<0:0> - hexadecimal) nodeNewline [<0:0>] = hexadecimal nodeNewline call hexadecimal nodeNewline <0:0> = (<0:0> + hexadecimal) nodeNewline <0:0> = [(<0:0> + hexadecimal)] nodeNewline [(<0:0> + hexadecimal)] = <0:0> nodeNewline [<0:0>] = <0:0> nodeNewline <0:0> = (<0:0> - hexadecimal) nodeNewline [<0:0>] = hexadecimal nodeNewline call hexadecimal nodeNewline <0:0> = (<0:0> + hexadecimal) nodeNewline [(<0:0> + hexadecimal)] = hexadecimal nodeNewline [<0:0>] = <0:0> nodeNewline <0:0> = (<0:0> - hexadecimal) nodeNewline [<0:0>] = hexadecimal nodeNewline call hexadecimal nodeNewline <0:0> = (<0:0> + hexadecimal) nodeNewline <0:0> = (<0:0> - hexadecimal) nodeNewline [<0:0>] = hexadecimal nodeNewline call hexadecimal nodeNewline <0:0> = (<0:0> + hexadecimal) nodeNewline [(<0:0> + hexadecimal)] = ([(<0:0> + hexadecimal)] + hexadecimal) nodeNewline <0:0> = intrinsic(0) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] == hexadecimal) nodeNewline <0:0> = ([(<0:0> + hexadecimal)] (signed)< hexadecimal) nodeNewline <0:0> = intrinsic(0) nodeNewline <0:0> = intrinsic(0) nodeNewline kill(<0:0>) nodeNewline goto basic block hexadecimal nodeNewline"	    	
 	       };
 	    	
-	       String[] cfgNodeLastLine ={"<0:0> = [hexadecimal]"
+	       String[] cfgNodeLastLine ={"<0:0> = [hexadecimal"
 	    		};
     	
 	    	//get the bigrams in the CFG and write the bigram features
@@ -454,9 +461,9 @@ public class FeatureExtractorInfoGain {
 	    	String[] cfgLineBigrams ={"<0:0> = [hexadecimal] [(<0:0> + hexadecimal)] = <0:0>",
 	    			"<0:0> = [hexadecimal] [(<0:0> + hexadecimal)] = <0:0>",
 	    			"<0:0> = [(<0:0> + hexadecimal)] <0:0> = ([(<0:0> + hexadecimal)] (unsigned)< <0:0>)",
-	    			"<0:0> = intrinsic(0) <0:0> = [hexadecimal]",
+	    			"<0:0> = intrinsic(0) <0:0> = [hexadecimal",
 	    			"<0:0> = ([(<0:0> + hexadecimal)] (unsigned)<= <0:0>) if choice(<0:0> over (<0:0> | ~(<0:0> == <0:0>))) goto address hexadecimal else goto basic block hexadecimal",
-	    			"<0:0> = (<0:0> + hexadecimal) <0:0> = [hexadecimal]","","",
+	    			"<0:0> = (<0:0> + hexadecimal) <0:0> = [hexadecimal",
 	    	"[(<0:0> + hexadecimal)] = hexadecimal [<0:0>] = <0:0>",
 	    	"<0:0> = intrinsic(0) <0:0> = ([(<0:0> + hexadecimal)] (unsigned)< hexadecimal)",
 	    	"<0:0> = [(<0:0> + hexadecimal)] <0:0> = (<0:0> | <0:0>)",
@@ -504,8 +511,26 @@ public class FeatureExtractorInfoGain {
 	    	"basicBlockhexadecimal   Address: hexadecimal nodeNewline <0:0> = [(<0:0> + hexadecimal)] nodeNewline <0:0> = (<0:0> + hexadecimal) nodeNewline [(<0:0> + hexadecimal)] = <0:0> nodeNewline [((<0:0> + (<0:0> * hexadecimal)) + hexadecimal)] = hexadecimal nodeNewline goto basic block hexadecimal nodeNewline",
 
 	    	
-	    	
 	    	};
+	    	String[] bjoernLineBigrams= {"number Func sym.imp.freopen number Func sym.imp.scanf",
+	    			"number Func sym.imp._ZNStnumberios_basenumberInitCnumberEv number Func sym.imp.__cxa_atexit",
+	    			"number Func sym.imp._ZStlsIStnumberchar_traitsIcEERStnumberbasic_ostreamIcT_ESnumber_PKc number Func sym.imp._ZNSolsEi",
+	    			"number Arg int ebp+numberxnumber number Arg int ebp+numberxff",
+	    			"number Func sym._ZStorStnumber_Ios_OpenmodeS_ number Func sym.imp._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode",
+	    			"number Arg int ebp+numberxnumber number Arg int ebp+numberxffff",
+	    			"number Arg int ebp+numberxffff number BB",
+	    			"number Func sym.deregister_tm_clones number Func sym.imp.freopen",
+	    			"number Func sym.imp.freopen number Func sym.imp._ZNSirsERi",
+	    			"number Instr number or eax, edx or eax, edx number Instr number pop ebp pop ebp",
+	    			"number Func sym.deregister_tm_clones number Func sym.imp.scanf",
+	    			"number Func sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode number Func sym._ZStorStnumber_Ios_OpenmodeS_",
+	    			"number Func sym.imp._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEECnumberEPKcStnumber_Ios_Openmode number Func sym.imp._ZNSirsERi",
+	    			"number Func sym.imp._ZNStnumberbasic_ofstreamIcStnumberchar_traitsIcEEDnumberEv number Func sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv",
+	    			"number Func sym.imp._ZNStnumberbasic_ifstreamIcStnumberchar_traitsIcEEDnumberEv number Func sym.imp._Unwind_Resume",
+	    		
+
+	    	};
+
         
         for (int i=0; i<wordUnigramsTF.length; i++)	
         	
@@ -542,6 +567,11 @@ public class FeatureExtractorInfoGain {
 	     	for (int i=0; i<disassemblyBigramsBjoern.length; i++)	   	
 		       {  	disassemblyBigramsBjoern[i] = disassemblyBigramsBjoern[i].replace("'", "apostrophesymbol");
 		            	Util.writeFile("@attribute 'disassemblyBigramsBjoern "+i+"=["+disassemblyBigramsBjoern[i]+"]' numeric"+"\n", output_filename, true);}
+	    	
+	     	for (int i=0; i<bjoernLineBigrams.length; i++)	   	
+		       {  	bjoernLineBigrams[i] = bjoernLineBigrams[i].replace("'", "apostrophesymbol");
+		            	Util.writeFile("@attribute 'bjoernLineBigrams "+i+"=["+bjoernLineBigrams[i]+"]' numeric"+"\n", output_filename, true);}
+	     	
 	     	
 	    	for (int i=0; i<disassemblyUnigramsNDISASM.length; i++)	   	
 		       {  	disassemblyUnigramsNDISASM[i] = disassemblyUnigramsNDISASM[i].replace("'", "apostrophesymbol");
@@ -690,6 +720,10 @@ public class FeatureExtractorInfoGain {
 	    for (int j=0; j<wordBigramCount.length; j++)
 		{Util.writeFile(wordBigramCount[j] +",", output_filename, true);}
 
+	    
+	    float[] wordLineBigramCount = FeatureExtractorBjoern.getBjoernLineBigramTF(bjoernText, bjoernLineBigrams);
+	    for (int j=0; j<wordLineBigramCount.length; j++)
+		{Util.writeFile(wordLineBigramCount[j] +",", output_filename, true);}
 
 		//FeatureExtractorDisassembly for ndisasm
 		 //get count of each wordUnigram in disassembly 
