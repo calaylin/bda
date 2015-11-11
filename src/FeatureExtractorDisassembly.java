@@ -384,10 +384,13 @@ public class FeatureExtractorDisassembly {
 						line =line.replaceAll("\\d+", "number");
 						line =line.replaceAll("\\s+", " ");	
 						 arr = line.split(" ",2 );
-						 line = arr[1];
+						 if(arr.length>1)
+						 {line = arr[1];}						 
+						 System.out.println("line1: "+line);
 						 arr = line.split(" ",2 );
-						 line = arr[1];
-
+						 if(arr.length>1)
+						 {line = arr[1];}
+						 System.out.println(line);
 					uniGrams.add(tmp.trim() + " "+ line.trim());
 				//	System.out.println(tmp.trim() + " "+ line.trim());
 
