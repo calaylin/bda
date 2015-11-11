@@ -29,7 +29,7 @@ public class FeatureExtractorBjoern {
 	
     				String test_dir ="/mnt/data_bsd/allOptimizations/L0_150authors/";
 		       		
-		        	String output_filename = "/mnt/data_bsd/allOptimizations/L0_150authors_bjoernlinebigrams.arff" ;
+		        	String output_filename = "/mnt/data_bsd/allOptimizations/L0_150authors_bjoernlinebigrams2.arff" ;
 
 		        	
 		        	
@@ -290,15 +290,15 @@ public class FeatureExtractorBjoern {
     	String str;
     float symbolCount = lineBigrams.length;
     float [] counter = new float[(int) symbolCount];
-    for (int i =0; i<symbolCount; i++){
- 	  str = lineBigrams[i].toString();
+  
  	
  		featureText=	featureText.replaceAll("\\\"", " ");	
  		featureText=	featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
  		featureText=	featureText.replaceAll("\\n", " ");	
  		featureText=	featureText.replaceAll("\\s+", " ");
-	
+ 		  for (int i =0; i<symbolCount; i++){
+ 		 	  str = lineBigrams[i].toString();
 	
  	 counter[i] = StringUtils.countMatches(featureText, str.trim()); 
  	 }

@@ -24,18 +24,16 @@ public class FeatureExtractorDisassembly {
 	public static void main(String[] args) throws IOException{
 		
 	
-    				String test_dir =""
-    						+ "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/"
-    						+ "100authors/100NoOptimization_binaries_bjoern_cfg/";
+    				String test_dir ="/mnt/data_bsd/allOptimizations/L0_150authors/";
 		       		
-		        	String output_filename = "/Users/Aylin/Desktop/Princeton/"
-		        			+ "BAA/arffs/"
-		        			+ "100NoOptimization_ndisasm_features.arff" ;
+		        	String output_filename = "/mnt/data_bsd/allOptimizations/L0_150authors_ndisasmLineBigram.arff" ;
 
 		        	
 		        	
 
-		           	List test_binary_paths = Util.listBinaryFiles(test_dir);
+//		           			           	List test_binary_paths = Util.listBinaryFiles(test_dir);
+
+		        	List test_binary_paths = Util.listDisFiles(test_dir);
 		           	List test_dis_paths = Util.listDisFiles(test_dir);
 			
 		 
@@ -60,8 +58,16 @@ public class FeatureExtractorDisassembly {
 					Util.writeFile("}"+"\n", output_filename, true);
 			}
 
-
+		   	
 		   	//get the Unigrams in the disassembly and write the unigram features
+		       String[] disassemblyLineBigrams =getDisLineBigrams(test_dir);
+		    	for (int i=0; i<disassemblyLineBigrams.length; i++)	   	
+		       {  
+		            	Util.writeFile("@attribute 'disassemblyUnigrams "+i+"]' numeric"+"\n", output_filename, true);}
+			   
+		
+
+/*		   	//get the Unigrams in the disassembly and write the unigram features
 		       String[] disassemblyUnigrams =getDisUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyUnigrams.length; i++)	   	
 		       {  
@@ -73,7 +79,7 @@ public class FeatureExtractorDisassembly {
 		     	for (int i=0; i<disassemblyBigrams.length; i++)	   	
 			       {  	
 			            	Util.writeFile("@attribute 'disassemblyBigrams "+i+"=["+disassemblyBigrams[i]+"]' numeric"+"\n", output_filename, true);}
-
+*/
 
 		    File authorFileName = null;
 			//Writing the classes (authorname)
@@ -130,9 +136,13 @@ public class FeatureExtractorDisassembly {
 				String disText = Util.readFile(test_binary_paths.get(i).toString());
 
 				
-		   
-				    
-			    //get count of each wordUnigram in disassembly 
+				 //get count of each wordUnigram in disassembly 
+			    float[] wordUniCount = getDisLineBigramTF(disText, disassemblyLineBigrams);
+			    for (int j=0; j<wordUniCount.length; j++)
+				{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
+			    
+			    
+			   /* //get count of each wordUnigram in disassembly 
 			    float[] wordUniCount = getDisUnigramTF(disText, disassemblyUnigrams);
 			    for (int j=0; j<wordUniCount.length; j++)
 				{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
@@ -140,7 +150,7 @@ public class FeatureExtractorDisassembly {
 			    //get count of each bigram in in disassembly	 
 			    float[] wordBigramCount = getDisBigramsTF(disText, disassemblyBigrams);
 			    for (int j=0; j<wordBigramCount.length; j++)
-				{Util.writeFile(wordBigramCount[j] +",", output_filename, true);}
+				{Util.writeFile(wordBigramCount[j] +",", output_filename, true);}*/
 			   	
 		    	
 				Util.writeFile(authorName+"\n", output_filename, true);
@@ -343,6 +353,76 @@ public class FeatureExtractorDisassembly {
 
 }
 
+    
+    
+    public static String [] getDisLineBigrams(String dirPath) throws IOException{
+		
+    	
+		List  test_file_paths = Util.listDisFiles(dirPath);
+		String[] words = null;
+		Set<String> uniGrams = new LinkedHashSet<String>();
+
+		ArrayList<String> ar = new ArrayList<String>();
+
+		String filePath="";
+		HashSet<String> uniqueWords = new HashSet<String>();
+
+ 	    for(int i=0; i< test_file_paths.size(); i++){
+ 	    	
+ 	    	filePath = test_file_paths.get(i).toString();  
+		//	System.out.println(filePath);						   
+			   String[] arr;
+			   String toAdd;
+
+				BufferedReader br = new BufferedReader(new FileReader(filePath));
+				String line;
+				String tmp="";
+				while ((line = br.readLine()) != null)
+				{
+						line =	line.replaceAll("\\\"", " ");	
+						line =line.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+						line =line.replaceAll("\\d+", "number");
+						line =line.replaceAll("\\s+", " ");	
+					uniGrams.add(tmp.trim() + " "+ line.trim());
+				//	System.out.println(tmp.trim() + " "+ line.trim());
+
+				tmp = line;		
+					
+ 	    }	 }	         
+       
+ 	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
+			    return words;
+ 
+		
+	}	
+	
+    public static float [] getDisLineBigramTF (String featureText, String[] lineBigrams  )
+    {    
+    	
+    	
+    	
+    	String str;
+    float symbolCount = lineBigrams.length;
+    float [] counter = new float[(int) symbolCount];
+    
+ 		featureText=	featureText.replaceAll("\\\"", " ");	
+ 		featureText=	featureText.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+ 		featureText=	featureText.replaceAll("\\d+", "number");
+ 		featureText=	featureText.replaceAll("\\n", " ");	
+ 		featureText=	featureText.replaceAll("\\s+", " ");
+	
+	//System.out.println(featureText);
+		
+ 		for (int i =0; i<symbolCount; i++){
+ 		 	  str = lineBigrams[i].toString();
+ 		 	
+ 	 counter[i] = StringUtils.countMatches(featureText, str.trim()); 
+ 	 }
+
+    
+    return counter;
+    }
+    
     
     
     
