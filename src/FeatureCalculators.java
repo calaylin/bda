@@ -33,7 +33,9 @@ public class FeatureCalculators {
  //   	String testFolder = "/Users/Aylin/Desktop/Princeton/Drexel/2014/ARLInternship/SCAA_Datasets/difficultyExp/6FilesPerAuthor_2014_difficult_syntactic/";
    // 	for (int datasetNo=6; datasetNo<150;datasetNo++){
     	
-    	String testFolder= "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
+//    	String testFolder= "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/100authors_strippedS/";
+    	String testFolder= "/Users/Aylin/Desktop/GithubData/";
+
     	
     	//do the following next
 /*    	String testFolder ="/Users/Aylin/Desktop/Princeton/BAA/datasets/"

@@ -32,18 +32,18 @@ public class CheckFiles {
 //addBinaryToFolderByCodeName (String dirToAddBinaries, String dirToLookForBinaries) throws IOException{
 
 	
-	String dirToAddBinaries= "/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/1046NotOptimized/";
-	String dirToLookForBinaries="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/9Files_largescale_CPP_and_binary_NOToptimized/";
+	String dirToAddBinaries="/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/100authors_strippedS/";
+	String dirToLookForBinaries="/Users/Aylin/Desktop/100authors_noOptimization-2/";
+	addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
 	
-//	addBinaryToFolderByCodeName(dirToAddBinaries,dirToLookForBinaries);
 	
 /*	addBinaryToFolderByCodeName("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/"
 ,"/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/9Files_largescale_onlyCPP_and_binary_Optimization1/");
 */	//this won't recognize binaries, so convert to c first
     //to add .c to decompiled filenames
 	
-//	addDotCPPToDecompiledFileName("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/");
-//	rearrangeFolders("/Users/Aylin/Desktop/Princeton/BAA/datasets/c++/optimizations/L1_150authors/");
+//	addDotCPPToDecompiledFileName("/Users/Aylin/Desktop/GithubData/");
+//	rearrangeFolders("/Users/Aylin/Desktop/GithubData/");
 
 	
 	//to clean files produced by joern

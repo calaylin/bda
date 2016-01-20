@@ -28,7 +28,7 @@ public class AuthorClassificationBasic {
 		double accuracy=0;
 		int endRelax = 10;
 		int numberFiles=9;
-		int numFeatures=0; //0 is the default logM+1
+		int numFeatures=20; //0 is the default logM+1
 		int seedNumber;
 		double total =0;
 		double average =0;
