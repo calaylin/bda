@@ -155,6 +155,31 @@ public class Util {
             br.close();
         }
     }
+    
+    public static String readNDISASMFile(String fileName) throws IOException {
+    	
+    	//just looks at instructions
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            String[] arr;
+            while (line != null) {
+   				arr = line.split("\\s+",3);
+   				if(arr.length>2){
+   	   			System.out.println(arr[2]);
+                sb.append(arr[2]);
+                sb.append("\n");}
+                line = br.readLine();
+            }
+            return sb.toString();
+        } finally {
+            br.close();
+        }
+    }
+    
+    
+    
 	public static void writeUTF8( String allLines, String filename,boolean append){
 		 
 		File file = new File(filename);
