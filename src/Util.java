@@ -167,7 +167,7 @@ public class Util {
             while (line != null) {
    				arr = line.split("\\s+",3);
    				if(arr.length>2){
-   	   			System.out.println(arr[2]);
+   	   		//	System.out.println(arr[2]);
                 sb.append(arr[2]);
                 sb.append("\n");}
                 line = br.readLine();
