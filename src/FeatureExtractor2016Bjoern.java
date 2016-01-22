@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +44,6 @@ public class FeatureExtractor2016Bjoern {
 				Util.writeFile("}"+"\n", output_filename, true);
 				}
 			}
-
 
 		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
 			//get the instruction unigrams in bjoern disassembly and write the instruction unigram features
@@ -160,7 +160,7 @@ public class FeatureExtractor2016Bjoern {
 				{Util.writeFile(lineUnigramCount[j] +",", output_filename, true);}
 			    
 			    //get count of each line bigram in disassemblyBjoern	 
-			    float[] lineBigramCount = getBjoernLineUnigramsTF(featureTextBjoernDisassembly, disassemblyLineBigrams);
+			    float[] lineBigramCount = getBjoernLineBigramsTF(featureTextBjoernDisassembly, disassemblyLineBigrams);
 			    for (int j=0; j<lineBigramCount.length; j++)
 				{Util.writeFile(lineBigramCount[j] +",", output_filename, true);}
 			    
@@ -250,6 +250,9 @@ public class FeatureExtractor2016Bjoern {
 			System.out.println("Redundant " + arr[0] 
 		    + " , needed " + arr[4]);
 		    }*/
+//			A	"Instr_134515592"	"Instr"	"134515592"	"1"	"jmp 0x8048c7f"	"e9f2000000"		"0x8048c7f,eip,="
+//			ANR	"Root_134515265"	"Root"	"134515265"
+			
 			line = arr[4];
 			line =	line.replaceAll("\\\"", " ");	
 			line =line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
@@ -273,11 +276,22 @@ public class FeatureExtractor2016Bjoern {
     	String str;
     	float symbolCount = lineBigrams.length;
     	float [] counter = new float[(int) symbolCount];
+ //   	A	"Instr_134515592"	"Instr"	"134515592"	"1"	"jmp 0x8048c7f"	"e9f2000000"		"0x8048c7f,eip,="
+ //   	ANR	"Root_134515265"	"Root"	"134515265"
  		featureText=	featureText.replaceAll("\\\"", " ");	
  		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
- 		featureText=	featureText.replaceAll("\\n", " ");	
  		featureText=	featureText.replaceAll("\\s+", " ");
+ 		featureText=	featureText.replaceAll("ANR Root_number Root number "," ");
+ 		featureText=	featureText.replaceAll("ANR Func_number Func number "," ");
+ 		featureText=	featureText.replaceAll("A Instr_number Instr number "," ");
+ 		featureText=	featureText.replaceAll("A Flag_number Flag number "," ");
+// 		featureText=	featureText.replaceAll(" "," ");
+		featureText=	featureText.replaceAll("\\n", " ");	
+ 		featureText=	featureText.replaceAll("\\s+", " ");
+		System.out.println("this is featureText"+featureText);
+		Util.writeFile(featureText, "/Users/Aylin/Desktop/tesstfeat.txt", true);
+
  		for (int i =0; i<symbolCount; i++){
  			str = lineBigrams[i].toString();
  			counter[i] = StringUtils.countMatches(featureText, str.trim()); 
