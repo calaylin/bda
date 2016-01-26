@@ -3,13 +3,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.script.ScriptException;
 
-import org.apache.commons.exec.ExecuteException;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class bjoernGenerateGraphmlCFG {
@@ -21,32 +19,57 @@ public class bjoernGenerateGraphmlCFG {
 				//"/Users/Aylin/Desktop/Princeton/"+ "BAA/datasets/c++/optimizations/100authors_strippedS/";
 
 		//Start server for once
-		//./Users/Aylin/git/bjoern-radare/bjoern-server.shh 
+		//./Users/Aylin/git/bjoern-radare/bjoern-server.sh
 		// orientdb-community-2.1.5/bin/server.sh
-		 Runtime run = Runtime.getRuntime();
-		 Process runScript;
-		   runScript = run.exec(new String[]{"/bin/bash", "-c",
-			//		"export PATH=$PATH:/usr/local/bin/: \n"+
-					"cd /Users/Aylin/git/bjoern-radare/ \n" +
-			//	    "/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/shutdown.sh \n"	 
-			    "/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-server.sh \n"
-			//	"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh \n"	 
-			 
-				 });
-				
-				 runScript.waitFor();
-			     BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
+		Thread t = new Thread(new Runnable()
+		{
+		    public void run()
+		    {
+			  try
+			  {
+				  Process runScript;
+					Runtime run = Runtime.getRuntime();
 
-			     while(br.ready())
-			     {  System.out.println("input stream:"+br.readLine());}
-			     br.close();
-			     BufferedReader br2 = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
-			     while(br2.ready())
-			     {  System.out.println("error stream:"+br2.readLine());}
-			     br2.close();
-				 int exitCode = runScript.exitValue();
-				 System.out.println("Process exit code: " + exitCode); 
-
+					String cmd =// "cd /Users/Aylin/git/bjoern-radare/ "+";"+
+							//"echo startingOrientDB ;"+
+							//	"export PATH=$PATH:/usr/local/bin/ ;"+
+								"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh ";	 
+					    //"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-server.sh";
+					
+					
+					runScript = run.exec(new String[]{"/bin/bash","-c",cmd});			
+					//	 runScript.waitFor();
+				//	 runScript.waitFor(5, TimeUnit.SECONDS);
+				 //   Thread.sleep(10000);                 //1000 milliseconds is one second.
+					 BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
+					 while(br.ready())
+					 {	System.out.println(br.readLine());}
+					 br.close();		
+					//		 runScript.waitFor(100, TimeUnit.SECONDS );
+						     br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
+						     while(br.ready())
+						     {  System.out.println("input stream:"+br.readLine());}
+						     br.close();
+						      br = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
+						     while(br.ready())
+						     {  System.out.println("error stream:"+br.readLine());}
+						     br.close();
+							 int exitCode = runScript.exitValue();
+							 System.out.println("Process exit code: " + exitCode); 
+					runScript.destroyForcibly();}
+			  catch(IOException e)
+			  {		      
+			      // Handle error.
+			      e.printStackTrace();
+			  }
+		    }
+		});
+		t.start();
+		
+		   
+	 
+				 
+				 
 		List binary_paths = Util.listBinaryFiles(folderToProcess);
 		for(int i=0; i< binary_paths.size(); i++){
 			bjoernGenerateCFG(binary_paths.get(i).toString());
@@ -55,31 +78,33 @@ public class bjoernGenerateGraphmlCFG {
 		for(int i=0; i< binary_paths.size(); i++){
 			dumpCFG(binary_paths.get(i).toString());
 		}
+		
 		//kill server
-		runScript = run.exec(new String[]{"/bin/bash", "-c",
+		Runtime run = Runtime.getRuntime();
+		Process runScript = run.exec(new String[]{"/bin/bash", "-c",
 				    "/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/shutdown.sh"	 
 				 });
 		 runScript.waitFor();
-		 BufferedReader br21 = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
-		 while(br21.ready())
-		 {	System.out.println(br21.readLine());}
-		 br21.close();
+		  BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
+		 while(br.ready())
+		 {	System.out.println(br.readLine());}
+		 br.close();
+		 t.stop();
 	}
 	
 	public static void bjoernGenerateCFG(String filePath) throws IOException, InterruptedException, ScriptException{
 		//disassembles binary in filePath with bjoern-radare to outdir 
-		//generates the cfgs in outdir
+		//generates the cfg databases
 	
 		
 		
 		File processing = new File(filePath);
 		String path = FilenameUtils.getPath(filePath);
 		String filename = processing.getName();
-		 String outdir = File.separator + path + filename +"_bjoernDisassembly" + File.separator ;
-		 String outdirTMP = File.separator + path + filename +"_bjoernDisassembly" + File.separator +"bjoernCFG"+File.separator;
-		 String dbName = filename +"CFG" ;
-		 File outputTMP = new File(outdirTMP);
-		 outputTMP.mkdir();
+		String outdirTMP = File.separator + path + filename +"_bjoernDisassembly" + File.separator +"bjoernCFG"+File.separator;
+		String dbName = filename +"CFG" ;
+		File outputTMP = new File(outdirTMP);
+		outputTMP.mkdir();
 		 
        //  System.out.println("outdir: "+outdir);
         // System.out.println("filepath: "+filePath);
@@ -104,7 +129,7 @@ public class bjoernGenerateGraphmlCFG {
 			 
 			 Runtime run = Runtime.getRuntime();
 			 Process fileProcess = run.exec(new String[]{"/bin/sh", "-c",
-					  "chmod 777 /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh \n"
+					  "chmod 777 /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh"
 
 					 });
 		  
@@ -113,46 +138,34 @@ public class bjoernGenerateGraphmlCFG {
 				       while(br.ready())
 				           System.out.println(br.readLine());
 				       br.close();
-				       
-				       
-		//	File cfgDB = new File(cfgDBFolder+ dbName );
-		//	System.out.println(cfgDB);
-			/*if(cfgDB.exists()){	       
-			 fileProcess = run.exec(new String[]{"/bin/sh", "-c",
-							  "rm -r "+ outdir+dbName +" \n"
-							 });
-				  
-			fileProcess.waitFor();
-			br = new BufferedReader(new InputStreamReader(fileProcess.getInputStream()));
-			while(br.ready())
-			System.out.println(br.readLine());}*/
+
 		
 			 Runtime runBjoern = Runtime.getRuntime();
 			Process runScript = runBjoern.exec(new String[]{"/bin/bash", "-c",
-				"cd /Users/Aylin/git/bjoern-radare/ \n"
-			    +"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh \n"+
-			    "tail -n+2 "+outdirTMP+"nodes.csv | sort -r | uniq > "+ outdirTMP +"nodes.csv_ \n"+
-			    "tail -n+2 "+outdirTMP+"edges.csv | sort -r | uniq > "+outdirTMP+"edges.csv_ \n"+
+				"cd /Users/Aylin/git/bjoern-radare/ ;"
+			    +"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh ;"+
+			    "tail -n+2 "+outdirTMP+"nodes.csv | sort -r | uniq > "+ outdirTMP +"nodes.csv_ ;"+
+			    "tail -n+2 "+outdirTMP+"edges.csv | sort -r | uniq > "+outdirTMP+"edges.csv_ ;"+
 
-			    "head -n 1 "+outdirTMP+"nodes.csv > "+outdirTMP+"nodeHead.csv \n"+
-			    "head -n 1 "+outdirTMP+"edges.csv > "+outdirTMP+"edgeHead.csv \n"+
+			    "head -n 1 "+outdirTMP+"nodes.csv > "+outdirTMP+"nodeHead.csv ;"+
+			    "head -n 1 "+outdirTMP+"edges.csv > "+outdirTMP+"edgeHead.csv ;"+
 
-/*			    "cat "+outdirTMP+"nodeHead.csv >  "+outdirTMP+"nodes.csv \n"+
-			    "cat "+outdirTMP+"nodes.csv_ >> "+outdirTMP+"nodes.csv \n"+
+/*			    "cat "+outdirTMP+"nodeHead.csv >  "+outdirTMP+"nodes.csv ;"+
+			    "cat "+outdirTMP+"nodes.csv_ >> "+outdirTMP+"nodes.csv ;"+
 
-			    "cat "+outdirTMP+"edgeHead.csv > "+outdirTMP+"edges.csv \n"+
-			    "cat "+outdirTMP+"edges.csv_ >> "+outdirTMP+"edges.csv \n"+*/
+			    "cat "+outdirTMP+"edgeHead.csv > "+outdirTMP+"edges.csv ;"+
+			    "cat "+outdirTMP+"edges.csv_ >> "+outdirTMP+"edges.csv ;"+*/
 
-			    "cat "+outdirTMP+"nodeHead.csv >  nodes.csv \n"+
-			    "cat "+outdirTMP+"nodes.csv_ >> nodes.csv \n"+
+			    "cat "+outdirTMP+"nodeHead.csv >  nodes.csv ;"+
+			    "cat "+outdirTMP+"nodes.csv_ >> nodes.csv ;"+
 
-			    "cat "+outdirTMP+"edgeHead.csv > edges.csv \n"+
-			    "cat "+outdirTMP+"edges.csv_ >> edges.csv \n"+
+			    "cat "+outdirTMP+"edgeHead.csv > edges.csv ;"+
+			    "cat "+outdirTMP+"edges.csv_ >> edges.csv ;"+
 			    
-			//    "/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-csvimport.sh -dbname "+dbName + " \n"
-		    "export PATH=$PATH:/usr/local/bin/ \n"+   
+			    "/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-csvimport.sh -dbname "+dbName 
+/*		    "export PATH=$PATH:/usr/local/bin/ ;"+   
 			"java -cp /Users/Aylin/git/bjoern-radare/bin/bjoern.jar:/usr/local/bin/ "
-			+ "clients.bjoernImport.BjoernImport -dbname "+dbName + " \n"
+			+ "clients.bjoernImport.BjoernImport -dbname "+dbName + " ;"*/
 			 });
 			 
 			 runScript.waitFor(); 
@@ -166,7 +179,6 @@ public class bjoernGenerateGraphmlCFG {
 	
 	
 	public static void dumpCFG(String filePath) throws IOException, InterruptedException, ScriptException{
-		//disassembles binary in filePath with bjoern-radare to outdir 
 		//generates the cfgs in outdir
 	
 		
@@ -179,21 +191,17 @@ public class bjoernGenerateGraphmlCFG {
 		 String dbName = filename +"CFG" ;
 		 File outputTMP = new File(outdirTMP);
 		 outputTMP.mkdir();
-		 
-       //  System.out.println("outdir: "+outdir);
-        // System.out.println("filepath: "+filePath);
-//         System.out.println("path: "+path);
 
 
 			String cfgDBFolder ="/Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/";
 
 			 Runtime dumpTime = Runtime.getRuntime();
 		     Process dumpCFG = dumpTime.exec(new String[]{"/bin/bash", "-c",
-		    		 "curl http://localhost:2480/dumpcfg/"+ dbName + " \n"+
-		    			"mv /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +  " " + outdir  + " \n"+
-					    "rm -rf "+outdirTMP+" \n"+
-					    "rm -rf /Users/Aylin/git/bjoern-radare/dump/cfg/"+ dbName+" \n"+
-					    "rm -rf "+cfgDBFolder+ dbName +"\n"
+		    		 "curl http://localhost:2480/dumpcfg/"+ dbName + " ;"+
+		    			"mv /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +  " " + outdir  + " ;"+
+					    "rm -rf "+outdirTMP+" ;"+
+					    "rm -rf /Users/Aylin/git/bjoern-radare/dump/cfg/"+ dbName+" ;"+
+					    "rm -rf "+cfgDBFolder+ dbName +";"
 					 });
 					 
 					 System.out.println(filename +": dumping cfg");
@@ -206,10 +214,7 @@ public class bjoernGenerateGraphmlCFG {
 				    br = new BufferedReader(new InputStreamReader(dumpCFG.getErrorStream()));
 				    while(br.ready())     {System.out.println("cfgDump error stream:"+br.readLine());} 
 				    br.close();
-			
-			//remove DB
-		//	File cfgDB = new File(cfgDBFolder+ dbName ); 
-		//	FileUtils.deleteDirectory(cfgDB );
+
 				 
 	}
 }
