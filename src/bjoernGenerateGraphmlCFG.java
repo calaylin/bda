@@ -21,6 +21,8 @@ public class bjoernGenerateGraphmlCFG {
 		//Start server for once
 		//./Users/Aylin/git/bjoern-radare/bjoern-server.sh
 		// orientdb-community-2.1.5/bin/server.sh
+		
+		//the server keeps running in the background
 		Thread t = new Thread(new Runnable()
 		{
 		    public void run()
@@ -38,16 +40,12 @@ public class bjoernGenerateGraphmlCFG {
 					
 					
 					runScript = run.exec(new String[]{"/bin/bash","-c",cmd});			
-					//	 runScript.waitFor();
-				//	 runScript.waitFor(5, TimeUnit.SECONDS);
-				 //   Thread.sleep(10000);                 //1000 milliseconds is one second.
 					 BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
 					 while(br.ready())
 					 {	System.out.println(br.readLine());}
 					 br.close();		
-					//		 runScript.waitFor(100, TimeUnit.SECONDS );
-						     br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
-						     while(br.ready())
+					 br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
+					 while(br.ready())
 						     {  System.out.println("input stream:"+br.readLine());}
 						     br.close();
 						      br = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
@@ -95,9 +93,6 @@ public class bjoernGenerateGraphmlCFG {
 	public static void bjoernGenerateCFG(String filePath) throws IOException, InterruptedException, ScriptException{
 		//disassembles binary in filePath with bjoern-radare to outdir 
 		//generates the cfg databases
-	
-		
-		
 		File processing = new File(filePath);
 		String path = FilenameUtils.getPath(filePath);
 		String filename = processing.getName();
@@ -110,9 +105,6 @@ public class bjoernGenerateGraphmlCFG {
         // System.out.println("filepath: "+filePath);
 //         System.out.println("path: "+path);
 
-
-			
-			     
 
 			 String bjoern_radare_tmp=  "#!/bin/sh" +"\n"+
 			 "export PATH=$PATH:/usr/local/bin/ \n"+
@@ -150,12 +142,6 @@ public class bjoernGenerateGraphmlCFG {
 			    "head -n 1 "+outdirTMP+"nodes.csv > "+outdirTMP+"nodeHead.csv ;"+
 			    "head -n 1 "+outdirTMP+"edges.csv > "+outdirTMP+"edgeHead.csv ;"+
 
-/*			    "cat "+outdirTMP+"nodeHead.csv >  "+outdirTMP+"nodes.csv ;"+
-			    "cat "+outdirTMP+"nodes.csv_ >> "+outdirTMP+"nodes.csv ;"+
-
-			    "cat "+outdirTMP+"edgeHead.csv > "+outdirTMP+"edges.csv ;"+
-			    "cat "+outdirTMP+"edges.csv_ >> "+outdirTMP+"edges.csv ;"+*/
-
 			    "cat "+outdirTMP+"nodeHead.csv >  nodes.csv ;"+
 			    "cat "+outdirTMP+"nodes.csv_ >> nodes.csv ;"+
 
@@ -180,9 +166,6 @@ public class bjoernGenerateGraphmlCFG {
 	
 	public static void dumpCFG(String filePath) throws IOException, InterruptedException, ScriptException{
 		//generates the cfgs in outdir
-	
-		
-		
 		File processing = new File(filePath);
 		String path = FilenameUtils.getPath(filePath);
 		String filename = processing.getName();
