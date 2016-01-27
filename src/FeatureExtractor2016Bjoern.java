@@ -45,7 +45,14 @@ public class FeatureExtractor2016Bjoern {
 				}
 			}
 
-	
+			//CFG NODE BIGRAMS AKA EDGES - REPR
+			//get the cflow edges in bjoern CFG and write the node bigram features
+		   	String[] bjoernCFGNodeBigrams =getBjoernCFGGraphmlNodeBigrams(test_dir);
+				for (int i=0; i<bjoernCFGNodeBigrams.length; i++){  
+					//  System.out.println("@attribute 'bjoernCFGNodeUnigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
+				 //  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
+			       }
+				
 			System.out.println("done with cfgUnigrams");
 
 			Thread.sleep(10000000);
@@ -461,6 +468,113 @@ public class FeatureExtractor2016Bjoern {
     }
 	
 	
+	public static String [] getBjoernCFGGraphmlNodeBigrams(String dirPath) throws IOException{
+		
+		
+		List  test_file_paths = listBjoernCFGGraphmlFiles(dirPath);
+		String[] words = null;
+		Set<String> biGrams = new LinkedHashSet<String>();
+		String filePath="";
+		
+		// add newline after </node>
+		//then do a csv split
+		//if the edge contains CFLOW find its source and target nodes and append as bigram
+ 	    for(int i=0; i< test_file_paths.size(); i++){
+ 	    	
+ 	    	filePath = test_file_paths.get(i).toString();  
+		//	System.out.println(filePath);						   
+			   String[] arr;
+			   String[] arrSource;
+			   String[] arrTarget;
+
+				BufferedReader br = new BufferedReader(new FileReader(filePath));
+
+				String line;
+				String nodes;
+				String sourceNodeRepr = null;
+				String targetNodeRepr = null;
+
+
+				while ((line = br.readLine()) != null)
+				{	
+
+						line = line.replaceAll("<node id=", "\n <node id=");	
+						line = line.replaceAll("<edge id=", "\n <edge id=");	
+						BufferedReader br2 = new BufferedReader(new StringReader(line));
+						//	System.out.println("unprocessed line: "+line);
+						String edge;
+						while ((edge = br2.readLine()) != null)
+						{	
+						if(edge.contains("CFLOW")){
+					//	System.out.println("CFG edge: "+edge);
+						arr = edge.split("=",5);
+						//<edge id="#20:4" source="#9:1029" target="#9:1028" label="CFLOW_ALWAYS"></edge>
+						String sourceNode = arr[2];	
+						sourceNode = sourceNode.replaceAll(" target", "");
+						sourceNode = "<node id="+sourceNode;
+					//	System.out.println("Source code identified as: "+sourceNode);
+
+						String targetNode = arr[3];	
+						targetNode = targetNode.replaceAll(" label", "");
+						targetNode = "<node id="+targetNode;
+					//	System.out.println("Target node identified as: "+targetNode);
+
+						BufferedReader brNodes = new BufferedReader(new FileReader(filePath));
+
+						while ((nodes = brNodes.readLine()) != null)
+						{	
+							nodes = nodes.replaceAll("<node id=", "\n <node id=");	
+							nodes = nodes.replaceAll("<edge id=", "\n <edge id=");	
+							BufferedReader br3 = new BufferedReader(new StringReader(nodes));
+							String node=null;
+							String nodeTarget = null;
+							while ((node = br3.readLine()) != null)
+							{	
+							
+						nodeTarget=node;		
+						if(node.contains(sourceNode)){
+							arrSource = node.split("data key=",5);
+					//		System.out.println("Node: "+node);
+							node = arrSource[1];	
+							node = node.replaceAll("\\\"repr\\\">", "");	
+							node = node.replaceAll("</data><", "");	
+							node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+							node = node.replaceAll("\\d+", "number");
+							node =node.replaceAll("\\s+", " ");	
+					//		System.out.println("Source node of edge: "+node);
+							sourceNodeRepr = node;		
+						}
+						if(nodeTarget.contains(targetNode)){
+							arrTarget = nodeTarget.split("data key=",5);
+							nodeTarget = arrTarget[1];	
+							nodeTarget = nodeTarget.replaceAll("\\\"repr\\\">", "");	
+							nodeTarget = nodeTarget.replaceAll("</data><", "");	
+							nodeTarget = nodeTarget.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+							nodeTarget = nodeTarget.replaceAll("\\d+", "number");
+							nodeTarget =nodeTarget.replaceAll("\\s+", " ");	
+					//		System.out.println("Target node of edge: "+nodeTarget);
+							targetNodeRepr = nodeTarget;
+						}	
+						}
+							br3.close();
+							}
+						brNodes.close();
+						biGrams.add(sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());
+					/*	System.out.println("Node bigram: "+
+						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());	*/		
+						
+						}
+						}
+						br2.close();
+				}	
+				br.close();			
+ 	    }	 	      
+ 	    		words =   biGrams.toArray(new String[biGrams.size()]);
+			    return words;		
+	}
+    
+    
+    
     public static float [] getBjoernDisassemblyInstructionUnigramsTF (String featureText, String[] wordUnigrams  )
     {    	
     String str;
