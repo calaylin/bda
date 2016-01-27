@@ -11,7 +11,7 @@ public class FeatureExtractorAllFeatures {
 	
 		String test_dir ="/Users/Aylin/Desktop/test/";
 		       		
-		String output_filename = "/Users/Aylin/Desktop/test.arff" ;
+		String output_filename = "/Users/Aylin/Desktop/testAllFeatures.arff" ;
 
 		List test_binary_paths = Util.listBinaryFiles(test_dir);
 
@@ -115,6 +115,7 @@ public class FeatureExtractorAllFeatures {
 		       String[] cfgSnowmanUnigrams =FeatureExtractorSnowmanCFG.getCFGUnigrams(test_dir);
 		    	for (int i=0; i<cfgSnowmanUnigrams.length; i++)	   	
 		       {  	
+		    		cfgSnowmanUnigrams[i]= cfgSnowmanUnigrams[i].replace("'", "apostrophesymbol");
 		           Util.writeFile("@attribute 'cfgSnowmanUnigrams "+i+"=["+cfgSnowmanUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
 			   
 		    	
@@ -128,19 +129,21 @@ public class FeatureExtractorAllFeatures {
 		    	  String[] cfgSnowmanNodeLastLine =FeatureExtractorSnowmanCFG.getCFGNodeLine(test_dir);
 			    	for (int i=0; i<cfgSnowmanNodeLastLine.length; i++)	   	
 			       {  	
-			            	Util.writeFile("@attribute 'cfgSnowmanNodeLastLine "+i+"=["+cfgSnowmanNodeLastLine[i]+"]' numeric"+"\n", output_filename, true);}			
+			    		cfgSnowmanNodeLastLine[i]= cfgSnowmanNodeLastLine[i].replace("'", "apostrophesymbol");
+			            Util.writeFile("@attribute 'cfgSnowmanNodeLastLine "+i+"=["+cfgSnowmanNodeLastLine[i]+"]' numeric"+"\n", output_filename, true);}			
 			    	
 		    	//get the bigrams in the CFG and write the bigram features
 		    	String[] cfgSnowmanBigrams =FeatureExtractorSnowmanCFG.getCFGBigrams(test_dir);
 		     	for (int i=0; i<cfgSnowmanBigrams.length; i++)	   	
 			       {  
+		     		cfgSnowmanBigrams[i]= cfgSnowmanBigrams[i].replace("'", "apostrophesymbol");
 		     				String temp= cfgSnowmanBigrams[i];
 			            	Util.writeFile("@attribute 'cfgSnowmanBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}
 	
 		    	//get the bigrams in the CFG and write the bigram features
 		    	String[] cfgSnowmanLineBigrams =FeatureExtractorSnowmanCFG.getCFGNodeLineBigram(test_dir);
 		     	for (int i=0; i<cfgSnowmanLineBigrams.length; i++)	   	
-			       {  //	cfgBigrams[i] = cfgBigrams[i].replace("'", "apostrophesymbol");
+			       {  		cfgSnowmanLineBigrams[i] = cfgSnowmanLineBigrams[i].replace("'", "apostrophesymbol");
 		     				String temp= cfgSnowmanLineBigrams[i];
 			            	Util.writeFile("@attribute 'cfgSnowmanLineBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}		    			    	
 				// SNOWMAN CFG FEATURES END	- Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
@@ -151,7 +154,7 @@ public class FeatureExtractorAllFeatures {
 		    	//get the instruction unigrams in NDISASM disassembly and write the instruction unigram features
 			    String[] disassemblyNDISASMUnigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigrams(test_dir);
 			    for (int i=0; i<disassemblyNDISASMUnigrams.length; i++)	   	
-			       {  
+			       {  		disassemblyNDISASMUnigrams[i] = disassemblyNDISASMUnigrams[i].replace("'", "apostrophesymbol");
 			    	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionUnigrams "+i+"=["+disassemblyNDISASMUnigrams[i]+"]' numeric"+"\n", output_filename, true);
 			    	}
 			     
@@ -159,41 +162,97 @@ public class FeatureExtractorAllFeatures {
 		     	//get the instruction bigrams in NDISASM disassembly and write the instruction bigram features
 			    String[] disassemblyNDISASMBigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionBigrams(test_dir);
 			    for (int i=0; i<disassemblyNDISASMBigrams.length; i++)	   	
-			       {  	
+			       {  		disassemblyNDISASMBigrams[i] = disassemblyNDISASMBigrams[i].replace("'", "apostrophesymbol");
 		           	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionBigrams "+i+"=["+disassemblyNDISASMBigrams[i]+"]' numeric"+"\n", output_filename, true);
 			       }
 
 		     	//get the instruction trigrams in NDISASM disassembly and write the instruction trigram features
 				String[] disassemblyNDISASMTrigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionTrigrams(test_dir);
 				for (int i=0; i<disassemblyNDISASMTrigrams.length; i++)	   	
-				{  	
+			       {  		disassemblyNDISASMTrigrams[i] = disassemblyNDISASMTrigrams[i].replace("'", "apostrophesymbol");
 	       	 	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionTrigrams "+i+"=["+disassemblyNDISASMTrigrams[i]+"]' numeric"+"\n", output_filename, true);	
 				}
 				    
 				 //get the lineBigrams in NDISASM disassembly and write the lineBigram features
 				String[] disassemblyNDISASMLineBigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyLineBigrams(test_dir);
 				for (int i=0; i<disassemblyNDISASMLineBigrams.length; i++)	   	
-			 	{  
+			    {  		disassemblyNDISASMLineBigrams[i] = disassemblyNDISASMLineBigrams[i].replace("'", "apostrophesymbol");
 					Util.writeFile("@attribute 'NDISASMDisassemblyLineBigrams "+i+"=["+disassemblyNDISASMLineBigrams[i]+"]' numeric"+"\n", output_filename, true);	
 				}
 		     	// NDISASM FEATURES END - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
 		    	
-			   	// Related files:
 		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
+			   	// Related files:
 		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
 		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
 		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
 		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
 		    	
-			   	// Related files:
 				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
+			   	// Related files:
 		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
 		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
 		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
 		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
-		     	
-		    	
-		     
+			  
+				
+				String[] APIsymbols = FeatureCalculators.uniqueAPISymbols(test_dir);
+			    //uniqueASTTypes does not contain user input, such as function and variable names
+			    //uniqueDepASTTypes contain user input, such as function and variable names
+			    
+			//Use the following for syntactic inner nodes and code leaves (remember to change astlabel.py accordingly!
+			 
+			  String[] wordUnigramsCPP =FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCode(test_dir, "cpp");
+			  for (int i=0; i<wordUnigramsCPP.length; i++)	   	
+		     {  	wordUnigramsCPP[i] = wordUnigramsCPP[i].replace("'", "apostrophesymbol");
+		     Util.writeFile("@attribute 'wordUnigramsCPP "+i+"=["+wordUnigramsCPP[i]+"]' numeric"+"\n", output_filename, true);
+		     }	
+ 
+			  String[] ASTNodeBigrams = BigramExtractor.getASTNodeBigrams(test_dir);
+			  for (int i=0; i<ASTNodeBigrams.length; i++)		
+		   	  {  	ASTNodeBigrams[i] = ASTNodeBigrams[i].replace("'", "apostrophesymbol");
+			    	Util.writeFile("@attribute 'ASTNodeBigramsTF "+i+"=["+ASTNodeBigrams[i]+"]' numeric"+"\n", output_filename, true);
+			  }
+			   
+			  String[] ASTtypes =FeatureCalculators.uniqueDepASTTypes(test_dir);     
+			    for (int i=0; i<ASTtypes.length; i++)	   	
+			  {  	ASTtypes[i] = ASTtypes[i].replace("'", "apostrophesymbol");
+			    	Util.writeFile("@attribute 'ASTNodeTypesTF "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);
+			  }
+			  
+			    for (int i=0; i<ASTtypes.length; i++)	
+			  {	    ASTtypes[i] = ASTtypes[i].replace("'", "apostrophesymbol");
+			    	Util.writeFile("@attribute 'ASTNodeTypesTFIDF "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);
+			  }
+			  
+			    for (int i=0; i<ASTtypes.length; i++)	
+			    {	    ASTtypes[i] = ASTtypes[i].replace("'", "apostrophesymbol");
+			    	Util.writeFile("@attribute 'ASTNodeTypeAvgDep "+i+"=["+ASTtypes[i]+"]' numeric"+"\n", output_filename, true);
+			    }
+			  
+			    
+			    
+			    String [] cppKeywords = {"auto", 	"break", 	"case", 	"char", 	"const", 	
+				  "continue", 	"default", 	"do", 	"double", 	"else", 	"enum", 	
+				  "extern", 	"float", 	"for", 	"goto", 	"if", 	"inline", 	
+				  "int", 	"long", 	"register", 	"restrict", 	"return", 	"short", 	
+				  "signed", 	"sizeof", 	"static", 	"struct", 	"switch", 	"typedef", 	
+				  "union", 	"unsigned", 	"void", 	"volatile", 	"while", 	"_Alignas", 	
+				  "_Alignof", 	"_Atomic", 	"_Bool", 	"_Complex", 	"_Generic", 	"_Imaginary",
+				  "_Noreturn", 	"_Static_assert", 	"_Thread_local","alignas",	"alignof",	"and",	"and_eq",	"asm",	
+				  "bitand",	"bitor",	"bool",	"catch",	"char",	"char16_t",	"char32_t",
+				  "class",	"compl",	"const",	"constexpr",	"const_cast",	"decltype",	
+				  "delete",	"dynamic_cast",	"explicit",	"export",	
+				  "FALSE",		"friend",		
+				  "mutable",	"namespace",	"new",	"noexcept",	"not",	"not_eq",	"nullptr",	"operator",	"or",
+				  "or_eq"	,"private"	,"protected"	,"public"	,	"reinterpret_cast",	
+				  "static_assert",	"static_cast",	
+				  	"template",	"this"	,"thread_local",	"throw",	"TRUE",	"try",		"typeid",
+				  "typename",		"using",	"virtual",		"wchar_t",
+				  "xor",	"xor_eq", "override", "final"}; 
+			    for (int i=0; i<cppKeywords.length; i++)	
+			  {	Util.writeFile("@attribute 'cppKeyword "+i+"=["+cppKeywords[i]+"]' numeric"+"\n", output_filename, true);}
+
 
 		    	
 
@@ -356,13 +415,7 @@ public class FeatureExtractorAllFeatures {
 				{Util.writeFile(lineBigramNDISASMCount[j] +",", output_filename, true);}	
 			    // NDISASM FEATURES END - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
 			    	
-				
-				
-				
-				
-				
-				
-				
+
 		    	// Related files:
 		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
 		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
@@ -378,6 +431,36 @@ public class FeatureExtractorAllFeatures {
 				String featureTextHexraysDecompiledCodeTXT = Util.readFile(authorFileName.getParentFile()
 						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.txt");
 			    	
+				
+			    //get count of each wordUnigram in C source file	 
+			    float[] wordUniCountCPP = FeatureExtractorDecompiledCode.getWordUnigramsDecompiledCodeTF(featureTextHexraysDecompiledCodeCPP, wordUnigramsCPP);
+			    for (int j=0; j<wordUniCountCPP.length; j++)
+				{Util.writeFile(wordUniCountCPP[j] +",", output_filename, true);}	
+				
+			    //AST node bigrams
+				float[] bigramCount = BigramExtractor.getASTNodeBigramsTF(featureTextHexraysDecompiledCodeDEP, ASTNodeBigrams );
+				for (int j=0; j<ASTNodeBigrams.length; j++)
+				{Util.writeFile(bigramCount[j] +",", output_filename, true);}	    
+				    
+				
+			    //get count of each ASTtype not-DepAST type present	 
+			    float[] typeCount = FeatureCalculators.DepASTTypeTF(featureTextHexraysDecompiledCodeDEP, ASTtypes );
+			    for (int j=0; j<ASTtypes.length; j++)
+				{Util.writeFile(typeCount[j] +",", output_filename, true);}	
+			    
+				//get tfidf of each AST Type present	 
+			    float[] DepastTypeTFIDF = FeatureCalculators.DepASTTypeTFIDF(featureTextHexraysDecompiledCodeDEP, test_dir, ASTtypes);
+			    for (int j=0; j<ASTtypes.length; j++)
+				{Util.writeFile(DepastTypeTFIDF[j]+",", output_filename, true);}	
+				
+			    //get AST node avg depth
+		    	float [] depFeature =DepthASTNode.getAvgDepthASTNode(featureTextHexraysDecompiledCodeDEP,ASTtypes);
+		    	for(int k=0;k<depFeature.length;k++)
+				{Util.writeFile(depFeature[k] +",", output_filename, true);}	
+			    
+		    	float [] cppKeywordsTF =FeatureCalculators.getCandCPPKeywordsTF(featureTextHexraysDecompiledCodeCPP);
+		    	for(int k=0;k<cppKeywordsTF.length;k++)
+				{Util.writeFile(cppKeywordsTF[k] +",", output_filename, true);}		
 			   	// Related files:
 				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
 		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp

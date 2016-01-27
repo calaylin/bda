@@ -267,7 +267,7 @@ public class FeatureExtractorDisassemblyNDISASM {
    		
          for(int i=0; i< test_file_paths.size(); i++){
         	 filePath = test_file_paths.get(i).toString();  
-        	 System.out.println(filePath);						   
+        	// System.out.println(filePath);						   
         	 String[] arr;
         	 String[] toAdd;
         	 BufferedReader br = new BufferedReader(new FileReader(filePath));

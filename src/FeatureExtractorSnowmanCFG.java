@@ -388,7 +388,7 @@ public class FeatureExtractorSnowmanCFG {
 		String temp = "";
  	    for(int i=0; i< test_file_paths.size(); i++){
  	    	filePath = test_file_paths.get(i).toString();  
-			System.out.println(filePath);						   
+		//	System.out.println(filePath);						   
 
 				BufferedReader br = new BufferedReader(new FileReader(filePath));
 				String line;
@@ -454,7 +454,7 @@ public class FeatureExtractorSnowmanCFG {
  	    for(int i=0; i< test_file_paths.size(); i++){
  	    	
  	    	filePath = test_file_paths.get(i).toString();  
-			System.out.println(filePath);						   
+		//	System.out.println(filePath);						   
 
 				BufferedReader br = new BufferedReader(new FileReader(filePath));
 				String line;
@@ -525,7 +525,7 @@ public class FeatureExtractorSnowmanCFG {
  	    for(int i=0; i< test_file_paths.size(); i++){
  	    	
  	    	filePath = test_file_paths.get(i).toString();  
-			System.out.println(filePath);						   
+		//	System.out.println(filePath);						   
 
 				BufferedReader br = new BufferedReader(new FileReader(filePath));
 				String line;
