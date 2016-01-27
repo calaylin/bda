@@ -60,14 +60,14 @@ public class FeatureExtractorSnowmanCFG {
 			}
 
 		   	//get the Unigrams in the disassembly and write the unigram features
-		       String[] disassemblyUnigrams =FeatureExtractorDisassembly.getDisUnigrams(test_dir);
+		       String[] disassemblyUnigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyUnigrams.length; i++)	   	
 		       {  	disassemblyUnigrams[i] = disassemblyUnigrams[i].replace("'", "apostrophesymbol");
 		            	Util.writeFile("@attribute 'disassemblyUnigrams "+i+"=["+disassemblyUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
 			   
 		   	
 		    	//get the bigrams in the disassembly and write the bigram features
-		    	String[] disassemblyBigrams =FeatureExtractorDisassembly.getDisBigrams(test_dir);
+		    	String[] disassemblyBigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionBigrams(test_dir);
 		     	for (int i=0; i<disassemblyBigrams.length; i++)	   	
 			       {  	disassemblyBigrams[i] = disassemblyBigrams[i].replace("'", "apostrophesymbol");
 			            	Util.writeFile("@attribute 'disassemblyBigrams "+i+"=["+disassemblyBigrams[i]+"]' numeric"+"\n", output_filename, true);}
@@ -166,12 +166,12 @@ public class FeatureExtractorSnowmanCFG {
 				
 		   
 				 //get count of each wordUnigram in disassembly 
-			    float[] wordUniCount = FeatureExtractorDisassembly.getDisUnigramTF(disText, disassemblyUnigrams);
+			    float[] wordUniCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigramsTF(disText, disassemblyUnigrams);
 			    for (int j=0; j<wordUniCount.length; j++)
 				{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
 			    
 			    //get count of each bigram in in disassembly	 
-			    float[] wordBigramCount = FeatureExtractorDisassembly.getDisBigramsTF(disText, disassemblyBigrams);
+			    float[] wordBigramCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionBigramsTF(disText, disassemblyBigrams);
 			    for (int j=0; j<wordBigramCount.length; j++)
 				{Util.writeFile(wordBigramCount[j] +",", output_filename, true);}    
 				

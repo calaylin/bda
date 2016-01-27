@@ -583,50 +583,50 @@ public class FeatureExtractorSCAAInfoGain {
    
 		    
 	    //get count of each wordUnigram in bjoern disassembly 
-	    float[] wordUniCount = FeatureExtractorBjoern.getBjoernUnigramTF(bjoernText, disassemblyUnigramsBjoern);
+	    float[] wordUniCount = FeatureExtractor2015Bjoern.getBjoernUnigramTF(bjoernText, disassemblyUnigramsBjoern);
 	    for (int j=0; j<wordUniCount.length; j++)
 		{Util.writeFile(wordUniCount[j] +",", output_filename, true);}	
 	    
 	    //get count of each bigram in bjoern disassembly	 
-	    float[] wordBigramCount = FeatureExtractorBjoern.getBjoernBigramsTF(bjoernText, disassemblyBigramsBjoern);
+	    float[] wordBigramCount = FeatureExtractor2015Bjoern.getBjoernBigramsTF(bjoernText, disassemblyBigramsBjoern);
 	    for (int j=0; j<wordBigramCount.length; j++)
 		{Util.writeFile(wordBigramCount[j] +",", output_filename, true);}
 
 
 		//FeatureExtractorDisassembly for ndisasm
 		 //get count of each wordUnigram in disassembly 
-	    float[] wordNDUniCount = FeatureExtractorDisassembly.getDisUnigramTF(disText, disassemblyUnigramsNDISASM);
+	    float[] wordNDUniCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigramsTF(disText, disassemblyUnigramsNDISASM);
 	    for (int j=0; j<wordNDUniCount.length; j++)
 		{Util.writeFile(wordNDUniCount[j] +",", output_filename, true);}	
 	    
 	    //get count of each bigram in in disassembly	 
-	    float[] wordNDBigramCount = FeatureExtractorDisassembly.getDisBigramsTF(disText, disassemblyBigramsNDISASM);
+	    float[] wordNDBigramCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionBigramsTF(disText, disassemblyBigramsNDISASM);
 	    for (int j=0; j<wordNDBigramCount.length; j++)
 		{Util.writeFile(wordNDBigramCount[j] +",", output_filename, true);}    
 		
 		
 	    //get count of each wordUnigram in cfg 
-	    float[] wordUniCount1 = FeatureExtractorCFGDisassembly.getCFGUnigramTF(cfgText, cfgUnigrams);
+	    float[] wordUniCount1 = FeatureExtractorSnowmanCFG.getCFGUnigramTF(cfgText, cfgUnigrams);
 	    for (int j=0; j<wordUniCount1.length; j++)
 		{Util.writeFile(wordUniCount1[j] +",", output_filename, true);}	
 	    
 	    
-	    float[] cfgNodeLastLineCount = FeatureExtractorCFGDisassembly.getCFGNodeLineTF(cfgText, cfgNodeLastLine);
+	    float[] cfgNodeLastLineCount = FeatureExtractorSnowmanCFG.getCFGNodeLineTF(cfgText, cfgNodeLastLine);
 	    for (int j=0; j<cfgNodeLastLineCount.length; j++)
 		{Util.writeFile(cfgNodeLastLineCount[j] +",", output_filename, true);}	
 	    
 
 	    //get count of each bigram in in disassembly	 
-	    float[] wordBigramCount1 = FeatureExtractorCFGDisassembly.getCFGBigramsTF(cfgText, cfgBigrams);
+	    float[] wordBigramCount1 = FeatureExtractorSnowmanCFG.getCFGBigramsTF(cfgText, cfgBigrams);
 	    for (int j=0; j<wordBigramCount1.length; j++)
 		{Util.writeFile(wordBigramCount1[j] +",", output_filename, true);}
 	    
 	    //get count of each bigram in in disassembly	 
-	    float[] lineBigramCount = FeatureExtractorCFGDisassembly.getCFGNodeLineBigramTF(cfgText, cfgLineBigrams);
+	    float[] lineBigramCount = FeatureExtractorSnowmanCFG.getCFGNodeLineBigramTF(cfgText, cfgLineBigrams);
 	    for (int j=0; j<lineBigramCount.length; j++)
 		{Util.writeFile(lineBigramCount[j] +",", output_filename, true);}
 
-		float[] uniTFIDF = FeatureExtractorCFGDisassembly.getCFGUnigramsTFIDF(cfgText, test_dir, cfgUnigramsTFIDF);
+		float[] uniTFIDF = FeatureExtractorSnowmanCFG.getCFGUnigramsTFIDF(cfgText, test_dir, cfgUnigramsTFIDF);
 	    for (int j=0; j<uniTFIDF.length; j++)
 		{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	
 	    

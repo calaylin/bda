@@ -13,10 +13,7 @@ import java.text.SimpleDateFormat;
 
 import javax.script.ScriptException;
 
-/**
- * FeatureExtractor writes extracted features to arff file to be used with WEKA
- * @author Aylin Caliskan-Islam (ac993@drexel.edu)
- */
+
 
 public class BinaryDisassemble {
 	

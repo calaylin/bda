@@ -45,16 +45,19 @@ public class FeatureExtractor2016Bjoern {
 				}
 			}
 
-		   	String[] bjoernCFGNodeUnigrams =getBjoernCFGGraphmlNodeUnigrams(test_dir);
-			for (int i=0; i<bjoernCFGNodeUnigrams.length; i++){  
-				//	bjoernDisassemblyUnigrams[i] = bjoernDisassemblyUnigrams[i].replace("\n", " ");
-				//  System.out.println("@attribute 'bjoernDisassemblyUnigrams"+i+ " "+bjoernDisassemblyUnigrams[i]);
-			 //  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
-		       }
-			
+	
 			System.out.println("done with cfgUnigrams");
 
 			Thread.sleep(10000000);
+			
+			//CFG NODE UNIGRAMS - REPR
+			//get the basic block node unigrams in bjoern CFG and write the node unigram features
+		   	String[] bjoernCFGNodeUnigrams =getBjoernCFGGraphmlNodeUnigrams(test_dir);
+				for (int i=0; i<bjoernCFGNodeUnigrams.length; i++){  
+					//  System.out.println("@attribute 'bjoernCFGNodeUnigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
+				 //  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
+			       }
+				
 			
 		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
 			//get the instruction unigrams in bjoern disassembly and write the instruction unigram features
@@ -148,8 +151,34 @@ public class FeatureExtractor2016Bjoern {
 				String featureTextBjoernDisassembly = Util.readFile(authorFileName.getParentFile()
 				+ File.separator + fileCPPID.getName()+"_bjoernDisassembly"+ File.separator + "nodes.csv");
 
-		   
-				    
+				
+				
+				//GETTING CFH NODE UNIGRAMS
+				List graphmlCFGFiles = listBjoernCFGGraphmlFiles(authorFileName.getParentFile()
+						+ File.separator + fileCPPID.getName()+"_bjoernDisassembly"+ 
+						File.separator + fileCPPID.getName()+"CFG"+File.separator);
+				
+				int len = bjoernCFGNodeUnigrams.length;
+				float[] cfgNodeUniCount = new float[len];
+			    float[] tmp = new float[len];
+			    Arrays.fill(tmp, 0);
+
+
+				for(int i1=0; i1< graphmlCFGFiles.size();i1++){
+				String featureTextCFG = Util.readFile(graphmlCFGFiles.get(i1).toString()) ;
+				//get count of each cfg node unigram in CFGBjoern 
+			   cfgNodeUniCount = getBjoernCFGGraphmlNodeUnigramsTF(featureTextCFG , bjoernCFGNodeUnigrams);
+			    for (int j=0; j<cfgNodeUniCount.length; j++){
+			    	cfgNodeUniCount[j]=cfgNodeUniCount[j]+tmp[j];
+					tmp[j]= cfgNodeUniCount[j];	
+				}
+				}
+				//DONE WITH CFG NODE UNIGRAMS
+
+			    for (int j=0; j<cfgNodeUniCount.length; j++){
+				Util.writeFile(cfgNodeUniCount[j] +",", output_filename, true);
+				}
+			    
 			    //get count of each instruction unigram in disassemblyBjoern 
 			    float[] wordUniCount = getBjoernDisassemblyInstructionUnigramsTF(featureTextBjoernDisassembly, bjoernDisassemblyUnigrams);
 			    for (int j=0; j<wordUniCount.length; j++)

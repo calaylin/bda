@@ -64,7 +64,7 @@ public class bjoernBatchProcess {
 		  "chmod a+x /home/ubuntu/Desktop/bjoern-radare/bjoern-radare/bjoern-radare.sh " +"\n"+
 	    				   " cd /home/ubuntu/Desktop/bjoern-radare/bjoern-radare/ "+ "\n"
 		  + "./bjoern-radare.sh " +
-	    				   filePath  + " -outdir "+output+"\n"
+	    				   filePath + " -outdir "+output+"\n"
 	    				+	 "pwd"+"\n"
 		 });
 	       cdInto.waitFor();
