@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,11 +19,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class FeatureExtractor2016Bjoern {
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException, InterruptedException{
 		
 	
-		String test_dir ="/Users/Aylin/Desktop/Princeton/"
-		+ "BAA/datasets/c++/optimizations/L1_150authors/";
+		String test_dir ="/Users/Aylin/Desktop/test/";
 		       		
 		String output_filename = "/Users/Aylin/Desktop/Princeton/"
 		+ "BAA/datasets/c++/optimizations/L1_150authors_2016bjoern.arff" ;
@@ -45,6 +45,17 @@ public class FeatureExtractor2016Bjoern {
 				}
 			}
 
+		   	String[] bjoernCFGNodeUnigrams =getBjoernCFGGraphmlNodeUnigrams(test_dir);
+			for (int i=0; i<bjoernCFGNodeUnigrams.length; i++){  
+				//	bjoernDisassemblyUnigrams[i] = bjoernDisassemblyUnigrams[i].replace("\n", " ");
+				//  System.out.println("@attribute 'bjoernDisassemblyUnigrams"+i+ " "+bjoernDisassemblyUnigrams[i]);
+			 //  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
+		       }
+			
+			System.out.println("done with cfgUnigrams");
+
+			Thread.sleep(10000000);
+			
 		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
 			//get the instruction unigrams in bjoern disassembly and write the instruction unigram features
 			String[] bjoernDisassemblyUnigrams =getBjoernDisassemblyInstructionUnigrams(test_dir);
@@ -273,6 +284,7 @@ public class FeatureExtractor2016Bjoern {
 	
     public static float [] getBjoernLineBigramsTF (String featureText, String[] lineBigrams  )
     {    	
+    	//improve this by reading bjoern disassembly's columns > 4
     	String str;
     	float symbolCount = lineBigrams.length;
     	float [] counter = new float[(int) symbolCount];
@@ -345,7 +357,81 @@ public class FeatureExtractor2016Bjoern {
 	}
 	
 
+	
+	public static String [] getBjoernCFGGraphmlNodeUnigrams(String dirPath) throws IOException{
+		
+		
+		List  test_file_paths = listBjoernCFGGraphmlFiles(dirPath);
+		String[] words = null;
+		Set<String> uniGrams = new LinkedHashSet<String>();
+		String filePath="";
+		
+		// add newline after </node>
+		//then do a csv split
+		//if the line contains BB node, take its repr
+ 	    for(int i=0; i< test_file_paths.size(); i++){
+ 	    	
+ 	    	filePath = test_file_paths.get(i).toString();  
+			//System.out.println(filePath);						   
+			   String[] arr;
+			   String[] toAdd;
+
+				BufferedReader br = new BufferedReader(new FileReader(filePath));
+				 String line;
+				
+				while ((line = br.readLine()) != null)
+				{	
+
+						line = line.replaceAll("<node id=", "\n <node id=");	
+						line = line.replaceAll("<edge id=", "\n <edge id=");	
+						BufferedReader br2 = new BufferedReader(new StringReader(line));
+						//	System.out.println("unprocessed line: "+line);
+						String node;
+						while ((node = br2.readLine()) != null)
+						{	
+						if(node.contains(">BB</data>")){
+					//	System.out.println("line: "+node);
+						arr = node.split("data key=",5);
+						node = arr[1];	
+						node = node.replaceAll("\\\"repr\\\">", "");	
+						node = node.replaceAll("</data><", "");	
+					//	node = node.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+						node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+						node = node.replaceAll("\\d+", "number");
+						node =node.replaceAll("\\s+", " ");	
+						System.out.println("unigram: "+node);
+						
+						uniGrams.add(node.trim());
+					//	System.out.println(toAdd[i11]);
+		            				
+						}}
+						br2.close();
+				}	
+				br.close();			
+ 	    }	 	      
+ 	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
+			    return words;		
+	}
+	
  
+
+    public static float [] getBjoernCFGGraphmlNodeUnigramsTF(String featureText, String[] CFGGraphmlNodeUnigrams  )
+    {    	
+    String str;
+    float symbolCount = CFGGraphmlNodeUnigrams.length;
+    float [] counter = new float[(int) symbolCount];
+    for (int i =0; i<symbolCount; i++){
+ 	  str = CFGGraphmlNodeUnigrams[i].toString();
+ 	
+ 		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+ 		featureText=	featureText.replaceAll("\\d+", "number");
+ 		featureText=	featureText.replaceAll("\\s+", " ");		
+ 		counter[i] = StringUtils.countMatches(featureText, str.trim()); 
+ 	 }
+    return counter;
+    }
+	
+	
     public static float [] getBjoernDisassemblyInstructionUnigramsTF (String featureText, String[] wordUnigrams  )
     {    	
     String str;
@@ -520,6 +606,31 @@ public class FeatureExtractor2016Bjoern {
         List<File> textFiles = new ArrayList<>();
         List<String> filterWildcards = new ArrayList<>();
         filterWildcards.add("*nodes.csv");
+        FileFilter typeFilter = new WildcardFileFilter(filterWildcards);
+
+        while (directories.isEmpty() == false)
+        {
+            List<File> subDirectories = new ArrayList<File>();
+            for(File f : directories)
+            {
+                subDirectories.addAll(Arrays.asList(f.listFiles((FileFilter)DirectoryFileFilter.INSTANCE)));
+                textFiles.addAll(Arrays.asList(f.listFiles(typeFilter)));
+            }
+            directories.clear();
+            directories.addAll(subDirectories);
+        }
+        Collections.sort(textFiles);
+        return textFiles;
+    }
+	
+	public static List <File> listBjoernCFGGraphmlFiles(String dirPath)
+    {
+        File topDir = new File(dirPath);
+        List<File> directories = new ArrayList<>();
+        directories.add(topDir);
+        List<File> textFiles = new ArrayList<>();
+        List<String> filterWildcards = new ArrayList<>();
+        filterWildcards.add("*.graphml");
         FileFilter typeFilter = new WildcardFileFilter(filterWildcards);
 
         while (directories.isEmpty() == false)
