@@ -24,8 +24,7 @@ public class FeatureExtractor2016Bjoern {
 	
 		String test_dir ="/Users/Aylin/Desktop/test/";
 		       		
-		String output_filename = "/Users/Aylin/Desktop/Princeton/"
-		+ "BAA/datasets/c++/optimizations/L1_150authors_2016bjoern.arff" ;
+		String output_filename = "/Users/Aylin/Desktop/test.arff" ;
 
 		List test_binary_paths = Util.listBinaryFiles(test_dir);
 
@@ -45,27 +44,30 @@ public class FeatureExtractor2016Bjoern {
 				}
 			}
 
-			//CFG NODE BIGRAMS AKA EDGES - REPR
-			//get the cflow edges in bjoern CFG and write the node bigram features
-		   	String[] bjoernCFGNodeBigrams =getBjoernCFGGraphmlNodeBigrams(test_dir);
-				for (int i=0; i<bjoernCFGNodeBigrams.length; i++){  
-					//  System.out.println("@attribute 'bjoernCFGNodeUnigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
-				 //  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
-			       }
-				
-			System.out.println("done with cfgUnigrams");
 
-			Thread.sleep(10000000);
+				
+
 			
 			//CFG NODE UNIGRAMS - REPR
 			//get the basic block node unigrams in bjoern CFG and write the node unigram features
 		   	String[] bjoernCFGNodeUnigrams =getBjoernCFGGraphmlNodeUnigrams(test_dir);
 				for (int i=0; i<bjoernCFGNodeUnigrams.length; i++){  
 					//  System.out.println("@attribute 'bjoernCFGNodeUnigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
-				 //  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
+				  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
 			       }
 				
-			
+			//CFG NODE BIGRAMS AKA EDGES - REPR
+			//get the cflow edges in bjoern CFG and write the node bigram features
+		   	String[] bjoernCFGNodeBigrams =getBjoernCFGGraphmlNodeBigrams(test_dir);
+		   	for (int i=0; i<bjoernCFGNodeBigrams.length; i++){  
+			//  System.out.println("@attribute 'BjoernCFGGraphmlNodeBigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
+			   	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeBigrams "+i+"=["+bjoernCFGNodeBigrams[i]+"]' numeric"+ "\n", output_filename, true);
+				       }
+		   	
+			//		System.out.println("done with cfgUnigrams");
+
+			//		Thread.sleep(10000000);
+		   
 		   	//DISASSEMBLY INSTRUCTION UNIGRAMS
 			//get the instruction unigrams in bjoern disassembly and write the instruction unigram features
 			String[] bjoernDisassemblyUnigrams =getBjoernDisassemblyInstructionUnigrams(test_dir);
@@ -160,30 +162,18 @@ public class FeatureExtractor2016Bjoern {
 
 				
 				
-				//GETTING CFH NODE UNIGRAMS
-				List graphmlCFGFiles = listBjoernCFGGraphmlFiles(authorFileName.getParentFile()
-						+ File.separator + fileCPPID.getName()+"_bjoernDisassembly"+ 
-						File.separator + fileCPPID.getName()+"CFG"+File.separator);
-				
-				int len = bjoernCFGNodeUnigrams.length;
-				float[] cfgNodeUniCount = new float[len];
-			    float[] tmp = new float[len];
-			    Arrays.fill(tmp, 0);
-
-
-				for(int i1=0; i1< graphmlCFGFiles.size();i1++){
-				String featureTextCFG = Util.readFile(graphmlCFGFiles.get(i1).toString()) ;
+				//GETTING CFG NODE UNIGRAMS
 				//get count of each cfg node unigram in CFGBjoern 
-			   cfgNodeUniCount = getBjoernCFGGraphmlNodeUnigramsTF(featureTextCFG , bjoernCFGNodeUnigrams);
-			    for (int j=0; j<cfgNodeUniCount.length; j++){
-			    	cfgNodeUniCount[j]=cfgNodeUniCount[j]+tmp[j];
-					tmp[j]= cfgNodeUniCount[j];	
-				}
-				}
-				//DONE WITH CFG NODE UNIGRAMS
-
+				float[] cfgNodeUniCount = getBjoernCFGGraphmlNodeUnigramsTF(authorFileName , bjoernCFGNodeUnigrams);			   
 			    for (int j=0; j<cfgNodeUniCount.length; j++){
 				Util.writeFile(cfgNodeUniCount[j] +",", output_filename, true);
+				}
+			    
+				//GETTING CFG EDGES AKA NODE BIGRAMS
+				//get count of each cfg node bigram in CFGBjoern 
+				float[] cfgEdgeBigramCount = getBjoernCFGGraphmlNodeBigramsTF(authorFileName , bjoernCFGNodeBigrams);			   
+			    for (int j=0; j<cfgEdgeBigramCount.length; j++){
+				Util.writeFile(cfgEdgeBigramCount[j] +",", output_filename, true);
 				}
 			    
 			    //get count of each instruction unigram in disassemblyBjoern 
@@ -241,6 +231,7 @@ public class FeatureExtractor2016Bjoern {
 			System.out.println("Redundant " + arr[0] 
 		    + " , needed " + arr[4]);
 		    }*/
+			if (arr.length>4){
 			line = arr[4];
 			line =	line.replaceAll("\\\"", " ");	
 			line =line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
@@ -249,7 +240,7 @@ public class FeatureExtractor2016Bjoern {
 			if (!line.isEmpty()){
 				lineUnigrams.add(line.trim());
 			//	System.out.println("line unigram:"+ line.trim());
-				}
+				}}
  	    }
 		br.close();
 	}	         
@@ -299,7 +290,7 @@ public class FeatureExtractor2016Bjoern {
 		    }*/
 //			A	"Instr_134515592"	"Instr"	"134515592"	"1"	"jmp 0x8048c7f"	"e9f2000000"		"0x8048c7f,eip,="
 //			ANR	"Root_134515265"	"Root"	"134515265"
-			
+			if(arr.length>4){
 			line = arr[4];
 			line =	line.replaceAll("\\\"", " ");	
 			line =line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
@@ -310,7 +301,7 @@ public class FeatureExtractor2016Bjoern {
 				//System.out.println("line bigram:"+tmp.trim() + " "+ line.trim());
 				//System.out.println("line:"+tmp.trim() );
 				tmp = line;		
-				}
+				}}
  	    }
 		br.close();
 	}	         
@@ -337,7 +328,7 @@ public class FeatureExtractor2016Bjoern {
 // 		featureText=	featureText.replaceAll(" "," ");
 		featureText=	featureText.replaceAll("\\n", " ");	
  		featureText=	featureText.replaceAll("\\s+", " ");
-		System.out.println("this is featureText"+featureText);
+	//	System.out.println("this is featureText"+featureText);
 		Util.writeFile(featureText, "/Users/Aylin/Desktop/tesstfeat.txt", true);
 
  		for (int i =0; i<symbolCount; i++){
@@ -369,7 +360,9 @@ public class FeatureExtractor2016Bjoern {
 				while ((line = br.readLine()) != null)
 				{					
 					arr = line.split("\\s+",5);
-						if ( !arr[4].isEmpty()){
+				//	System.out.println(line);
+					if ( arr.length>4){
+
 				//		System.out.println("Redundant " + arr[0] + " , needed " + arr[4]  );
 					    line = arr[4];			
 						line = line.replaceAll("\\\"", " ");	
@@ -435,7 +428,7 @@ public class FeatureExtractor2016Bjoern {
 						node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
 						node = node.replaceAll("\\d+", "number");
 						node =node.replaceAll("\\s+", " ");	
-						System.out.println("unigram: "+node);
+					//	System.out.println("unigram: "+node);
 						
 						uniGrams.add(node.trim());
 					//	System.out.println(toAdd[i11]);
@@ -451,23 +444,158 @@ public class FeatureExtractor2016Bjoern {
 	
  
 
-    public static float [] getBjoernCFGGraphmlNodeUnigramsTF(String featureText, String[] CFGGraphmlNodeUnigrams  )
-    {    	
+    public static float [] getBjoernCFGGraphmlNodeUnigramsTF(File binaryFileName, String[] CFGGraphmlNodeUnigrams  ) throws IOException
+    {    	     	
     String str;
-    float symbolCount = CFGGraphmlNodeUnigrams.length;
-    float [] counter = new float[(int) symbolCount];
-    for (int i =0; i<symbolCount; i++){
+	int len = CFGGraphmlNodeUnigrams.length;
+	float[] cfgNodeUniCount = new float[len];
+    float[] tmp = new float[len];
+    Arrays.fill(cfgNodeUniCount,0);
+    Arrays.fill(tmp, 0);
+    
+	//GETTING CFG NODE UNIGRAMS		
+	List graphmlCFGFiles = listBjoernCFGGraphmlFiles(binaryFileName.getParentFile()
+			+ File.separator + binaryFileName.getName()+"_bjoernDisassembly"+ 
+			File.separator + binaryFileName.getName()+"CFG"+File.separator);
+
+	for(int i1=0; i1< graphmlCFGFiles.size();i1++){
+		String featureTextCFG = Util.readFile(graphmlCFGFiles.get(i1).toString()) ;
+
+	//get count of each cfg node unigram in CFGBjoern 	
+    for (int i =0; i<len; i++){
  	  str = CFGGraphmlNodeUnigrams[i].toString();
  	
- 		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
- 		featureText=	featureText.replaceAll("\\d+", "number");
- 		featureText=	featureText.replaceAll("\\s+", " ");		
- 		counter[i] = StringUtils.countMatches(featureText, str.trim()); 
- 	 }
-    return counter;
+ 	featureTextCFG=	featureTextCFG.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+ 	featureTextCFG=	featureTextCFG.replaceAll("\\d+", "number");
+ 	featureTextCFG=	featureTextCFG.replaceAll("\\s+", " ");		
+ 	cfgNodeUniCount[i] = StringUtils.countMatches(featureTextCFG, str.trim()); 
+	cfgNodeUniCount[i]=cfgNodeUniCount[i]+tmp[i];
+	tmp[i]= cfgNodeUniCount[i];		
+		}
+    }	
+	    return cfgNodeUniCount;
     }
 	
+    public static float [] getBjoernCFGGraphmlNodeBigramsTF(File binaryFileName, String[] CFGGraphmlNodeBigrams  ) throws IOException
+    {    	     	
+    String str;
+	int len = CFGGraphmlNodeBigrams.length;
+	float[] cfgEdgeBigramCount = new float[len];
+    float[] tmp = new float[len];
+    Arrays.fill(cfgEdgeBigramCount,0);
+    Arrays.fill(tmp, 0);
+    
+	//GETTING CFG NODE UNIGRAMS		
+	List graphmlCFGFiles = listBjoernCFGGraphmlFiles(binaryFileName.getParentFile()
+			+ File.separator + binaryFileName.getName()+"_bjoernDisassembly"+ 
+			File.separator + binaryFileName.getName()+"CFG"+File.separator);
 	
+	String filePath="";
+	
+	for(int i1=0; i1< graphmlCFGFiles.size();i1++){
+	    filePath = graphmlCFGFiles.get(i1).toString();  
+
+		String[] arr;
+		String[] arrSource;
+		String[] arrTarget;
+		String bigrams = "";
+
+
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		String line;
+		String nodes;
+		String sourceNodeRepr = null;
+		String targetNodeRepr = null;
+		int counter =0;
+		while ((line = br.readLine()) != null)
+		{	
+		line = line.replaceAll("<node id=", "\n <node id=");	
+		line = line.replaceAll("<edge id=", "\n <edge id=");	
+		BufferedReader br2 = new BufferedReader(new StringReader(line));
+		//	System.out.println("unprocessed line: "+line);
+		String edge;
+
+			while ((edge = br2.readLine()) != null)
+			{	
+				if(edge.contains("CFLOW")){
+					//	System.out.println("CFG edge: "+edge);
+					arr = edge.split("=",5);
+					//<edge id="#20:4" source="#9:1029" target="#9:1028" label="CFLOW_ALWAYS"></edge>
+					String sourceNode = arr[2];	
+					sourceNode = sourceNode.replaceAll(" target", "");
+					sourceNode = "<node id="+sourceNode;
+					//	System.out.println("Source code identified as: "+sourceNode);
+
+					String targetNode = arr[3];	
+					targetNode = targetNode.replaceAll(" label", "");
+					targetNode = "<node id="+targetNode;
+					//	System.out.println("Target node identified as: "+targetNode);
+
+					BufferedReader brNodes = new BufferedReader(new FileReader(filePath));
+
+					while ((nodes = brNodes.readLine()) != null)
+					{	
+						nodes = nodes.replaceAll("<edge id=", "\n <edge id=");	
+						nodes = nodes.replaceAll("<node id=", "\n <node id=");	
+						BufferedReader br3 = new BufferedReader(new StringReader(nodes));
+						String node=null;
+						String nodeTarget = null;
+						while ((node = br3.readLine()) != null)
+						{	
+							nodeTarget=node;		
+							if(node.contains(sourceNode)){
+								arrSource = node.split("data key=",5);
+								//		System.out.println("Node: "+node);
+								node = arrSource[1];	
+								node = node.replaceAll("</data><", "");	
+								node = node.replaceAll("\\\"repr\\\">", "");	
+								node = node.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+								node = node.replaceAll("\\d+", "number");
+								node =node.replaceAll("\\s+", " ");	
+								//		System.out.println("Source node of edge: "+node);
+								sourceNodeRepr = node;		
+						}
+					if(nodeTarget.contains(targetNode)){
+						arrTarget = nodeTarget.split("data key=",5);
+						nodeTarget = arrTarget[1];	
+						nodeTarget = nodeTarget.replaceAll("\\\"repr\\\">", "");	
+						nodeTarget = nodeTarget.replaceAll("</data><", "");	
+						nodeTarget = nodeTarget.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+						nodeTarget = nodeTarget.replaceAll("\\d+", "number");
+						nodeTarget =nodeTarget.replaceAll("\\s+", " ");	
+						//		System.out.println("Target node of edge: "+nodeTarget);
+						targetNodeRepr = nodeTarget;
+					}	
+						}
+				br3.close();
+					}
+				brNodes.close();
+				
+				
+				 bigrams = bigrams + sourceNodeRepr.trim()+" "+ targetNodeRepr.trim() + " bigram"+counter +" " ;
+					/*	System.out.println("Node bigram: "+
+						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());	*/	
+					counter++;
+						}
+				
+						}
+						br2.close();
+				}	
+				br.close();		
+				//how many of a particular bigram exists in bigrams[]
+				//get count of each cfg node unigram in CFGBjoern 	
+				if(counter>0){
+			    for (int i =0; i<len; i++){
+			 	  str = CFGGraphmlNodeBigrams[i].toString();
+			 	cfgEdgeBigramCount[i] = StringUtils.countMatches(bigrams, str.trim()); 
+				cfgEdgeBigramCount[i]=cfgEdgeBigramCount[i]+tmp[i];
+				tmp[i]= cfgEdgeBigramCount[i];		
+				}	}	
+ 	    }	 	      	
+	    return cfgEdgeBigramCount;
+    }
+	
+    
 	public static String [] getBjoernCFGGraphmlNodeBigrams(String dirPath) throws IOException{
 		
 		
@@ -561,8 +689,7 @@ public class FeatureExtractor2016Bjoern {
 						brNodes.close();
 						biGrams.add(sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());
 					/*	System.out.println("Node bigram: "+
-						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());	*/		
-						
+						sourceNodeRepr.trim()+" "+ targetNodeRepr.trim());	*/								
 						}
 						}
 						br2.close();
@@ -607,7 +734,7 @@ public class FeatureExtractor2016Bjoern {
 			while ((line = br.readLine()) != null)
 			{					
 				arr = line.split("\\s+",5);
-					if ( !arr[4].isEmpty()){
+				if ( arr.length>4){
 			//		System.out.println("Redundant " + arr[0] + " , needed " + arr[4]  );
 				    line = arr[4];			
 					line = line.replaceAll("\\\"", " ");	
@@ -671,7 +798,7 @@ public class FeatureExtractor2016Bjoern {
     			while ((line = br.readLine()) != null)
     			{					
     				arr = line.split("\\s+",5);
-    					if ( !arr[4].isEmpty()){
+    					if(arr.length>4){
     			//		System.out.println("Redundant " + arr[0] + " , needed " + arr[4]  );
     				    line = arr[4];			
     					line = line.replaceAll("\\\"", " ");	
