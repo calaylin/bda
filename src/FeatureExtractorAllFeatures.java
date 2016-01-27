@@ -16,8 +16,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
 
-
-public class FeatureExtractor2016Bjoern {
+public class FeatureExtractorAllFeatures {
 
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
@@ -30,7 +29,7 @@ public class FeatureExtractor2016Bjoern {
 
 		String text = "";
 		//Writing the test arff
-		Util.writeFile("@relation "+test_dir +"2016bjoernCFGDisassembly"+"\n"+"\n",
+		Util.writeFile("@relation "+test_dir +"BinaryDeanonymizationAllFeatures"+"\n"+"\n",
 		    			output_filename, true);
 		Util.writeFile("@attribute instanceID_original {", output_filename, true);
 
@@ -44,10 +43,11 @@ public class FeatureExtractor2016Bjoern {
 				}
 			}
 
-
-				
-
-			
+		   	//BJOERN FEATURES START
+		   	// Related files:
+		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
+			 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
+		   	
 			//CFG NODE UNIGRAMS - REPR
 			//get the basic block node unigrams in bjoern CFG and write the node unigram features
 		   	String[] bjoernCFGNodeUnigrams =getBjoernCFGGraphmlNodeUnigrams(test_dir);
@@ -109,7 +109,101 @@ public class FeatureExtractor2016Bjoern {
 		    	{  	//disassemblyLineBigrams[i] = disassemblyLineBigrams[i].replace("\n", " ");
 		    	Util.writeFile("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]' numeric"+"\n", output_filename, true);
 		    	//	System.out.println("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]");
-		    	}		    	
+		    	}
+			 //BJOERN FEATURES END
+			 // Related files:
+		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
+			 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
+
+		    	
+	     	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
+	    	//FeatureExtractorSnowmanCFG		     	
+		   	//get the Unigrams in the CFG and write the unigram features
+		       String[] cfgSnowmanUnigrams =FeatureExtractorSnowmanCFG.getCFGUnigrams(test_dir);
+		    	for (int i=0; i<cfgSnowmanUnigrams.length; i++)	   	
+		       {  	
+		           Util.writeFile("@attribute 'cfgSnowmanUnigrams "+i+"=["+cfgSnowmanUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
+			   
+		    	
+		    	//the slowest feature
+/*			   	// write the unigram tfidf features	   	
+			    	for (int i=0; i<cfgSnowmanUnigrams.length; i++)	   	
+			       {  	
+			            	Util.writeFile("@attribute 'cfgSnowmanUnigramsTFIDF "+i+"=["+cfgSnowmanUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
+				   */
+		    	
+		    	  String[] cfgSnowmanNodeLastLine =FeatureExtractorSnowmanCFG.getCFGNodeLine(test_dir);
+			    	for (int i=0; i<cfgSnowmanNodeLastLine.length; i++)	   	
+			       {  	
+			            	Util.writeFile("@attribute 'cfgSnowmanNodeLastLine "+i+"=["+cfgSnowmanNodeLastLine[i]+"]' numeric"+"\n", output_filename, true);}			
+			    	
+		    	//get the bigrams in the CFG and write the bigram features
+		    	String[] cfgSnowmanBigrams =FeatureExtractorSnowmanCFG.getCFGBigrams(test_dir);
+		     	for (int i=0; i<cfgSnowmanBigrams.length; i++)	   	
+			       {  
+		     				String temp= cfgSnowmanBigrams[i];
+			            	Util.writeFile("@attribute 'cfgSnowmanBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}
+	
+		    	//get the bigrams in the CFG and write the bigram features
+		    	String[] cfgSnowmanLineBigrams =FeatureExtractorSnowmanCFG.getCFGNodeLineBigram(test_dir);
+		     	for (int i=0; i<cfgSnowmanLineBigrams.length; i++)	   	
+			       {  //	cfgBigrams[i] = cfgBigrams[i].replace("'", "apostrophesymbol");
+		     				String temp= cfgSnowmanLineBigrams[i];
+			            	Util.writeFile("@attribute 'cfgSnowmanLineBigrams "+i+"=["+temp.replace("\n", " ")+"]' numeric"+"\n", output_filename, true);}		    			    	
+				// SNOWMAN CFG FEATURES END	- Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
+		    	
+		    	
+
+			   	// NDISASM FEATURES START - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
+		    	//get the instruction unigrams in NDISASM disassembly and write the instruction unigram features
+			    String[] disassemblyNDISASMUnigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigrams(test_dir);
+			    for (int i=0; i<disassemblyNDISASMUnigrams.length; i++)	   	
+			       {  
+			    	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionUnigrams "+i+"=["+disassemblyNDISASMUnigrams[i]+"]' numeric"+"\n", output_filename, true);
+			    	}
+			     
+
+		     	//get the instruction bigrams in NDISASM disassembly and write the instruction bigram features
+			    String[] disassemblyNDISASMBigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionBigrams(test_dir);
+			    for (int i=0; i<disassemblyNDISASMBigrams.length; i++)	   	
+			       {  	
+		           	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionBigrams "+i+"=["+disassemblyNDISASMBigrams[i]+"]' numeric"+"\n", output_filename, true);
+			       }
+
+		     	//get the instruction trigrams in NDISASM disassembly and write the instruction trigram features
+				String[] disassemblyNDISASMTrigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionTrigrams(test_dir);
+				for (int i=0; i<disassemblyNDISASMTrigrams.length; i++)	   	
+				{  	
+	       	 	Util.writeFile("@attribute 'NDISASMDisassemblyInstructionTrigrams "+i+"=["+disassemblyNDISASMTrigrams[i]+"]' numeric"+"\n", output_filename, true);	
+				}
+				    
+				 //get the lineBigrams in NDISASM disassembly and write the lineBigram features
+				String[] disassemblyNDISASMLineBigrams =FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyLineBigrams(test_dir);
+				for (int i=0; i<disassemblyNDISASMLineBigrams.length; i++)	   	
+			 	{  
+					Util.writeFile("@attribute 'NDISASMDisassemblyLineBigrams "+i+"=["+disassemblyNDISASMLineBigrams[i]+"]' numeric"+"\n", output_filename, true);	
+				}
+		     	// NDISASM FEATURES END - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
+		    	
+			   	// Related files:
+		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
+		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
+		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
+		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
+		    	
+			   	// Related files:
+				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
+		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+		    	// 1842485_1486492_a9108_hexrays_decompiled.ast
+		    	// 1842485_1486492_a9108_hexrays_decompiled.dep
+		    	// 1842485_1486492_a9108_hexrays_decompiled.txt
+		     	
+		    	
+		     
+
+		    	
+
 	
 		     	
 		    File authorFileName = null;
@@ -148,20 +242,23 @@ public class FeatureExtractor2016Bjoern {
 			
 			//EXTRACT LABELED FEATURES FROM CORRESPONDING FEATURE DATA SOURCES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
-				authorFileName= new File(test_binary_paths.get(i).toString());
+				File AuthorFileName = new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
-				System.out.println(test_binary_paths.get(i));
-				System.out.println(authorName);
-				File fileCPPID = new File(test_binary_paths.get(i).toString());
-				String fileNameID = fileCPPID.getName() +
+				System.out.println("Binary filename: "+test_binary_paths.get(i));
+				System.out.println("Author: "+authorName);
+				String fileNameID = AuthorFileName.getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
 				Util.writeFile(fileNameID+",", output_filename, true);
 				String featureTextBjoernDisassembly = Util.readFile(authorFileName.getParentFile()
-				+ File.separator + fileCPPID.getName()+"_bjoernDisassembly"+ File.separator + "nodes.csv");
+				+ File.separator + AuthorFileName.getName()+"_bjoernDisassembly"+ File.separator + "nodes.csv");
 
 				
-				
+			     // BJOERN FEATURES START
+				 // Related files:
+			     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
+				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
+
 				//GETTING CFG NODE UNIGRAMS
 				//get count of each cfg node unigram in CFGBjoern 
 				float[] cfgNodeUniCount = getBjoernCFGGraphmlNodeUnigramsTF(authorFileName , bjoernCFGNodeUnigrams);			   
@@ -200,6 +297,109 @@ public class FeatureExtractor2016Bjoern {
 			    float[] lineBigramCount = getBjoernLineBigramsTF(featureTextBjoernDisassembly, disassemblyLineBigrams);
 			    for (int j=0; j<lineBigramCount.length; j++)
 				{Util.writeFile(lineBigramCount[j] +",", output_filename, true);}
+			    //BJOERN FEATURES END
+				 // Related files:
+			     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
+				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
+
+			    
+			   	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
+				String featureTextSnowmanCFG = Util.readFile(authorFileName.getParentFile()
+						+ File.separator + AuthorFileName.getName()+"_SnowmanDecompiled.dot");		     	
+			    //get count of each wordUnigram in Snowman CFG 
+				
+			    float[] wordUniCount1 = FeatureExtractorSnowmanCFG.getCFGUnigramTF(featureTextSnowmanCFG, cfgSnowmanUnigrams);
+			    for (int j=0; j<wordUniCount1.length; j++)
+				{Util.writeFile(wordUniCount1[j] +",", output_filename, true);}	
+			    
+			    //tfidf is the slowest feature so far
+/*			    
+ * 				String [] cfgSnowmanUnigramsTFIDF= cfgSnowmanUnigrams;
+ * 				float[] uniTFIDF = FeatureExtractorSnowmanCFG.getCFGUnigramsTFIDF(featureTextSnowmanCFG, test_dir, cfgSnowmanUnigrams);
+			    for (int j=0; j<uniTFIDF.length; j++)
+				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	*/
+			    
+			    //get count of each line unigram in Snowman CFG	 
+			    float[] cfgNodeLastLineCount = FeatureExtractorSnowmanCFG.getCFGNodeLineTF(featureTextSnowmanCFG, cfgSnowmanNodeLastLine);
+			    for (int j=0; j<cfgNodeLastLineCount.length; j++)
+				{Util.writeFile(cfgNodeLastLineCount[j] +",", output_filename, true);}	
+
+
+			    
+			    //get count of each bigram in Snowman CFG	 
+			    float[] wordBigramCount1 = FeatureExtractorSnowmanCFG.getCFGBigramsTF(featureTextSnowmanCFG, cfgSnowmanBigrams);
+			    for (int j=0; j<wordBigramCount1.length; j++)
+				{Util.writeFile(wordBigramCount1[j] +",", output_filename, true);}
+			    
+			    //get count of each line bigram in Snowman CFG 	 
+			    float[] lineBigramSnowmanCount = FeatureExtractorSnowmanCFG.getCFGNodeLineBigramTF(featureTextSnowmanCFG, cfgSnowmanLineBigrams);
+			    for (int j=0; j<lineBigramSnowmanCount.length; j++)
+				{Util.writeFile(lineBigramSnowmanCount[j] +",", output_filename, true);}			   	
+			   // SNOWMAN CFG FEATURES END	- Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
+
+				 // NDISASM FEATURES START - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
+				String featureTextNDISASMDisassembly = Util.readFile(authorFileName.getParentFile()
+				+ File.separator + AuthorFileName.getName()+".dis");
+			
+				 //get count of each NDISASMDisassemblyInstructionUnigram in NDISASM disassembly 
+			    float[] instructionUnigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigramsTF(featureTextNDISASMDisassembly, disassemblyNDISASMUnigrams);
+			    for (int j=0; j<instructionUnigramNDISASMCount.length; j++)
+				{Util.writeFile(instructionUnigramNDISASMCount[j] +",", output_filename, true);}	
+			    
+				 //get count of each NDISASMDisassemblyInstructionBigram in NDISASM disassembly 
+			    float[] instructionBigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionBigramsTF(featureTextNDISASMDisassembly, disassemblyNDISASMBigrams);
+			    for (int j=0; j<instructionBigramNDISASMCount.length; j++)
+				{Util.writeFile(instructionBigramNDISASMCount[j] +",", output_filename, true);}
+			   	
+				 //get count of each NDISASMDisassemblyInstructionTrigram in NDISASM disassembly 
+			    float[] instructionTrigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionTrigramsTF(featureTextNDISASMDisassembly, disassemblyNDISASMTrigrams);
+			    for (int j=0; j<instructionTrigramNDISASMCount.length; j++)
+				{Util.writeFile(instructionTrigramNDISASMCount[j] +",", output_filename, true);}
+			   	
+				String disTextNdisasm = Util.readNDISASMFile(test_binary_paths.get(i).toString());
+				 //get count of each NDISASMDisassemblyLineBigrams in NDISASM disassembly 
+			    float[] lineBigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyLineBigramsTF(disTextNdisasm, disassemblyNDISASMLineBigrams);
+			    for (int j=0; j<lineBigramNDISASMCount.length; j++)
+				{Util.writeFile(lineBigramNDISASMCount[j] +",", output_filename, true);}	
+			    // NDISASM FEATURES END - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
+			    	
+				
+				
+				
+				
+				
+				
+				
+		    	// Related files:
+		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
+		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+				String featureTextHexraysDecompiledCodeCPP = Util.readFile(authorFileName.getParentFile()
+				+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.cpp");
+			    // 1842485_1486492_a9108_hexrays_decompiled.ast
+				String featureTextHexraysDecompiledCodeAST = Util.readFile(authorFileName.getParentFile()
+						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.ast");
+			   	// 1842485_1486492_a9108_hexrays_decompiled.dep
+				String featureTextHexraysDecompiledCodeDEP = Util.readFile(authorFileName.getParentFile()
+						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.dep");
+			   	// 1842485_1486492_a9108_hexrays_decompiled.txt
+				String featureTextHexraysDecompiledCodeTXT = Util.readFile(authorFileName.getParentFile()
+						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.txt");
+			    	
+			   	// Related files:
+				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
+		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
+			    // 1842485_1486492_a9108_hexrays_decompiled.ast
+			    // 1842485_1486492_a9108_hexrays_decompiled.dep
+			    // 1842485_1486492_a9108_hexrays_decompiled.txt
+			     	
+			    	
+
+			   		
+			    
+			    
+			    
+			    
+			    
 			    
 			    
 				Util.writeFile(authorName+"\n", output_filename, true);
