@@ -341,7 +341,7 @@ public class FeatureExtractor2016Bjoern {
 			}
 		}
 		newFeatureText=	newFeatureText.replaceAll("\\s+", " ");
-		System.out.println("this is newFeatureText"+newFeatureText);
+	//	System.out.println("this is newFeatureText"+newFeatureText);
  		for (int i =0; i<symbolCount; i++){
  			str = lineBigrams[i].toString();
  			counter[i] = StringUtils.countMatches(newFeatureText, str.trim());  		 
