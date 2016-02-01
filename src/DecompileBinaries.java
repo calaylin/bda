@@ -39,7 +39,7 @@ public class DecompileBinaries {
 */	        	
 	        	//to generate cfgs
 	            filename = binary_files.get(i).toString();
-	            outputFile = filename.concat("_SnowmanDecompiled.cfg");
+	            outputFile = filename.concat("_SnowmanDecompiled.dot");
 	            System.out.println(filename);
 	        Runtime decompiler = Runtime.getRuntime();
 	                Process process = decompiler.exec(new String[]{"cmd.exe","/c",
