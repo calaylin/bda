@@ -46,7 +46,6 @@ public class FeatureExtractorAllFeatures {
 			//get the cflow edges in bjoern CFG and write the node bigram features
 		   	String[] bjoernCFGNodeBigrams =FeatureExtractor2016Bjoern.getBjoernCFGGraphmlNodeBigrams(test_dir);
 		   	for (int i=0; i<bjoernCFGNodeBigrams.length; i++){  		   
-			//  System.out.println("@attribute 'BjoernCFGGraphmlNodeBigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
 			   	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeBigrams "+i+"=["+bjoernCFGNodeBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 				       }
 		   	
@@ -284,16 +283,16 @@ public class FeatureExtractorAllFeatures {
 			
 			//EXTRACT LABELED FEATURES FROM CORRESPONDING FEATURE DATA SOURCES
 		   	for(int i=0; i< test_binary_paths.size(); i++){
-				File AuthorFileName = new File(test_binary_paths.get(i).toString());
+				authorFileName = new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
 				System.out.println("Binary filename: "+test_binary_paths.get(i));
 				System.out.println("Author: "+authorName);
-				String fileNameID = AuthorFileName.getName() +
+				String fileNameID = authorFileName.getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
 				Util.writeFile(fileNameID+",", output_filename, true);
 				String featureTextBjoernDisassembly = Util.readFile(authorFileName.getParentFile()
-				+ File.separator + AuthorFileName.getName()+"_bjoernDisassembly"+ File.separator + "nodes.csv");
+				+ File.separator + authorFileName.getName()+"_bjoernDisassembly"+ File.separator + "nodes.csv");
 
 				
 			     // BJOERN FEATURES START
@@ -347,7 +346,7 @@ public class FeatureExtractorAllFeatures {
 			    
 			   	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
 				String featureTextSnowmanCFG = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + AuthorFileName.getName()+"_SnowmanDecompiled.dot");		     	
+						+ File.separator + authorFileName.getName()+"_SnowmanDecompiled.dot");		     	
 			    //get count of each wordUnigram in Snowman CFG 
 				
 			    float[] wordUniCount1 = FeatureExtractorSnowmanCFG.getCFGUnigramTF(featureTextSnowmanCFG, cfgSnowmanUnigrams);
@@ -381,7 +380,7 @@ public class FeatureExtractorAllFeatures {
 
 				 // NDISASM FEATURES START - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
 				String featureTextNDISASMDisassembly = Util.readFile(authorFileName.getParentFile()
-				+ File.separator + AuthorFileName.getName()+".dis");
+				+ File.separator + authorFileName.getName()+".dis");
 			
 				 //get count of each NDISASMDisassemblyInstructionUnigram in NDISASM disassembly 
 			    float[] instructionUnigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyInstructionUnigramsTF(featureTextNDISASMDisassembly, disassemblyNDISASMUnigrams);
@@ -410,16 +409,16 @@ public class FeatureExtractorAllFeatures {
 		      	// DECOMPILED CODE AKA SCAA FEATURES START (FROM HEXRAYS)
 		    	// 1842485_1486492_a9108_hexrays_decompiled.cpp
 				String featureTextHexraysDecompiledCodeCPP = Util.readFile(authorFileName.getParentFile()
-				+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.cpp");
+				+ File.separator + authorFileName.getName()+"_hexrays_decompiled.cpp");
 			    // 1842485_1486492_a9108_hexrays_decompiled.ast
 				String featureTextHexraysDecompiledCodeAST = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.ast");
+						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.ast");
 			   	// 1842485_1486492_a9108_hexrays_decompiled.dep
 				String featureTextHexraysDecompiledCodeDEP = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.dep");
+						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.dep");
 			   	// 1842485_1486492_a9108_hexrays_decompiled.txt
 				String featureTextHexraysDecompiledCodeTXT = Util.readFile(authorFileName.getParentFile()
-						+ File.separator + AuthorFileName.getName()+"_hexrays_decompiled.txt");
+						+ File.separator + authorFileName.getName()+"_hexrays_decompiled.txt");
 			    	
 				
 			    //get count of each wordUnigram in C source file	 
