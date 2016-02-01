@@ -443,7 +443,7 @@ public class FeatureExtractorDisassemblyNDISASM {
 		   			newLine = newLine.replaceAll("0[xX]?[0-9a-fA-F]+", "hexadecimal");
 		   			newLine = newLine.replaceAll("\\d+", "number");
 		   			newLine = newLine.replaceAll("\\s+", " ");
-		   			newLine = newLine + " " + tmp;
+		   			newLine = tmp + " " + newLine;
 		   			newLine = newLine.replaceAll("\\s+", " ");
 		   			tmp = newLine;	
 				}
