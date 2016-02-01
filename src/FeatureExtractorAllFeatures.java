@@ -84,7 +84,7 @@ public class FeatureExtractorAllFeatures {
 		       String[] disassemblyLineUnigrams =FeatureExtractor2016Bjoern.getBjoernLineUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineUnigrams.length; i++)	   	
 		    {
-		    		Util.writeFile("@attribute 'disassemblyLineUnigrams "+i+"=["+disassemblyLineUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
+		    		Util.writeFile("@attribute 'disassemblyBjoernLineUnigrams "+i+"=["+disassemblyLineUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
         		//	System.out.println("@attribute 'disassemblyLineUnigrams "+i+"=["+disassemblyLineUnigrams[i]+"]");
 		       }		
 		    	
@@ -93,7 +93,7 @@ public class FeatureExtractorAllFeatures {
 		    	String[] disassemblyLineBigrams =FeatureExtractor2016Bjoern.getBjoernLineBigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineBigrams.length; i++)	   	
 		    	{  	
-		    	Util.writeFile("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
+		    	Util.writeFile("@attribute 'disassemblyBjoernLineBigrams "+i+"=["+disassemblyLineBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 		    	//	System.out.println("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]");
 		    	}	
 			 //BJOERN FEATURES END
@@ -397,9 +397,8 @@ public class FeatureExtractorAllFeatures {
 			    for (int j=0; j<instructionTrigramNDISASMCount.length; j++)
 				{Util.writeFile(instructionTrigramNDISASMCount[j] +",", output_filename, true);}
 			   	
-				String disTextNdisasm = Util.readNDISASMFile(test_binary_paths.get(i).toString());
 				 //get count of each NDISASMDisassemblyLineBigrams in NDISASM disassembly 
-			    float[] lineBigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyLineBigramsTF(disTextNdisasm, disassemblyNDISASMLineBigrams);
+			    float[] lineBigramNDISASMCount = FeatureExtractorDisassemblyNDISASM.getNDISASMDisassemblyLineBigramsTF(featureTextNDISASMDisassembly, disassemblyNDISASMLineBigrams);
 			    for (int j=0; j<lineBigramNDISASMCount.length; j++)
 				{Util.writeFile(lineBigramNDISASMCount[j] +",", output_filename, true);}	
 			    // NDISASM FEATURES END - DISASSEMBLY - Related files: (1842485_1486492_a9108.dis)
