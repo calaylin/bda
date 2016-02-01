@@ -372,20 +372,26 @@ public class FeatureCalculators {
 			String filePath = test_file_paths.get(i).toString();  
 	   String inputText =Util.readFile(filePath);
 	   
-	   inputText = inputText.replaceAll("\\("," ");
-	   inputText = inputText.replaceAll("\\)"," ");
+	   inputText = inputText.replaceAll("\\(","splithere");
+	   inputText = inputText.replaceAll("\\)","splithere");
 	   inputText = inputText.replaceAll("\\d+\\t"," ");
 	   inputText = inputText.replaceAll("\\s+"," ");	
-	   String [] arr = inputText.split("\\s+");
+	   String [] arr = inputText.split("splithere");
+		System.out.println("inputText: "+inputText); 
+
 		if (arr.length>0){
 		for(int i1=0;i1< arr.length; i1++){
+			if(!(arr[i1].isEmpty())){
 			uniqueWords.add(arr[i1].trim()); 
-		//	System.out.println("ASTNode: "+arr[i1].trim()); 
+			System.out.println("ASTNode: \\\""+arr[i1]+"\\\""); 
+			}
 			}
 		} 
 	}
 	   String[] words = uniqueWords.toArray(new String[uniqueWords.size()]);
+	   System.out.println("number of unique nodes"+uniqueWords.size()); 
        return words;
+
 }
      
    

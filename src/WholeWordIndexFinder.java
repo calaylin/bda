@@ -14,7 +14,8 @@ public class WholeWordIndexFinder {
     }
  
     public List<IndexWrapper> findIndexesForKeyword(String keyword) {
-        String regex = "\\b"+keyword+"\\b";
+//        String regex = "\\b"+keyword+"\\b";
+        String regex = keyword; //don't use word boundaries
         Pattern pattern;
         Matcher matcher = null;
 
@@ -46,9 +47,9 @@ public class WholeWordIndexFinder {
  
     public static void main(String[] args) {
         WholeWordIndexFinder finder = new WholeWordIndexFinder(
-        		"2	(FunctionDef(((CompoundStatement((ForStatement((ForInit((IdentifierDeclStatement(IdentifierDecl)))))((Condition((RelationalExpression(x)(10)))))((IncDecOp((x))((++))))");
-        List<IndexWrapper> indexes = finder.findIndexesForKeyword("Condition");
-        System.out.println("Indexes found "+indexes.size() +" keyword found at index : " +indexes.get(0).getStart());
+        		"2	(FunctionDef(((CompoundStatement%((ForStatement&((ForInit((IdentifierDeclStatement((ForStatement&)IdentifierDecl)))))((Condition((RelationalExpression(x)(10)))))((IncDecOp((x))((++))))");
+        List<IndexWrapper> indexes = finder.findIndexesForKeyword("ForStatement&");
+        System.out.println("Indexes found "+indexes.size() +" keyword found at index : " +indexes.get(0).getStart() + " "+indexes.get(1).getStart());
         
         //input should be the dep file, do this for each line
         //take the last line that a function id appears in that has the whole depth structure

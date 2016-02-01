@@ -11,7 +11,7 @@ public class FeatureExtractorAllFeatures {
 	
 		String test_dir ="/Users/Aylin/Desktop/test/";
 		       		
-		String output_filename = "/Users/Aylin/Desktop/testAllFeatures.arff" ;
+		String output_filename = "/Users/Aylin/Desktop/testAllFeatures2.arff" ;
 
 		List test_binary_paths = Util.listBinaryFiles(test_dir);
 
@@ -21,7 +21,7 @@ public class FeatureExtractorAllFeatures {
 		    			output_filename, true);
 		Util.writeFile("@attribute instanceID_original {", output_filename, true);
 
-		   	for(int j=0; j < test_binary_paths.size();j++ )
+		   	for(int j=0; j < test_binary_paths.size();j++)
 			{
 				File sourceFile = new File(test_binary_paths.get(j).toString());
 				String fileName = sourceFile.getName() +"_"+ sourceFile.getParentFile().getParentFile().getName();
