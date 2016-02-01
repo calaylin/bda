@@ -409,7 +409,6 @@ public class FeatureExtractorDisassemblyNDISASM {
 			   		arr = line.split("\\s+",3);
 			   		if(arr.length>2){
 			   		line = arr[2];
-				//	System.out.println("line: "+line);	
 					line = line.replaceAll("\\\"", " ");
 					line = line.replaceAll("0[xX]?[0-9a-fA-F]+", "hexadecimal");
 		//			line = line.replaceAll("/(0x)?[0-9a-f]+/i", "hexadecimal");	
@@ -417,7 +416,7 @@ public class FeatureExtractorDisassemblyNDISASM {
 					line = line.replaceAll("\\s+", " ");
 				//	System.out.println(line);							
 					lineUniGrams.add(tmp.trim() + " "+ line.trim());
-				//	System.out.println("LineBigram: "+tmp.trim() + " "+ line.trim());
+			//		System.out.println("LineBigram: "+tmp.trim() + " "+ line.trim());
 					tmp = line;	
 					}								 
 		}
@@ -428,40 +427,36 @@ public class FeatureExtractorDisassemblyNDISASM {
 }	
 	
     public static float [] getNDISASMDisassemblyLineBigramsTF (String featureText, String[] lineBigrams  ) throws IOException
-    {    
-    	
+    {        	
     	BufferedReader br = new BufferedReader(new StringReader(featureText));
 		String[] arr;
 		String tmp="";
 		String line="";
-
+		String newLine="";
+		
 		while ((line = br.readLine()) != null)
 			{	
 		   		arr = line.split("\\s+",3);
 		   		if(arr.length>2){
-		   		line = arr[2];
-				line = line.replaceAll("\\\"", " ");
-				line = line.replaceAll("0[xX]?[0-9a-fA-F]+", "hexadecimal");
-				line = line.replaceAll("\\d+", "number");
-				line = line.replaceAll("\\s+", " ");
-				line = line + " " + tmp;
-				tmp = line;	
+		   			newLine = arr[2];
+		   			newLine = newLine.replaceAll("\\\"", " ");
+		   			newLine = newLine.replaceAll("0[xX]?[0-9a-fA-F]+", "hexadecimal");
+		   			newLine = newLine.replaceAll("\\d+", "number");
+		   			newLine = newLine.replaceAll("\\s+", " ");
+		   			newLine = newLine + " " + tmp;
+		   			newLine = newLine.replaceAll("\\s+", " ");
+		   			tmp = newLine;	
 				}
-		   		}	
-		   		
-    	
-    	
-    String str;
-    float symbolCount = lineBigrams.length;
-    float [] counter = new float[(int) symbolCount];
-
- 	for (int i =0; i<symbolCount; i++){
- 		str = lineBigrams[i].toString();
- 		counter[i] = StringUtils.countMatches(line, str.trim()); 
- 		}
-    return counter;
-    
-    
+		   		}
+		br.close();		
+		String str;
+		float symbolCount = lineBigrams.length;
+		float [] counter = new float[(int) symbolCount];
+		for (int i =0; i<symbolCount; i++){
+			str = lineBigrams[i].toString();
+			counter[i] = StringUtils.countMatches(newLine, str.trim()); 
+ 			}
+		return counter;        
     }
   
     
