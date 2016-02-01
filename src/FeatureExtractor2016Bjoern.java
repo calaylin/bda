@@ -262,6 +262,8 @@ public class FeatureExtractor2016Bjoern {
  		return counter;
     }	
 
+    
+    
 	public static String [] getBjoernLineBigrams(String dirPath) throws IOException{
 	
 		List test_file_paths = listBjoernNodeFiles(dirPath);
@@ -343,53 +345,6 @@ public class FeatureExtractor2016Bjoern {
     }
 	
 	
-	public static String [] getBjoernDisassemblyInstructionUnigrams(String dirPath) throws IOException{
-		
-	
-		List  test_file_paths = listBjoernNodeFiles(dirPath);
-		String[] words = null;
-		Set<String> uniGrams = new LinkedHashSet<String>();
-		String filePath="";
- 	    for(int i=0; i< test_file_paths.size(); i++){
- 	    	
- 	    	filePath = test_file_paths.get(i).toString();  
-		//	System.out.println(filePath);						   
-			   String[] arr;
-			   String[] toAdd;
-
-				BufferedReader br = new BufferedReader(new FileReader(filePath));
-				String line;
-				
-				while ((line = br.readLine()) != null)
-				{					
-					arr = line.split("\\s+",5);
-				//	System.out.println(line);
-					if ( arr.length>4){
-
-				//		System.out.println("Redundant " + arr[0] + " , needed " + arr[4]  );
-					    line = arr[4];			
-						line = line.replaceAll("\\\"", " ");	
-					//	line = line.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
-						line = line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
-						line = line.replaceAll("\\d+", "number");
-						line =line.replaceAll("\\s+", " ");	
-						toAdd = line.trim().split("\\s+");
-					//	System.out.println("line: "+line);
-						for(int i11 =0; i11< toAdd.length; i11++)
-							{
-						uniGrams.add(toAdd[i11].trim());
-					//	System.out.println(toAdd[i11]);
-		            		}		
-						}
-				}	
-				br.close();			
- 	    }	 	      
- 	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
-			    return words;		
-	}
-	
-
-	
 	public static String [] getBjoernCFGGraphmlNodeUnigrams(String dirPath) throws IOException{
 		
 		
@@ -464,13 +419,12 @@ public class FeatureExtractor2016Bjoern {
 	for(int i1=0; i1< graphmlCFGFiles.size();i1++){
 		String featureTextCFG = Util.readFile(graphmlCFGFiles.get(i1).toString()) ;
 
-	//get count of each cfg node unigram in CFGBjoern 	
-    for (int i =0; i<len; i++){
- 	  str = CFGGraphmlNodeUnigrams[i].toString();
- 	
  	featureTextCFG=	featureTextCFG.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
  	featureTextCFG=	featureTextCFG.replaceAll("\\d+", "number");
- 	featureTextCFG=	featureTextCFG.replaceAll("\\s+", " ");		
+ 	featureTextCFG=	featureTextCFG.replaceAll("\\s+", " ");	
+    for (int i =0; i<len; i++){
+ 	  str = CFGGraphmlNodeUnigrams[i].toString();
+ 		//get count of each cfg node unigram in CFGBjoern 	
  	cfgNodeUniCount[i] = StringUtils.countMatches(featureTextCFG, str.trim()); 
 	cfgNodeUniCount[i]=cfgNodeUniCount[i]+tmp[i];
 	tmp[i]= cfgNodeUniCount[i];		
@@ -705,18 +659,66 @@ public class FeatureExtractor2016Bjoern {
     
     
     
-    public static float [] getBjoernDisassemblyInstructionUnigramsTF (String featureText, String[] wordUnigrams  )
+    public static String [] getBjoernDisassemblyInstructionUnigrams(String dirPath) throws IOException{
+		
+	
+		List  test_file_paths = listBjoernNodeFiles(dirPath);
+		String[] words = null;
+		Set<String> uniGrams = new LinkedHashSet<String>();
+		String filePath="";
+	    for(int i=0; i< test_file_paths.size(); i++){
+	    	
+	    	filePath = test_file_paths.get(i).toString();  
+		//	System.out.println(filePath);						   
+			   String[] arr;
+			   String[] toAdd;
+	
+				BufferedReader br = new BufferedReader(new FileReader(filePath));
+				String line;
+				
+				while ((line = br.readLine()) != null)
+				{					
+					arr = line.split("\\s+",5);
+				//	System.out.println(line);
+					if ( arr.length>4){
+	
+				//		System.out.println("Redundant " + arr[0] + " , needed " + arr[4]  );
+					    line = arr[4];			
+						line = line.replaceAll("\\\"", " ");	
+					//	line = line.replaceAll("^[A-Fa-f0-9]+$", "hexadecimal");
+						line = line.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
+						line = line.replaceAll("\\d+", "number");
+						line =line.replaceAll("\\s+", " ");	
+						toAdd = line.trim().split("\\s+");
+					//	System.out.println("line: "+line);
+						for(int i11 =0; i11< toAdd.length; i11++)
+							{
+						uniGrams.add(toAdd[i11].trim());
+					//	System.out.println(toAdd[i11]);
+		            		}		
+						}
+				}	
+				br.close();			
+	    }	 	      
+	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
+			    return words;		
+	}
+
+
+
+
+
+	public static float [] getBjoernDisassemblyInstructionUnigramsTF (String featureText, String[] wordUnigrams  )
     {    	
     String str;
     float symbolCount = wordUnigrams.length;
-    float [] counter = new float[(int) symbolCount];
-    for (int i =0; i<symbolCount; i++){
- 	  str = wordUnigrams[i].toString();
- 	
+    float [] counter = new float[(int) symbolCount]; 	
  		featureText=	featureText.replaceAll("\\\"", " ");	
  		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
- 		featureText=	featureText.replaceAll("\\s+", " ");		
+ 		featureText=	featureText.replaceAll("\\s+", " ");	
+ 	    for (int i =0; i<symbolCount; i++){
+ 	  	  str = wordUnigrams[i].toString();
  		counter[i] = StringUtils.countMatches(featureText, str.trim()); 
  	 }
     return counter;
@@ -774,12 +776,12 @@ public class FeatureExtractor2016Bjoern {
         float symbolCount = DisBigrams.length;
         float [] counter = new float[(int) symbolCount];
         String str;
-        for (int i =0; i<symbolCount; i++){
-        	str = DisBigrams[i].toString();
    			featureText=	featureText.replaceAll("\\\"", " ");	
    			featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
    			featureText=	featureText.replaceAll("\\d+", "number");
    			featureText=	featureText.replaceAll("\\s+", " ");	
+   	        for (int i =0; i<symbolCount; i++){
+   	        str = DisBigrams[i].toString();
    			counter[i] = StringUtils.countMatches(featureText, str);  	   
         }
         return counter;
@@ -837,12 +839,12 @@ public class FeatureExtractor2016Bjoern {
         float symbolCount = DisTrigrams.length;
         float [] counter = new float[(int) symbolCount];
         String str;
-        for (int i =0; i<symbolCount; i++){
-        	str = DisTrigrams[i].toString();
    			featureText=	featureText.replaceAll("\\\"", " ");	
    			featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
    			featureText=	featureText.replaceAll("\\d+", "number");
    			featureText=	featureText.replaceAll("\\s+", " ");	
+   	        for (int i =0; i<symbolCount; i++){
+   	        str = DisTrigrams[i].toString();
    			counter[i] = StringUtils.countMatches(featureText, str);  	   
         }
         return counter;
