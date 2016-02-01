@@ -49,19 +49,16 @@ public class FeatureExtractor2016Bjoern {
 			//get the basic block node unigrams in bjoern CFG and write the node unigram features
 		   	String[] bjoernCFGNodeUnigrams =getBjoernCFGGraphmlNodeUnigrams(test_dir);
 				for (int i=0; i<bjoernCFGNodeUnigrams.length; i++){  
-					bjoernCFGNodeUnigrams[i] = bjoernCFGNodeUnigrams[i].replace("'", "apostrophesymbol");
 					//  System.out.println("@attribute 'bjoernCFGNodeUnigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
-				  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
+				  	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeUnigrams "+i+"=["+bjoernCFGNodeUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 			       }
 				
 			//CFG NODE BIGRAMS AKA EDGES - REPR
 			//get the cflow edges in bjoern CFG and write the node bigram features
 		   	String[] bjoernCFGNodeBigrams =getBjoernCFGGraphmlNodeBigrams(test_dir);
 		   	for (int i=0; i<bjoernCFGNodeBigrams.length; i++){  
-		   		bjoernCFGNodeBigrams[i] = bjoernCFGNodeBigrams[i].replace("'", "apostrophesymbol");
-
 			//  System.out.println("@attribute 'BjoernCFGGraphmlNodeBigrams"+i+ " "+bjoernCFGNodeUnigrams[i]);
-			   	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeBigrams "+i+"=["+bjoernCFGNodeBigrams[i]+"]' numeric"+ "\n", output_filename, true);
+			   	Util.writeFile("@attribute 'BjoernCFGGraphmlNodeBigrams "+i+"=["+bjoernCFGNodeBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 				       }
 		   	
 			//		System.out.println("done with cfgUnigrams");
@@ -72,35 +69,32 @@ public class FeatureExtractor2016Bjoern {
 			//get the instruction unigrams in bjoern disassembly and write the instruction unigram features
 			String[] bjoernDisassemblyUnigrams =getBjoernDisassemblyInstructionUnigrams(test_dir);
 			for (int i=0; i<bjoernDisassemblyUnigrams.length; i++){  
-					bjoernDisassemblyUnigrams[i] = bjoernDisassemblyUnigrams[i].replace("'", "apostrophesymbol");
 				//  System.out.println("@attribute 'bjoernDisassemblyUnigrams"+i+ " "+bjoernDisassemblyUnigrams[i]);
-			   	Util.writeFile("@attribute 'BjoernDisassemblyInstructionUnigrams "+i+"=["+bjoernDisassemblyUnigrams[i]+"]' numeric"+ "\n", output_filename, true);
+			   	Util.writeFile("@attribute 'BjoernDisassemblyInstructionUnigrams "+i+"=["+bjoernDisassemblyUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 		       }
 		 
 		   	//DISASSEMBLY INSTRUCTION BIGRAMS
 		   	//get the instruction bigrams in bjoern disassembly and write the instruction bigram features
 			String[] bjoernDisassemblyBigrams =getBjoernDisassemblyInstructionBigrams(test_dir);
 		   	for (int i=0; i<bjoernDisassemblyBigrams.length; i++){ 
-		   		bjoernDisassemblyBigrams[i]=bjoernDisassemblyBigrams[i].replace("'", "apostrophesymbol");
 		//   	System.out.println("@attribute 'BjoernDisassemblyInstructionBigrams"+i+ " "+bjoernDisassemblyBigrams[i]);
-	    		Util.writeFile("@attribute 'BjoernDisassemblyInstructionBigrams "+i+"=["+bjoernDisassemblyBigrams[i]+"]' numeric"+ "\n", output_filename, true);
+	    		Util.writeFile("@attribute 'BjoernDisassemblyInstructionBigrams "+i+"=["+bjoernDisassemblyBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 		   	}
 		   	
 		   	//DISASSEMBLY INSTRUCTION TRIGRAMS
 		   	//get the instruction trigrams in bjoern disassembly and write the instruction trigram features
 			String[] bjoernDisassemblyTrigrams =getBjoernDisassemblyInstructionTrigrams(test_dir);
 		   	for (int i=0; i<bjoernDisassemblyTrigrams.length; i++){  
-		   		bjoernDisassemblyTrigrams[i]=bjoernDisassemblyTrigrams[i].replace("'", "apostrophesymbol");
 		   	//	System.out.println("@attribute 'BjoernDisassemblyInstructionTrigrams"+i+ " "+bjoernDisassemblyTrigrams[i]);
-	    		Util.writeFile("@attribute 'BjoernDisassemblyInstructionTrigrams "+i+"=["+bjoernDisassemblyTrigrams[i]+"]' numeric"+ "\n", output_filename, true);
+	    		Util.writeFile("@attribute 'BjoernDisassemblyInstructionTrigrams "+i+"=["+bjoernDisassemblyTrigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+ "\n", output_filename, true);
 		   	}
 		   	
 		   	//DISASSEMBLY LINE UNIGRAMS
 		   	//get the line unigrams in bjoern disassembly and write the line unigram features
 		       String[] disassemblyLineUnigrams =getBjoernLineUnigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineUnigrams.length; i++)	   	
-		       {  	disassemblyLineUnigrams[i] = disassemblyLineUnigrams[i].replace("'", "apostrophesymbol");
-		           	Util.writeFile("@attribute 'disassemblyLineUnigrams "+i+"=["+disassemblyLineUnigrams[i]+"]' numeric"+"\n", output_filename, true);
+		       {  	
+		           	Util.writeFile("@attribute 'disassemblyLineUnigrams "+i+"=["+disassemblyLineUnigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
         		//	System.out.println("@attribute 'disassemblyLineUnigrams "+i+"=["+disassemblyLineUnigrams[i]+"]");
 		       }		
 		    	
@@ -109,8 +103,7 @@ public class FeatureExtractor2016Bjoern {
 		    	String[] disassemblyLineBigrams =getBjoernLineBigrams(test_dir);
 		    	for (int i=0; i<disassemblyLineBigrams.length; i++)	   	
 		    	{  	
-		    	disassemblyLineBigrams[i] = disassemblyLineBigrams[i].replace("'", "apostrophesymbol");
-		    	Util.writeFile("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]' numeric"+"\n", output_filename, true);
+		    	Util.writeFile("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 		    	//	System.out.println("@attribute 'disassemblyLineBigrams "+i+"=["+disassemblyLineBigrams[i]+"]");
 		    	}		    	
 	
