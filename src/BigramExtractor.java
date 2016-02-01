@@ -145,7 +145,7 @@ public class BigramExtractor {
 			if (arr.length>1){
 			for(int i1=1;i1< arr.length; i1++){
 				bigrams.add(arr[i1-1].trim()+" "+arr[i1].trim()); 
-				System.out.println("bigram: "+arr[i1-1].trim()+" "+arr[i1].trim()); 
+			//	System.out.println("bigram: "+arr[i1-1].trim()+" "+arr[i1].trim()); 
 				}
 			} 
 		}

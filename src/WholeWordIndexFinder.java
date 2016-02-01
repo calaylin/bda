@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
  
 // Taken from http://whyjava.wordpress.com/2010/05/04/finding-all-the-indexes-of-a-whole-word-in-a-given-string-using-java/
 public class WholeWordIndexFinder {
@@ -14,9 +15,24 @@ public class WholeWordIndexFinder {
  
     public List<IndexWrapper> findIndexesForKeyword(String keyword) {
         String regex = "\\b"+keyword+"\\b";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(searchString);
- 
+        Pattern pattern;
+        Matcher matcher = null;
+
+        try {        
+            pattern = Pattern.compile(regex);        
+        //	System.out.println("Pattern created: "+pattern.pattern());
+            matcher = pattern.matcher(searchString);
+        } 
+        
+        catch (PatternSyntaxException ex) {
+        	System.out.println("This string does not compile: "+ex.getPattern());
+        	System.out.println(ex.getMessage());
+             regex = "\\"+keyword;
+        	 pattern = Pattern.compile(regex);        
+           	System.out.println("Pattern created in catch: "+pattern.pattern());
+             matcher = pattern.matcher(searchString);
+        	        }
+
         List<IndexWrapper> wrappers = new ArrayList<IndexWrapper>();
  
         while(matcher.find() == true){

@@ -370,15 +370,21 @@ public class FeatureCalculators {
 
 	    for(int i=0; i< test_file_paths.size(); i++){
 			String filePath = test_file_paths.get(i).toString();  
-	   
 	   String inputText =Util.readFile(filePath);
-	   Pattern pattern = Pattern.compile("([\\w']+)");
-	   Matcher matcher = pattern.matcher(inputText);
-	   while (matcher.find()) {
-	       uniqueWords.add(matcher.group(1));
-	   }}
-	   String[] words = uniqueWords.toArray(new String[0]);
-
+	   
+	   inputText = inputText.replaceAll("\\("," ");
+	   inputText = inputText.replaceAll("\\)"," ");
+	   inputText = inputText.replaceAll("\\d+\\t"," ");
+	   inputText = inputText.replaceAll("\\s+"," ");	
+	   String [] arr = inputText.split("\\s+");
+		if (arr.length>0){
+		for(int i1=0;i1< arr.length; i1++){
+			uniqueWords.add(arr[i1].trim()); 
+		//	System.out.println("ASTNode: "+arr[i1].trim()); 
+			}
+		} 
+	}
+	   String[] words = uniqueWords.toArray(new String[uniqueWords.size()]);
        return words;
 }
      
