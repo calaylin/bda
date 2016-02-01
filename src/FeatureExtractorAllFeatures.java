@@ -11,7 +11,7 @@ public class FeatureExtractorAllFeatures {
 	
 		String test_dir ="/Users/Aylin/Desktop/test/";
 		       		
-		String output_filename = "/Users/Aylin/Desktop/testAllFeatures2.arff" ;
+		String output_filename = "/Users/Aylin/Desktop/testAllFeatures5.arff" ;
 
 		List test_binary_paths = Util.listBinaryFiles(test_dir);
 

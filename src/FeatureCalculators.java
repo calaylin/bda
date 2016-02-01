@@ -377,19 +377,19 @@ public class FeatureCalculators {
 	   inputText = inputText.replaceAll("\\d+\\t"," ");
 	   inputText = inputText.replaceAll("\\s+"," ");	
 	   String [] arr = inputText.split("splithere");
-		System.out.println("inputText: "+inputText); 
+		//System.out.println("inputText: "+inputText); 
 
 		if (arr.length>0){
 		for(int i1=0;i1< arr.length; i1++){
 			if(!(arr[i1].isEmpty())){
 			uniqueWords.add(arr[i1].trim()); 
-			System.out.println("ASTNode: \\\""+arr[i1]+"\\\""); 
+		//	System.out.println("ASTNode: \\\""+arr[i1]+"\\\""); 
 			}
 			}
 		} 
 	}
 	   String[] words = uniqueWords.toArray(new String[uniqueWords.size()]);
-	   System.out.println("number of unique nodes"+uniqueWords.size()); 
+	//   System.out.println("number of unique nodes"+uniqueWords.size()); 
        return words;
 
 }
@@ -589,6 +589,7 @@ public class FeatureCalculators {
 			 }
 				   });
 	     float dirLen = directories.length;
+	     System.out.println("dirLen: "+dirLen);
 		 for(int j=0; j< dirLen; j++)
 			{
 			String authorName = directories[j];
@@ -603,6 +604,8 @@ public class FeatureCalculators {
 	 		} 
 	 		if(counter>0)
 	 			IDFcounter++;
+		     System.out.println("IDFcounter: "+IDFcounter);
+
 	 		
 	 }
 		 if (IDFcounter==0)
