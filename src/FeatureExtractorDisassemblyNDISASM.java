@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -426,31 +427,43 @@ public class FeatureExtractorDisassemblyNDISASM {
 	return words;		
 }	
 	
-    public static float [] getNDISASMDisassemblyLineBigramsTF (String featureText, String[] lineBigrams  )
+    public static float [] getNDISASMDisassemblyLineBigramsTF (String featureText, String[] lineBigrams  ) throws IOException
     {    
+    	
+    	BufferedReader br = new BufferedReader(new StringReader(featureText));
+		String[] arr;
+		String tmp="";
+		String line="";
+
+		while ((line = br.readLine()) != null)
+			{	
+		   		arr = line.split("\\s+",3);
+		   		if(arr.length>2){
+		   		line = arr[2];
+				line = line.replaceAll("\\\"", " ");
+				line = line.replaceAll("0[xX]?[0-9a-fA-F]+", "hexadecimal");
+				line = line.replaceAll("\\d+", "number");
+				line = line.replaceAll("\\s+", " ");
+				line = line + " " + tmp;
+				tmp = line;	
+				}
+		   		}	
+		   		
+    	
+    	
     String str;
     float symbolCount = lineBigrams.length;
     float [] counter = new float[(int) symbolCount];
-    
- 	featureText=	featureText.replaceAll("\\\"", " ");	
-	featureText=	featureText.replaceAll("0[xX]?[0-9a-fA-F]+", "hexadecimal");
-	//featureText =   featureText.replaceAll("/(0x)?[0-9a-f]+/i", "hexadecimal");					
-	featureText=	featureText.replaceAll("\\d+", "number");
- 	featureText=	featureText.replaceAll("\\n", " ");	
- 	featureText=	featureText.replaceAll("\\s+", " ");
 
  	for (int i =0; i<symbolCount; i++){
  		str = lineBigrams[i].toString();
- 		counter[i] = StringUtils.countMatches(featureText, str.trim()); 
+ 		counter[i] = StringUtils.countMatches(line, str.trim()); 
  		}
     return counter;
+    
+    
     }
-    
-    
-    
-    
-    
-    
+  
     
     
 }
