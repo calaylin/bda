@@ -117,8 +117,6 @@ public class BigramExtractor {
 
 
     List test_file_paths = Util.listDepFiles(dirPath);
-	Set<String> uniqueWords = new LinkedHashSet<String>();
-	List<String> unigrams = new ArrayList<String>();
 	Set<String> bigrams = new LinkedHashSet<String>();
 	String[] uniquebigrams = null;
 	
@@ -129,46 +127,32 @@ public class BigramExtractor {
    String inputText =Util.readFile(filePath);
 	int [] lines = DepthASTNode.getASTDepLines(inputText);
 	String textAST=null;
+	String inputTextParanthesisRemoved="";
+	String [] arr;
 	for (int j=0; j<lines.length; j++)
 	{
 		//System.out.println(lines[j]);
 
 		textAST = DepthASTNode.readLineNumber(inputText, lines[j]);
-		String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
+/*		String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
 		 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
-		 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");
-
-	//	System.out.println(inputTextParanthesisRemoved);
-
-//   Pattern pattern = Pattern.compile("([\\w']+)");
-		   Pattern pattern = Pattern.compile("(\\w+)\\s+");
-		   Matcher matcher = pattern.matcher(inputTextParanthesisRemoved);
-		   
-		   
-			while (matcher.find()) {
-//				System.out.println("Found a " + matcher.group() + ".");
-				unigrams.add(matcher.group());
-			}
-			
-		   while (matcher.find()) {
-		       uniqueWords.add(matcher.group(1));}
-		   
-		   }
-		   }
-	
-		  
-	
-
- //   String[] words = uniqueWords.toArray(new String[0]);
-	for(int i=1; i<unigrams.size(); i++){
-	   //   System.out.println( unigrams.get(i-1));
-		   bigrams.add(unigrams.get(i-1).trim() + " "+unigrams.get(i).trim());
-		       uniquebigrams = bigrams.toArray(new String[bigrams.size()]);
-	}	
-/*	for(int i=1; i<uniquebigrams.length; i++){
-			System.out.println(uniquebigrams[i]);		
-	}*/
+		 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");*/
+			 inputTextParanthesisRemoved = textAST.replaceAll("\\("," ");
+			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\)"," ");
+			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
+			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\s+"," ");	
+			arr = inputTextParanthesisRemoved.split("\\s+");
+			if (arr.length>1){
+			for(int i1=1;i1< arr.length; i1++){
+				bigrams.add(arr[i1-1].trim()+" "+arr[i1].trim()); 
+				System.out.println("bigram: "+arr[i1-1].trim()+" "+arr[i1].trim()); 
+				}
+			} 
+		}
+  }
+	uniquebigrams = bigrams.toArray(new String[bigrams.size()]);	
     return uniquebigrams;
+    
     }
     
     
@@ -183,18 +167,21 @@ public class BigramExtractor {
 		
 			textAST = DepthASTNode.readLineNumber(featureText, lines[j]);
 		//System.out.println("line: "+ lines[j]);
-			String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
+/*			String inputTextParanthesisRemoved = textAST.replaceAll("[()]"," ");
 		    inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
 			 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("( )+"," ");
-		
+		*/
 			//			System.out.println("inputText "+inputTextParanthesisRemoved);
-
+				String inputTextParanthesisRemoved = textAST.replaceAll("\\("," ");
+				 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\)"," ");
+				 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\d+\\t"," ");
+				 inputTextParanthesisRemoved = inputTextParanthesisRemoved.replaceAll("\\s+"," ");
 
 		for (int i=0; i<symbolCount; i++){
 			//    	featureText remove paranthesis and replace with one space for feature text
 			String str = ASTNodeBigrams[i].toString();
 		//	System.out.println(str);
-				counter[i] = counter[i] +StringUtils.countMatches(inputTextParanthesisRemoved, str.trim());
+				counter[i] = counter[i] + StringUtils.countMatches(inputTextParanthesisRemoved, str.trim());
 			//	System.out.println("counter: "+ counter[i]);
 		}
 		}
