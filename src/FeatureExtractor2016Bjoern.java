@@ -335,6 +335,7 @@ public class FeatureExtractor2016Bjoern {
 			newFeatureText = newFeatureText + line + " ";			
 			}
 		}
+		br.close();
 		newFeatureText=	newFeatureText.replaceAll("\\s+", " ");
 	//	System.out.println("this is newFeatureText"+newFeatureText);
  		for (int i =0; i<symbolCount; i++){
@@ -782,7 +783,7 @@ public class FeatureExtractor2016Bjoern {
    			featureText=	featureText.replaceAll("\\s+", " ");	
    	        for (int i =0; i<symbolCount; i++){
    	        str = DisBigrams[i].toString();
-   			counter[i] = StringUtils.countMatches(featureText, str);  	   
+   			counter[i] = StringUtils.countMatches(featureText, str);  	 
         }
         return counter;
 }
