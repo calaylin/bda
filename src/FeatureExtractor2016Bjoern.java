@@ -248,8 +248,8 @@ public class FeatureExtractor2016Bjoern {
     public static float [] getBjoernLineUnigramsTF (String featureText, String[] lineUnigrams  )
     {    	
     	String str;
-    	float symbolCount = lineUnigrams.length;
-    	float [] counter = new float[(int) symbolCount];
+    	int symbolCount = lineUnigrams.length;
+    	float[] counter = new float[symbolCount];
  		featureText=	featureText.replaceAll("\\\"", " ");	
  		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
@@ -313,8 +313,8 @@ public class FeatureExtractor2016Bjoern {
 		String line;
 		String[] arr;
 		String str;
-    	float symbolCount = lineBigrams.length;
-    	float [] counter = new float[(int) symbolCount];
+    	int symbolCount = lineBigrams.length;
+    	float[] counter = new float[symbolCount];
     	String newFeatureText="";
     	
 		while ((line = br.readLine()) != null)
@@ -712,8 +712,8 @@ public class FeatureExtractor2016Bjoern {
 	public static float [] getBjoernDisassemblyInstructionUnigramsTF (String featureText, String[] wordUnigrams  )
     {    	
     String str;
-    float symbolCount = wordUnigrams.length;
-    float [] counter = new float[(int) symbolCount]; 	
+    int symbolCount = wordUnigrams.length;
+    float[] counter = new float[symbolCount]; 	
  		featureText=	featureText.replaceAll("\\\"", " ");	
  		featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
  		featureText=	featureText.replaceAll("\\d+", "number");
@@ -774,8 +774,8 @@ public class FeatureExtractor2016Bjoern {
     
     public static float [] getBjoernDisassemblyInstructionBigramsTF (String featureText, String[] DisBigrams ) throws IOException
     {    
-        float symbolCount = DisBigrams.length;
-        float [] counter = new float[(int) symbolCount];
+        int symbolCount = DisBigrams.length;
+        float[] counter = new float[symbolCount];
         String str;
    			featureText=	featureText.replaceAll("\\\"", " ");	
    			featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
@@ -837,8 +837,8 @@ public class FeatureExtractor2016Bjoern {
     
     public static float [] getBjoernDisassemblyInstructionTrigramsTF (String featureText, String[] DisTrigrams ) throws IOException
     {    
-        float symbolCount = DisTrigrams.length;
-        float [] counter = new float[(int) symbolCount];
+        int symbolCount = DisTrigrams.length;
+        float[] counter = new float[symbolCount];
         String str;
    			featureText=	featureText.replaceAll("\\\"", " ");	
    			featureText=	featureText.replaceAll("0[xX][0-9a-fA-F]+", "hexadecimal");
