@@ -569,7 +569,7 @@ public class FeatureCalculators {
   			 +StringUtils.countMatches(featureText, str3)
   			 +StringUtils.countMatches(featureText, str4)
   			 ;  	   
-
+  //	 System.out.println("tf counter: "+ counter[i]);
      }
      return counter;
      }   
@@ -589,7 +589,7 @@ public class FeatureCalculators {
 			 }
 				   });
 	     float dirLen = directories.length;
-	     System.out.println("dirLen: "+dirLen);
+	 //    System.out.println("dirLen: "+dirLen);
 		 for(int j=0; j< dirLen; j++)
 			{
 			String authorName = directories[j];
@@ -604,7 +604,7 @@ public class FeatureCalculators {
 	 		} 
 	 		if(counter>0)
 	 			IDFcounter++;
-		     System.out.println("IDFcounter: "+IDFcounter);
+		 //    System.out.println("IDFcounter: "+IDFcounter);
 
 	 		
 	 }
@@ -629,15 +629,17 @@ public class FeatureCalculators {
 		 
 	//if case insensitive, make lowercase
 	// strcounter = StringUtils.countMatches(featureText.toLowerCase(), str);
-		 if ((tf[i] != 0) ){
-		 idf = DepASTTypeIDF(datasetDir, DepASTTypes[i].toString());}
+		 if ((tf[i] > 0) ){
+			 
+		 idf = DepASTTypeIDF(datasetDir, DepASTTypes[i].toString());
+		 counter[i] = tf[i] * idf;}
 		 else {
-			 idf =0;
-		 }
-		 if ((tf[i] != 0) && (idf != 0))
-		 counter[i] = tf[i] * idf;
-		 else
-			 counter[i]=0;
+			 counter[i] =0;		 }
+		 
+		 
+		 System.out.println("tf: "+tf[i]);
+		 System.out.println("idf: "+idf);
+		 System.out.println("tfidf: "+counter[i]);
 	   }
 	   return counter;
 	   }

@@ -181,7 +181,8 @@ public class bjoernGenerateGraphmlCFG {
 			 Runtime dumpTime = Runtime.getRuntime();
 		     Process dumpCFG = dumpTime.exec(new String[]{"/bin/bash", "-c",
 		    		 "curl http://localhost:2480/dumpcfg/"+ dbName + " ;"+
-		    			"mv /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +  " " + outdir  + " ;"+
+		    		  "mkdir "+ outdir+" ;"+
+		    			"mv -v /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +  " " + outdir  + " ;"+
 					    "rm -rf "+outdirTMP+" ;"+
 					    "rm -rf /Users/Aylin/git/bjoern-radare/dump/cfg/"+ dbName+" ;"+
 					    "rm -rf "+cfgDBFolder+ dbName +";"
