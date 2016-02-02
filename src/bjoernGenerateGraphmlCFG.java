@@ -172,8 +172,8 @@ public class bjoernGenerateGraphmlCFG {
 		 String outdir = File.separator + path + filename +"_bjoernDisassembly" + File.separator ;
 		 String outdirTMP = File.separator + path + filename +"_bjoernDisassembly" + File.separator +"bjoernCFG"+File.separator;
 		 String dbName = filename +"CFG" ;
-		 File outputTMP = new File(outdirTMP);
-		 outputTMP.mkdir();
+	//	 File outputTMP = new File(outdirTMP);
+	//	 outputTMP.mkdir();
 
 
 			String cfgDBFolder ="/Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/";
@@ -181,7 +181,6 @@ public class bjoernGenerateGraphmlCFG {
 			 Runtime dumpTime = Runtime.getRuntime();
 		     Process dumpCFG = dumpTime.exec(new String[]{"/bin/bash", "-c",
 		    		 "curl http://localhost:2480/dumpcfg/"+ dbName + " ;"+
-		    		  "mkdir "+ outdir+" ;"+
 		    			"mv -v /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +  " " + outdir  + " ;"+
 					    "rm -rf "+outdirTMP+" ;"+
 					    "rm -rf /Users/Aylin/git/bjoern-radare/dump/cfg/"+ dbName+" ;"+
