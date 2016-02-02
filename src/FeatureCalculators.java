@@ -610,8 +610,8 @@ public class FeatureCalculators {
 		 if (IDFcounter==0)
 		 {return 0;}
 		 else{
-			 System.out.println("IDFcounter: "+IDFcounter);
-			 System.out.println("IDF: "+(Math.log(dirLen/IDFcounter))/(Math.log(2)));
+			// System.out.println("IDFcounter: "+IDFcounter);
+			// System.out.println("IDF: "+(Math.log(dirLen/IDFcounter))/(Math.log(2)));
 
 		return (float) ((Math.log(dirLen/IDFcounter))/(Math.log(2)));
 		}
@@ -643,9 +643,9 @@ public class FeatureCalculators {
 			 counter[i] =0;		 }
 		 
 		 
-		 System.out.println("tf: "+tf[i]);
+/*		 System.out.println("tf: "+tf[i]);
 		 System.out.println("idf: "+idf);
-		 System.out.println("tfidf: "+counter[i]);
+		 System.out.println("tfidf: "+counter[i]);*/
 	   }
 	   return counter;
 	   }
