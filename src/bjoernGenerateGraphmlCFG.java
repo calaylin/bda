@@ -15,7 +15,7 @@ public class bjoernGenerateGraphmlCFG {
 
 	public static void main(String[] args) throws IOException, InterruptedException, ScriptException{
 		
-		String folderToProcess = "/Users/Aylin/Desktop/test/";
+		String folderToProcess = "/Users/Aylin/Desktop/optimizations/L0_150authors/";
 				//"/Users/Aylin/Desktop/Princeton/"+ "BAA/datasets/c++/optimizations/100authors_strippedS/";
 
 		//Start server for once
@@ -71,12 +71,9 @@ public class bjoernGenerateGraphmlCFG {
 		List binary_paths = Util.listBinaryFiles(folderToProcess);
 		for(int i=0; i< binary_paths.size(); i++){
 			bjoernGenerateCFG(binary_paths.get(i).toString());
-		}
-		
-		for(int i=0; i< binary_paths.size(); i++){
 			dumpCFG(binary_paths.get(i).toString());
 		}
-		
+
 		//kill server
 		Runtime run = Runtime.getRuntime();
 		Process runScript = run.exec(new String[]{"/bin/bash", "-c",

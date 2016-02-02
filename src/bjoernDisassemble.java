@@ -17,7 +17,7 @@ public class bjoernDisassemble {
 	public static void main(String[] args) throws IOException, InterruptedException, ScriptException{
 		
 		String folderToProcess ="/Users/Aylin/Desktop/Princeton/"
-				+ "BAA/datasets/c++/optimizations/100authors_strippedS/";
+				+ "BAA/datasets/c++/optimizations/L0_150authors/";
 		
 		List binary_paths = Util.listBinaryFiles(folderToProcess);
 		for(int i=0; i< binary_paths.size(); i++){
