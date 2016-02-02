@@ -576,10 +576,7 @@ public class FeatureCalculators {
      //use this for dep file with label AST
      public static float DepASTTypeIDF (String datasetDir, String ASTType ) throws IOException
 	 {    
-			
-		 float counter = 0;
 		 float IDFcounter = 0;
-
 		 File file = new File(datasetDir);
 	     String[] directories = file.list(new FilenameFilter() {
 	    	 @Override
@@ -592,6 +589,8 @@ public class FeatureCalculators {
 	 //    System.out.println("dirLen: "+dirLen);
 		 for(int j=0; j< dirLen; j++)
 			{
+			 // for inverse author frequency
+			float counter = 0; 
 			String authorName = directories[j];
 			List test_file_paths = Util.listDepFiles(datasetDir+authorName+ File.separator);
 	 		for(int i=0; i< test_file_paths.size(); i++)
@@ -600,17 +599,24 @@ public class FeatureCalculators {
 	 		  	 String str = ASTType;
 	 		  	 int termFrequencyAuthor = StringUtils.countMatches(featureText, str);  	
 	 		  	 if (termFrequencyAuthor>0)
-	 		  		 counter++;
+	 		  	 { counter++;}
 	 		} 
-	 		if(counter>0)
+	 		if(counter>0){
 	 			IDFcounter++;
 		 //    System.out.println("IDFcounter: "+IDFcounter);
-
+	 		}
 	 		
 	 }
 		 if (IDFcounter==0)
 		 {return 0;}
-		return (float) ((Math.log(dirLen/IDFcounter))/ (Math.log(2)));
+		 else{
+			 System.out.println("IDFcounter: "+IDFcounter);
+			 System.out.println("IDF: "+(Math.log(dirLen/IDFcounter))/(Math.log(2)));
+
+		return (float) ((Math.log(dirLen/IDFcounter))/(Math.log(2)));
+		}
+			   
+
 	
 	 }
      //use this for dep file with label AST
