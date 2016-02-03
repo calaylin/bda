@@ -34,13 +34,11 @@ public class bjoernGenerateGraphmlCFG {
 		int noFiles = binary_paths.size();
 		int modVal = 10;
 		int loopNo = noFiles % modVal;
+		int iterations= noFiles/modVal;
 		if (loopNo > 0){
-			noFiles=noFiles+1;
+			iterations=iterations+1;
 		}
-		for(int i=1; i <=(noFiles/modVal); i++){
-	    
-			
-	
+		for(int i=0; i <iterations; i++){
 			  try
 			  {
 				  Process runScript;
@@ -68,13 +66,13 @@ public class bjoernGenerateGraphmlCFG {
 
 
 			for(int i1=1; i1<= modVal; i1++){
-			bjoernGenerateCFG(binary_paths.get(i1).toString());
+			bjoernGenerateCFG(binary_paths.get(i1+(i*modVal)).toString());
 		}
 		
 			Thread.sleep(5000);
 			
 			for(int i1=1; i1<= modVal; i1++){
-			dumpCFG(binary_paths.get(i1).toString());
+			dumpCFG(binary_paths.get(i1+(i*modVal)).toString());
 			}
 			
 			
