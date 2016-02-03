@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.script.ScriptException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class bjoernGenerateGraphmlCFG {
@@ -22,57 +23,65 @@ public class bjoernGenerateGraphmlCFG {
 		//./Users/Aylin/git/bjoern-radare/bjoern-server.sh
 		// orientdb-community-2.1.5/bin/server.sh
 		
+
+				 		 
+				 //make sure to disable the local cache in orientdb-community-2.1.5/bin/server.sh
+				 //ORIENTDB_SETTINGS=-Dcache.level1.enabled=false
+//-Dcache.local.enabled=false
 		//the server keeps running in the background
-		Thread t = new Thread(new Runnable()
+		 Thread t = new Thread(new Runnable()
 		{
 		    public void run()
 		    {
+		    	Process runScript;
+				Runtime run = Runtime.getRuntime();
 			  try
 			  {
-				  Process runScript;
-					Runtime run = Runtime.getRuntime();
+				  
 
 					String cmd =// "cd /Users/Aylin/git/bjoern-radare/ "+";"+
 							//"echo startingOrientDB ;"+
 							//	"export PATH=$PATH:/usr/local/bin/ ;"+
-								"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh ";	 
+					//		"rm -rf /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/ ;"+
+							"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh ";	 
 					    //"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-server.sh";
 					
 					
-					runScript = run.exec(new String[]{"/bin/bash","-c",cmd});			
+					runScript = run.exec(new String[]{"/bin/bash","-c",cmd});
 					 BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
 					 while(br.ready())
-					 {	System.out.println(br.readLine());}
+					 {	System.out.println("Start server input str"+br.readLine());}
 					 br.close();		
-					 br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
-					 while(br.ready())
-						     {  System.out.println("input stream:"+br.readLine());}
-						     br.close();
 						      br = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
 						     while(br.ready())
-						     {  System.out.println("error stream:"+br.readLine());}
+						     {  System.out.println("Start server error stream:"+br.readLine());}
 						     br.close();
-							 int exitCode = runScript.exitValue();
-							 System.out.println("Process exit code: " + exitCode); 
-					runScript.destroyForcibly();}
+     
+					}
 			  catch(IOException e)
 			  {		      
 			      // Handle error.
+			      run.exit(0);
 			      e.printStackTrace();
+			      System.out.print("RUN EXP");
 			  }
+
 		    }
 		});
 		t.start();
-		
-		   
-	 
-				 
 				 
 		List binary_paths = Util.listBinaryFiles(folderToProcess);
+		
+		
 		for(int i=0; i< binary_paths.size(); i++){
 			bjoernGenerateCFG(binary_paths.get(i).toString());
+		//	dumpCFG(binary_paths.get(i).toString());
+		}
+		for(int i=0; i< binary_paths.size(); i++){
 			dumpCFG(binary_paths.get(i).toString());
 		}
+
+		
 
 		//kill server
 		Runtime run = Runtime.getRuntime();
@@ -84,7 +93,9 @@ public class bjoernGenerateGraphmlCFG {
 		 while(br.ready())
 		 {	System.out.println(br.readLine());}
 		 br.close();
-		 t.stop();
+		 //t.stop();
+		 int exitCode = runScript.exitValue();
+		 System.out.println("Process shutdown exit code: " + exitCode);
 	}
 	
 	public static void bjoernGenerateCFG(String filePath) throws IOException, InterruptedException, ScriptException{
@@ -97,6 +108,12 @@ public class bjoernGenerateGraphmlCFG {
 		String dbName = filename +"CFG" ;
 		File outputTMP = new File(outdirTMP);
 		outputTMP.mkdir();
+		String cfgDBFolder ="/Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/"
+				+ dbName;
+		File cfgDB = new File (cfgDBFolder);
+		if(cfgDB.exists()){
+		FileUtils.deleteDirectory(cfgDB); //delete if previous version of DB exists
+		}
 		 
        //  System.out.println("outdir: "+outdir);
         // System.out.println("filepath: "+filePath);
@@ -118,6 +135,7 @@ public class bjoernGenerateGraphmlCFG {
 			 
 			 Runtime run = Runtime.getRuntime();
 			 Process fileProcess = run.exec(new String[]{"/bin/sh", "-c",
+			      	//	"curl --user root:admin -X DELETE http://localhost:2480/database/"+dbName+" ;"+
 					  "chmod 777 /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh"
 
 					 });
@@ -125,11 +143,14 @@ public class bjoernGenerateGraphmlCFG {
 				       fileProcess.waitFor();
 				        BufferedReader br = new BufferedReader(new InputStreamReader(fileProcess.getInputStream()));
 				       while(br.ready())
-				           System.out.println(br.readLine());
+				           System.out.println("Delete if db there input:"+br.readLine());
 				       br.close();
-
+				        br = new BufferedReader(new InputStreamReader(fileProcess.getErrorStream()));
+				       while(br.ready())
+				           System.out.println("Delete if db there error:"+br.readLine());
+				       br.close();
 		
-			 Runtime runBjoern = Runtime.getRuntime();
+			Runtime runBjoern = Runtime.getRuntime();
 			Process runScript = runBjoern.exec(new String[]{"/bin/bash", "-c",
 				"cd /Users/Aylin/git/bjoern-radare/ ;"
 			    +"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh ;"+
@@ -145,19 +166,25 @@ public class bjoernGenerateGraphmlCFG {
 			    "cat "+outdirTMP+"edgeHead.csv > edges.csv ;"+
 			    "cat "+outdirTMP+"edges.csv_ >> edges.csv ;"+
 			    
-			    "/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-csvimport.sh -dbname "+dbName 
+			    "/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-csvimport.sh -dbname "+ dbName+" ;" 
 /*		    "export PATH=$PATH:/usr/local/bin/ ;"+   
 			"java -cp /Users/Aylin/git/bjoern-radare/bin/bjoern.jar:/usr/local/bin/ "
 			+ "clients.bjoernImport.BjoernImport -dbname "+dbName + " ;"*/
+
 			 });
 			 
 			 runScript.waitFor(); 
 			 System.out.println(filename +": importing binary");
 			 br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
 		     while(br.ready()) {System.out.println("import input stream:"+br.readLine());}
+		     br.close();
 		     br = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
 		     while(br.ready()) {System.out.println("import error stream:"+br.readLine());}
-		     
+		     br.close();
+			int exitCode = runScript.exitValue();
+			System.out.println("Process import exit code: " + exitCode); 
+
+			    
 	}
 	
 	
@@ -166,35 +193,68 @@ public class bjoernGenerateGraphmlCFG {
 		File processing = new File(filePath);
 		String path = FilenameUtils.getPath(filePath);
 		String filename = processing.getName();
-		 String outdir = File.separator + path + filename +"_bjoernDisassembly" + File.separator ;
-		 String outdirTMP = File.separator + path + filename +"_bjoernDisassembly" + File.separator +"bjoernCFG"+File.separator;
-		 String dbName = filename +"CFG" ;
+		String dbName = filename +"CFG" ;
+		String outdir = File.separator + path + filename +"_bjoernDisassembly" + File.separator + dbName;
+		String outdirTMP = File.separator + path + filename +"_bjoernDisassembly" + File.separator +"bjoernCFG"+File.separator;
 	//	 File outputTMP = new File(outdirTMP);
 	//	 outputTMP.mkdir();
+		
+		File outdirDB = new File (outdir);
+		if(outdirDB.exists()){
+			FileUtils.deleteDirectory(outdirDB); //delete if previous version of DB exists
+		}
 
+		String cfgDBFolder ="/Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/"
+					+ dbName;
+		
+		Runtime dumpTime = Runtime.getRuntime();
+	    Process dumpCFG = dumpTime.exec(new String[]{"/bin/bash", "-c",
+	    //	"curl -v http://localhost:2480/disconnect ;"+  
+	    		 "curl http://localhost:2480/dumpcfg/"+ dbName + " ;"
+				 });
+				 
+		 System.out.println(filename +": dumping cfg");
+		 dumpCFG.waitFor();
 
-			String cfgDBFolder ="/Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/";
+	     BufferedReader br = new BufferedReader(new InputStreamReader(dumpCFG.getInputStream()));
+	    while(br.ready())     {System.out.println("cfgDump input stream:"+br.readLine());} 
+	    br.close();
+	    br = new BufferedReader(new InputStreamReader(dumpCFG.getErrorStream()));
+	    while(br.ready())     {System.out.println("cfgDump error stream:"+br.readLine());} 
+	    br.close();
+		int exitCode = dumpCFG.exitValue();
+		System.out.println("Process dumpCFG exit code: " + exitCode); 
+	    
+		 Runtime cpTime = Runtime.getRuntime();
+	     Process cpCFG = cpTime.exec(new String[]{"/bin/bash", "-c",
+	    			"cp -r /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +File.separator+  " " + outdir + " ;"
+				   + "rm -r /Users/Aylin/git/bjoern-radare/dump/cfg/"+ dbName+File.separator+" ;"
+		      		+"curl --user root:admin -X DELETE http://localhost:2480/database/"+dbName+" ;"//delete db from orientDB
+		      	//	+"rm -r "+ cfgDBFolder + File.separator
+	     });
+		 
+		 System.out.println(filename +": copying cfg");
+		 cpCFG.waitFor();
+	//	 int exitCode = runScript.exitValue();
+	//	 System.out.println("Process exit code: " + exitCode); 
+		 BufferedReader br1 = new BufferedReader(new InputStreamReader(cpCFG.getInputStream()));
+		 while(br1.ready())     {System.out.println("cfgCopy input stream:"+br1.readLine());} 
+		 br1.close();
+		 br1 = new BufferedReader(new InputStreamReader(cpCFG.getErrorStream()));
+		 while(br1.ready())     {System.out.println("cfgCopy error stream:"+br1.readLine());} 
+		 br1.close();	   
+		 exitCode = cpCFG.exitValue();
+		System.out.println("Process cfgCopy exit code: " + exitCode); 
 
-			 Runtime dumpTime = Runtime.getRuntime();
-		     Process dumpCFG = dumpTime.exec(new String[]{"/bin/bash", "-c",
-		    		 "curl http://localhost:2480/dumpcfg/"+ dbName + " ;"+
-		    			"mv -v /Users/Aylin/git/bjoern-radare/dump/cfg/"+dbName +  " " + outdir  + " ;"+
-					    "rm -rf "+outdirTMP+" ;"+
-					    "rm -rf /Users/Aylin/git/bjoern-radare/dump/cfg/"+ dbName+" ;"+
-					    "rm -rf "+cfgDBFolder+ dbName +";"
-					 });
-					 
-					 System.out.println(filename +": dumping cfg");
-					 dumpCFG.waitFor();
-				//	 int exitCode = runScript.exitValue();
-				//	 System.out.println("Process exit code: " + exitCode); 
-				     BufferedReader br = new BufferedReader(new InputStreamReader(dumpCFG.getInputStream()));
-				    while(br.ready())     {System.out.println("cfgDump input stream:"+br.readLine());} 
-				    br.close();
-				    br = new BufferedReader(new InputStreamReader(dumpCFG.getErrorStream()));
-				    while(br.ready())     {System.out.println("cfgDump error stream:"+br.readLine());} 
-				    br.close();
-
+		File cfgDB = new File (cfgDBFolder);
+		if(cfgDB.exists()){
+			FileUtils.deleteDirectory(cfgDB); //delete if previous version exists
+		}
+		
+		File tmpFolder = new File (outdirTMP);
+		if(tmpFolder.exists()){
+			FileUtils.deleteDirectory(tmpFolder); //delete if previous version exists
+			}
 				 
 	}
 }
