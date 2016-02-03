@@ -29,61 +29,88 @@ public class bjoernGenerateGraphmlCFG {
 				 //ORIENTDB_SETTINGS=-Dcache.level1.enabled=false
 //-Dcache.local.enabled=false
 		//the server keeps running in the background
-		 Thread t = new Thread(new Runnable()
-		{
-		    public void run()
-		    {
-		    	Process runScript;
-				Runtime run = Runtime.getRuntime();
+		
+		List binary_paths = Util.listBinaryFiles(folderToProcess);
+		int noFiles = binary_paths.size();
+		int modVal = 10;
+		int loopNo = noFiles % modVal;
+		if (loopNo > 0){
+			noFiles=noFiles+1;
+		}
+		for(int i=1; i <=(noFiles/modVal); i++){
+	    
+			
+	
 			  try
 			  {
-				  
-
+				  Process runScript;
+					Runtime run = Runtime.getRuntime();
 					String cmd =// "cd /Users/Aylin/git/bjoern-radare/ "+";"+
 							//"echo startingOrientDB ;"+
-							//	"export PATH=$PATH:/usr/local/bin/ ;"+
+						//	"export PATH=$PATH:/usr/local/bin/ ;"+
 					//		"rm -rf /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/ ;"+
-							"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh ";	 
-					    //"/bin/bash /Users/Aylin/git/bjoern-radare/bjoern-server.sh";
+							"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh "	 
+							;
 					
 					
-					runScript = run.exec(new String[]{"/bin/bash","-c",cmd});
-					 BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
+					 runScript = run.exec(new String[]{"/bin/bash","-c",cmd});
+					 runScript.waitFor(2, TimeUnit.SECONDS);
+/*					 BufferedReader br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
 					 while(br.ready())
 					 {	System.out.println("Start server input str"+br.readLine());}
 					 br.close();		
-						      br = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
-						     while(br.ready())
-						     {  System.out.println("Start server error stream:"+br.readLine());}
-						     br.close();
-     
-					}
+					 br = new BufferedReader(new InputStreamReader(runScript.getErrorStream()));
+					 while(br.ready())
+					{  System.out.println("Start server error stream:"+br.readLine());}
+					 br.close();*/
+				//	 runScript.getInputStream().close();
+				//	 runScript.getErrorStream().close();
+
+
+			for(int i1=1; i1<= modVal; i1++){
+			bjoernGenerateCFG(binary_paths.get(i1).toString());
+		}
+		
+			Thread.sleep(5000);
+			
+			for(int i1=1; i1<= modVal; i1++){
+			dumpCFG(binary_paths.get(i1).toString());
+			}
+			
+			
+
+			Runtime run1=	Runtime.getRuntime();
+		Process stopScript = run1.exec(new String[]{"/bin/bash", "-c",
+				    "/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/shutdown.sh"	 					 });
+		 stopScript.waitFor();
+		 BufferedReader br2 = new BufferedReader(new InputStreamReader(stopScript.getInputStream()));
+			 while(br2.ready())
+			 {	System.out.println("Server shutdown input str:"+br2.readLine());}
+			 br2.close();
+/*			  br2 = new BufferedReader(new InputStreamReader(stopScript.getErrorStream()));
+			 while(br2.ready())
+			 {	System.out.println("Server shutdown error str:"+br2.readLine());
+			 }
+			 
+			 br2.close();*/
+			 int exitCode = stopScript.exitValue();
+			 System.out.println("Process shutdown exit code: " + exitCode);
+				
+			  
+			  }
 			  catch(IOException e)
 			  {		      
-			      // Handle error.
-			      run.exit(0);
 			      e.printStackTrace();
 			      System.out.print("RUN EXP");
-			  }
+			  } 
 
-		    }
-		});
-		t.start();
-				 
-		List binary_paths = Util.listBinaryFiles(folderToProcess);
-		
-		
-		for(int i=0; i< binary_paths.size(); i++){
-			bjoernGenerateCFG(binary_paths.get(i).toString());
-		//	dumpCFG(binary_paths.get(i).toString());
+		     
+	
 		}
-		for(int i=0; i< binary_paths.size(); i++){
-			dumpCFG(binary_paths.get(i).toString());
-		}
-
+		
 		
 
-		//kill server
+/*		//kill server
 		Runtime run = Runtime.getRuntime();
 		Process runScript = run.exec(new String[]{"/bin/bash", "-c",
 				    "/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/shutdown.sh"	 
@@ -96,6 +123,7 @@ public class bjoernGenerateGraphmlCFG {
 		 //t.stop();
 		 int exitCode = runScript.exitValue();
 		 System.out.println("Process shutdown exit code: " + exitCode);
+		 t.destroy();*/
 	}
 	
 	public static void bjoernGenerateCFG(String filePath) throws IOException, InterruptedException, ScriptException{
@@ -139,7 +167,6 @@ public class bjoernGenerateGraphmlCFG {
 					  "chmod 777 /Users/Aylin/git/bjoern-radare/bjoern-radare2.sh"
 
 					 });
-		  
 				       fileProcess.waitFor();
 				        BufferedReader br = new BufferedReader(new InputStreamReader(fileProcess.getInputStream()));
 				       while(br.ready())
