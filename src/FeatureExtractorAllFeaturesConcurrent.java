@@ -459,9 +459,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			
 			
 			//THIS IS WHERE THE TEST PARAMETERS BECOME EFFECTIVE			
-			//for(int i=0; i< test_binary_paths.size(); i++){
-//	         test_dir output_filename start end		
-			for(int i=start; i<=end; i++){
+			    for(int i=0; i< test_binary_paths.size(); i++){
 
 				authorFileName= new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName() +
@@ -494,7 +492,10 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			
 			
 			//EXTRACT LABELED FEATURES FROM CORRESPONDING FEATURE DATA SOURCES
-		   	for(int i=0; i< test_binary_paths.size(); i++){
+//	         test_dir output_filename start end		
+			for(int i=start; i<=end; i++){
+
+		//   	for(int i=0; i< test_binary_paths.size(); i++){
 				authorFileName = new File(test_binary_paths.get(i).toString());
 				String authorName= authorFileName.getParentFile().getName() +
 						"_"+authorFileName.getParentFile().getParentFile().getName();
