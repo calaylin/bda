@@ -266,7 +266,8 @@ public class FeatureExtractorSnowmanCFG {
 				//		System.out.println(line);
 						uniGrams.add(line.toString());
 					}
- 	    }	 	       	      
+				br.close();
+ 	    }	
  	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
 			    return words;
  
@@ -405,6 +406,7 @@ public class FeatureExtractorSnowmanCFG {
 			//			System.out.println("BIGRAM IS: " +temp + "\n"+  line);
 						temp = line;
 					}
+				br.close();
  	    }	 	       	      
  	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
 			    return words;
@@ -479,6 +481,7 @@ public class FeatureExtractorSnowmanCFG {
 						
 
 					}
+				br.close();
  	    }	 	       	      
  	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
 			    return words;
@@ -554,6 +557,7 @@ public class FeatureExtractorSnowmanCFG {
 						
 
 					}
+				br.close();
  	    }	 	       	      
  	    		words =   uniGrams.toArray(new String[uniGrams.size()]);
 			    return words;
