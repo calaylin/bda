@@ -22,8 +22,9 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 		    }
 
 		    public static void main(String[] args){
-		    	String test_dir ="/Users/Aylin/Desktop/test/";	       	
-		    	String output_filename = "/Users/Aylin/Desktop/testArffs/testAllFeatures.arff" ;
+		    	String test_dir ="/home/ubuntu/Desktop/usenix16/datasets/L0_150authors/";	       		
+				String output_filename = "/home/ubuntu/Desktop/usenix16/arffs/L0_150authorsConcurrent/L0_150authors_allfeatures_concurrent";
+
 				List test_binary_paths = Util.listBinaryFiles(test_dir);
 				int totalFiles = test_binary_paths.size();
 				int threads = 20;
@@ -34,50 +35,50 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 				
 				
 		        Thread looper1 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"1"+output_filename ,(noFiles*0),(noFiles*1)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"1.arff" ,(noFiles*0),(noFiles*1)-1));
 		        Thread looper2 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"2"+output_filename,(noFiles*1),(noFiles*2)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"2.arff",(noFiles*1),(noFiles*2)-1));
 		        Thread looper3 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"3"+output_filename ,(noFiles*2),(noFiles*3)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"3.arff" ,(noFiles*2),(noFiles*3)-1));
 		        Thread looper4 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"4"+output_filename,(noFiles*3),(noFiles*4)-1));		        
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"4.arff",(noFiles*3),(noFiles*4)-1));		        
 		        Thread looper5 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"5"+output_filename ,(noFiles*4),(noFiles*5)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"5.arff" ,(noFiles*4),(noFiles*5)-1));
 		        Thread looper6 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"6"+output_filename,(noFiles*5),(noFiles*6)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"6.arff",(noFiles*5),(noFiles*6)-1));
 		        Thread looper7 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"7"+output_filename ,(noFiles*6),(noFiles*7)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"7.arff" ,(noFiles*6),(noFiles*7)-1));
 		        Thread looper8 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"8"+output_filename,(noFiles*7),(noFiles*8)-1));		    
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"8.arff",(noFiles*7),(noFiles*8)-1));		    
 		        Thread looper9 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"9"+output_filename ,(noFiles*8),(noFiles*9)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"9.arff" ,(noFiles*8),(noFiles*9)-1));
 		        Thread looper10 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"10"+output_filename,(noFiles*9),(noFiles*10)-1));		        
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"10.arff",(noFiles*9),(noFiles*10)-1));		        
 		        Thread looper11 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"11"+output_filename ,(noFiles*10),(noFiles*11)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"11.arff" ,(noFiles*10),(noFiles*11)-1));
 		        Thread looper12 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"12"+output_filename,(noFiles*11),(noFiles*12)-1));		        
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"12.arff",(noFiles*11),(noFiles*12)-1));		        
 		        Thread looper13 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"13"+output_filename ,(noFiles*12),(noFiles*13)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"13.arff" ,(noFiles*12),(noFiles*13)-1));
 		        Thread looper14 = new Thread (new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"14"+output_filename,(noFiles*13),(noFiles*14)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"14.arff",(noFiles*13),(noFiles*14)-1));
 		        Thread looper15 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"15"+output_filename ,(noFiles*14),(noFiles*15)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"15.arff" ,(noFiles*14),(noFiles*15)-1));
 		        Thread looper16 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"16"+output_filename ,(noFiles*15),(noFiles*16)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"16.arff" ,(noFiles*15),(noFiles*16)-1));
 		        Thread looper17 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"17"+output_filename ,(noFiles*16),(noFiles*17)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"17.arff" ,(noFiles*16),(noFiles*17)-1));
 		        Thread looper18 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"18"+output_filename ,(noFiles*17),(noFiles*18)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"18.arff" ,(noFiles*17),(noFiles*18)-1));
 		        Thread looper19 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"19"+output_filename ,(noFiles*18),(noFiles*19)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"19.arff" ,(noFiles*18),(noFiles*19)-1));
 		        Thread looper20 = new Thread(new 
-		        		FeatureExtractorAllFeaturesConcurrent(test_dir,"20"+output_filename ,(noFiles*19),(noFiles*20)-1));
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"20.arff" ,(noFiles*19),(noFiles*20)-1));
     
 				if (extra > 0){
 					   looper21 = new Thread(new 
 				        		FeatureExtractorAllFeaturesConcurrent(test_dir,
-				        				"21"+output_filename ,(noFiles*20),(totalFiles-1)));	
+				        				output_filename+"21.arff" ,(noFiles*20),(totalFiles-1)));	
 						looper21.start();
 
 				}
