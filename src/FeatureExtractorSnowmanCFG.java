@@ -263,7 +263,6 @@ public class FeatureExtractorSnowmanCFG {
 						line=	line.replaceAll("\\];", "");
 						line=	line.replaceAll("\\[shape=box,label=", " ");
 						line=	line.replaceAll("\\\\n", " nodeNewline ");
-				//		System.out.println(line);
 						uniGrams.add(line.toString());
 					}
 				br.close();
