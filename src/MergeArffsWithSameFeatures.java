@@ -7,25 +7,48 @@ import java.io.IOException;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
+import weka.core.converters.ArffSaver;
 
 
 public class MergeArffsWithSameFeatures {
     public static void main(String[] args) throws Exception, IOException, InterruptedException {
 
-    	File arffFile1 = new File("arffFile1");
-    	File arffFile2 = new File("arffFile2");
+		String output_filename = "/home/ubuntu/Desktop/usenix16/arffs/"
+				+ "L0_150authorsConcurrent/L0_150authors_allfeatures_concurrent";
+		
+		String finalArff = output_filename+"Final"+".arff";
+
+    	File arffFile1 = new File(output_filename  +"1.arff");
+
+ //   	File arffFile2 = new File(finalArff);
 
 		Instances data1 = new Instances(new FileReader(arffFile1));
-		Instances data2 = new Instances(new FileReader(arffFile1));
 
-    	Instances mergedData = Instances.mergeInstances( data1 ,data2);  
+/*    	Instances mergedData = Instances.mergeInstances( data1 ,data2);  
+    	ArffSaver saver = new ArffSaver();
+    	saver.setInstances(mergedData);
+    	saver.setFile(new File(finalArff));
+    	saver.setDestination(new File(finalArff));
+    	saver.writeBatch();*/
 
-    	String finalArff=arffFile1.getPath()+arffFile1.getName()+"final"+ ".arff";
+    	//the following does not scale
 		BufferedWriter writer = new BufferedWriter(new FileWriter(finalArff));
-		writer.write(mergedData.toString());
+		writer.write(data1.toString());
 		writer.flush();
 		writer.close();
 	
+		File arffFile2;
+		Instances data2;
+		
+		for(int i=2; i<=21;i++){
+        arffFile2 = new File(output_filename  +i+".arff");
+	    data2 = new Instances(new FileReader(arffFile2));
+	    for(int j=0; j<data2.numInstances(); j++){
+	    	Util.writeFile(data2.instance(j).toString(), finalArff, true);
+	    }
+		}
+
+
     	
     	
 }
