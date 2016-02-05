@@ -16,11 +16,10 @@ public class MergeArffsWithSameFeatures {
 		String output_filename = "/home/ubuntu/Desktop/usenix16/arffs/"
 				+ "L0_150authorsConcurrent/L0_150authors_allfeatures_concurrent";
 		
-		String finalArff = output_filename+"Final"+".arff";
+		String finalArff = output_filename+"Final2"+".arff";
 
     	File arffFile1 = new File(output_filename  +"1.arff");
 
- //   	File arffFile2 = new File(finalArff);
 
 		Instances data1 = new Instances(new FileReader(arffFile1));
 
@@ -40,11 +39,13 @@ public class MergeArffsWithSameFeatures {
 		File arffFile2;
 		Instances data2;
 		
+    	Util.writeFile("\n", finalArff, true);
+
 		for(int i=2; i<=21;i++){
         arffFile2 = new File(output_filename  +i+".arff");
 	    data2 = new Instances(new FileReader(arffFile2));
 	    for(int j=0; j<data2.numInstances(); j++){
-	    	Util.writeFile(data2.instance(j).toString(), finalArff, true);
+	    	Util.writeFile(data2.instance(j).toString()+"\n", finalArff, true);
 	    }
 		}
 
