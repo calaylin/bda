@@ -12,11 +12,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class bjoernGenerateGraphmlCFG {
-	
 
+	
 	public static void main(String[] args) throws IOException, InterruptedException, ScriptException{
 		
-		String folderToProcess = "/Users/Aylin/Desktop/optimizations/L0_150authors/";
+		String folderToProcess = "/Users/Aylin/Desktop/optimizations/1046NotOptimized/";
 				//"/Users/Aylin/Desktop/Princeton/"+ "BAA/datasets/c++/optimizations/100authors_strippedS/";
 
 		//Start server for once
@@ -38,7 +38,7 @@ public class bjoernGenerateGraphmlCFG {
 		if (loopNo > 0){
 			iterations=iterations+1;
 		}
-		for(int i=0; i <iterations; i++){
+		for(int i=0; i<iterations; i++){
 			  try
 			  {
 				  Process runScript;
@@ -49,7 +49,6 @@ public class bjoernGenerateGraphmlCFG {
 					//		"rm -rf /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/databases/ ;"+
 							"/bin/bash /Users/Aylin/git/bjoern-radare/orientdb-community-2.1.5/bin/server.sh "	 
 							;
-					
 					
 					 runScript = run.exec(new String[]{"/bin/bash","-c",cmd});
 					 runScript.waitFor(2, TimeUnit.SECONDS);
@@ -64,15 +63,30 @@ public class bjoernGenerateGraphmlCFG {
 				//	 runScript.getInputStream().close();
 				//	 runScript.getErrorStream().close();
 
+					 
 
+
+					 
 			for(int i1=1; i1<= modVal; i1++){
-			bjoernGenerateCFG(binary_paths.get(i1+(i*modVal)).toString());
-		}
+				
+		File bin= new File(binary_paths.get(i1+(i*modVal)).toString());
+		 File cfgFolder= new File(binary_paths.get(i1+(i*modVal)).toString()+"_bjoernDisassembly" + File.separator +bin.getName()+"CFG"+File.separator);
+		 if((cfgFolder.exists() == false) || (FileUtils.sizeOfDirectory(cfgFolder) < 1)){
+	System.out.println(cfgFolder.getPath());
+	bjoernGenerateCFG(binary_paths.get(i1+(i*modVal)).toString());
+
+}}
+
 		
-			Thread.sleep(5000);
+			Thread.sleep(1000);
 			
 			for(int i1=1; i1<= modVal; i1++){
+				
+				File bin= new File(binary_paths.get(i1+(i*modVal)).toString());
+				 File cfgFolder= new File(binary_paths.get(i1+(i*modVal)).toString() + "_bjoernDisassembly" + File.separator +bin.getName()+"CFG"+File.separator);
+				 if((cfgFolder.exists() == false) || (FileUtils.sizeOfDirectory(cfgFolder) < 1)){
 			dumpCFG(binary_paths.get(i1+(i*modVal)).toString());
+					 }
 			}
 			
 			
@@ -158,7 +172,7 @@ public class bjoernGenerateGraphmlCFG {
 			 writer.println(bjoern_radare_tmp);
 			 writer.close();
 
-			 
+
 			 Runtime run = Runtime.getRuntime();
 			 Process fileProcess = run.exec(new String[]{"/bin/sh", "-c",
 			      	//	"curl --user root:admin -X DELETE http://localhost:2480/database/"+dbName+" ;"+
@@ -197,7 +211,7 @@ public class bjoernGenerateGraphmlCFG {
 			+ "clients.bjoernImport.BjoernImport -dbname "+dbName + " ;"*/
 
 			 });
-			 
+
 			 runScript.waitFor(); 
 			 System.out.println(filename +": importing binary");
 			 br = new BufferedReader(new InputStreamReader(runScript.getInputStream()));
