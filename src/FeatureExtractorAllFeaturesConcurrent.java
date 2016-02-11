@@ -22,15 +22,16 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 		    }
 
 		    public static void main(String[] args){
-		    	String test_dir ="/home/ubuntu/Desktop/usenix16/datasets/L0_150authors/";	       		
-				String output_filename = "/home/ubuntu/Desktop/usenix16/arffs/L0_150authorsConcurrent/L0_150authors_allfeatures_concurrent";
+		    	String test_dir ="/home/ubuntu/Desktop/usenix16/datasets/L3_150authors/";	       		
+				String output_filename = "/home/ubuntu/Desktop/usenix16/"
+						+ "arffs/L3_150authorsConcurrent/L3_150authors_allfeaturesNoAVGDep_concurrent";
 
 				List test_binary_paths = Util.listBinaryFiles(test_dir);
 				int totalFiles = test_binary_paths.size();
-				int threads = 20;
+				int threads = 30;
 				int extra = totalFiles % threads;
 				int noFiles= totalFiles/threads;
-		        Thread looper21 = null;
+		        Thread looper31 = null;
 
 				
 				
@@ -74,13 +75,34 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"19.arff" ,(noFiles*18),(noFiles*19)-1));
 		        Thread looper20 = new Thread(new 
 		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"20.arff" ,(noFiles*19),(noFiles*20)-1));
+		        Thread looper21 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"21.arff" ,(noFiles*20),(noFiles*21)-1));
+		        Thread looper22 = new Thread (new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"22.arff",(noFiles*21),(noFiles*22)-1));		        
+		        Thread looper23 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"23.arff" ,(noFiles*22),(noFiles*23)-1));
+		        Thread looper24 = new Thread (new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"24.arff",(noFiles*23),(noFiles*24)-1));
+		        Thread looper25 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"25.arff" ,(noFiles*24),(noFiles*25)-1));
+		        Thread looper26 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"26.arff" ,(noFiles*25),(noFiles*26)-1));
+		        Thread looper27 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"27.arff" ,(noFiles*26),(noFiles*27)-1));
+		        Thread looper28 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"28.arff" ,(noFiles*27),(noFiles*28)-1));
+		        Thread looper29 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"29.arff" ,(noFiles*28),(noFiles*29)-1));
+		        Thread looper30 = new Thread(new 
+		        		FeatureExtractorAllFeaturesConcurrent(test_dir,output_filename+"30.arff" ,(noFiles*29),(noFiles*30)-1));
     
+		        
+		        
 				if (extra > 0){
-					   looper21 = new Thread(new 
+					   looper31 = new Thread(new 
 				        		FeatureExtractorAllFeaturesConcurrent(test_dir,
-				        				output_filename+"21.arff" ,(noFiles*20),(totalFiles-1)));	
-						looper21.start();
-
+				        				output_filename+"31.arff" ,(noFiles*30),(totalFiles-1)));	
+						looper31.start();
 				}
 		        
 		        
@@ -104,8 +126,16 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 		        looper18.start();
 		        looper19.start();
 		        looper20.start();
-
-
+		        looper21.start();
+		        looper22.start();
+		        looper23.start();
+		        looper24.start();
+		        looper25.start();
+		        looper26.start();
+		        looper27.start();
+		        looper28.start();
+		        looper29.start();
+		        looper30.start();
 		    }
 		    @Override
 		    public void run() {
@@ -420,10 +450,10 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			    	Util.writeFile("@attribute 'ASTNodeTypesTFIDF "+i+"=["+ASTtypes[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 			  }
 			  
-			    for (int i=0; i<ASTtypes.length; i++)	
+			/*    for (int i=0; i<ASTtypes.length; i++)	
 			    {	   
 			    	Util.writeFile("@attribute 'ASTNodeTypeAvgDep "+i+"=["+ASTtypes[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
-			    }
+			    }*/
 			  
 			    
 			    
@@ -766,7 +796,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			    for (int j=0; j<ASTtypes.length; j++)
 				{Util.writeFile(DepastTypeTFIDF[j]+",", output_filename, true);}	
 				
-			    //get AST node avg depth
+			  /*  //get AST node avg depth
 		    	float[] depFeature = null;
 				try {
 					depFeature = DepthASTNode.getAvgDepthASTNode(featureTextHexraysDecompiledCodeDEP,ASTtypes);
@@ -775,7 +805,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 					e.printStackTrace();
 				}
 		    	for(int k=0;k<depFeature.length;k++)
-				{Util.writeFile(depFeature[k] +",", output_filename, true);}	
+				{Util.writeFile(depFeature[k] +",", output_filename, true);}	*/
 			    
 		    	float [] cppKeywordsTF =FeatureCalculators.getCandCPPKeywordsTF(featureTextHexraysDecompiledCodeCPP);
 		    	for(int k=0;k<cppKeywordsTF.length;k++)

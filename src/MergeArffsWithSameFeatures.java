@@ -14,15 +14,13 @@ public class MergeArffsWithSameFeatures {
     public static void main(String[] args) throws Exception, IOException, InterruptedException {
 
 		String output_filename = "/home/ubuntu/Desktop/usenix16/arffs/"
-				+ "L0_150authorsConcurrent/L0_150authors_allfeatures_concurrent";
+				+ "L2_150authorsConcurrent/L2_150authors_allfeaturesNoAVGDep_concurrent";
 		
-		String finalArff = output_filename+"Final2"+".arff";
+		String finalArff = output_filename+"Final"+".arff";
 
     	File arffFile1 = new File(output_filename  +"1.arff");
-
-
 		Instances data1 = new Instances(new FileReader(arffFile1));
-
+		int threads=20;
 /*    	Instances mergedData = Instances.mergeInstances( data1 ,data2);  
     	ArffSaver saver = new ArffSaver();
     	saver.setInstances(mergedData);
@@ -41,7 +39,7 @@ public class MergeArffsWithSameFeatures {
 		
     	Util.writeFile("\n", finalArff, true);
 
-		for(int i=2; i<=21;i++){
+		for(int i=2; i<=(threads+1);i++){
         arffFile2 = new File(output_filename  +i+".arff");
 	    data2 = new Instances(new FileReader(arffFile2));
 	    for(int j=0; j<data2.numInstances(); j++){
