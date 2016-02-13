@@ -33,7 +33,7 @@ public class ObfuscateBinaries {
 	            outputFile = filename.concat("TripleObfuscatedExecutable");
 	            System.out.println(filename);
 	        Runtime decompiler = Runtime.getRuntime();
-	                Process process = decompiler.exec(new String[]{"/bin/sh","/c",
+	                Process process = decompiler.exec(new String[]{"/bin/sh",
 	               "/home/ubuntu/build/bin/clang++ -m32 "+
 	               		cppFilePaths.get(i).toString()+" -o "+
 	            		   
