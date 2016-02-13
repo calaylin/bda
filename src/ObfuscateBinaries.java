@@ -22,7 +22,7 @@ public class ObfuscateBinaries {
 	        String outputFile = "";
 	        String filename = "";
 	        
-	        List cppFilePaths = Util.listCPPFiles("test");
+	        List cppFilePaths = Util.listCPPFiles("/home/ubuntu/Desktop/usenix16/datasets/Original_20authors/23nigam/");
 	        String obfuscationType="-mllvm -sub -mllvm -fla -mllvm -bcf";
 	        for(int i =0; i< cppFilePaths.size();i++){
 	        
@@ -30,7 +30,7 @@ public class ObfuscateBinaries {
 	        	//to generate obfuscated code
 	        	File cppFile = new File(cppFilePaths.get(i).toString());
 	            filename = cppFile.getName();
-	            outputFile = filename.concat("obfuscatedExecutable");
+	            outputFile = filename.concat("TripleObfuscatedExecutable");
 	            System.out.println(filename);
 	        Runtime decompiler = Runtime.getRuntime();
 	                Process process = decompiler.exec(new String[]{"/bin/sh","/c",
