@@ -22,18 +22,18 @@ public class ObfuscateBinaries {
 	        String outputFile = "";
 	        String filename = "";
 	        
-	        List cppFilePaths = Util.listCPPFiles("/home/ubuntu/Desktop/usenix16/datasets/Original_20authors/23nigam/");
+	        List cppFilePaths = Util.listCPPFiles("/home/ubuntu/Desktop/usenix16/datasets/Original_20authors/3abdelazim/");
 	        String obfuscationType="-mllvm -sub -mllvm -fla -mllvm -bcf";
 	        for(int i =0; i< cppFilePaths.size();i++){
 	        
       	
 	        	//to generate obfuscated code
 	        	File cppFile = new File(cppFilePaths.get(i).toString());
-	            filename = cppFile.getName();
-	            outputFile = filename.concat("TripleObfuscatedExecutable");
+	            filename = FilenameUtils.getBaseName(cppFilePaths.get(i).toString());
+	            outputFile = filename.concat("_TripleObfuscatedELF");
 	            System.out.println(filename);
 	        Runtime decompiler = Runtime.getRuntime();
-	                Process process = decompiler.exec(new String[]{"/bin/sh",
+	                Process process = decompiler.exec(new String[]{"/bin/sh","-c",
 	               "/home/ubuntu/build/bin/clang++ -m32 "+
 	               		cppFilePaths.get(i).toString()+" -o "+
 	            		   
