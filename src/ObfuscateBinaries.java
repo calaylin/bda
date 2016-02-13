@@ -23,7 +23,7 @@ public class ObfuscateBinaries {
 	        String filename = "";
 	        
 	        List cppFilePaths = Util.listCPPFiles("test");
-	        String obfuscationType="-mllvm -sub";
+	        String obfuscationType="-mllvm -sub -mllvm -fla -mllvm -bcf";
 	        for(int i =0; i< cppFilePaths.size();i++){
 	        
       	
@@ -33,7 +33,7 @@ public class ObfuscateBinaries {
 	            outputFile = filename.concat("obfuscatedExecutable");
 	            System.out.println(filename);
 	        Runtime decompiler = Runtime.getRuntime();
-	                Process process = decompiler.exec(new String[]{"cmd.exe","/c",
+	                Process process = decompiler.exec(new String[]{"/bin/sh","/c",
 	               "/home/ubuntu/build/bin/clang++ -m32 "+
 	               		cppFilePaths.get(i).toString()+" -o "+
 	            		   
