@@ -22,9 +22,9 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 		    }
 
 		    public static void main(String[] args){
-		    	String test_dir ="/home/ubuntu/Desktop/usenix16/datasets/L3_150authors/";	       		
-				String output_filename = "/home/ubuntu/Desktop/usenix16/"
-						+ "arffs/L3_150authorsConcurrent/L3_150authors_allfeaturesNoAVGDep_concurrent";
+		    	String test_dir ="/data/usenix16/datasets/org150and600authors/1046NotOptimized/";	       		
+				String output_filename = "/data/usenix16/"
+						+ "arffs/L0_600AuthorsConcurrent_part1/L0_600authors_allfeaturesNoAVGDep_concurrent_part1";
 
 				List test_binary_paths = Util.listBinaryFiles(test_dir);
 				int totalFiles = test_binary_paths.size();
@@ -271,7 +271,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 		     // 1645485_1480492_a9108_bjoernDisassembly/nodes.csv
 			 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
 
-		    	
+		  /*  	
 	     	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
 	    	//FeatureExtractorSnowmanCFG		     	
 		   	//get the Unigrams in the CFG and write the unigram features
@@ -288,11 +288,11 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			   
 		    	
 		    	//the slowest feature
-/*			   	// write the unigram tfidf features	   	
+			   	// write the unigram tfidf features	   	
 			    	for (int i=0; i<cfgSnowmanUnigrams.length; i++)	   	
 			       {  	
 			            	Util.writeFile("@attribute 'cfgSnowmanUnigramsTFIDF "+i+"=["+cfgSnowmanUnigrams[i]+"]' numeric"+"\n", output_filename, true);}
-				   */
+				   
 		    	
 		    	  String[] cfgSnowmanNodeLastLine = null;
 				try {
@@ -450,10 +450,10 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			    	Util.writeFile("@attribute 'ASTNodeTypesTFIDF "+i+"=["+ASTtypes[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
 			  }
 			  
-			/*    for (int i=0; i<ASTtypes.length; i++)	
+			    for (int i=0; i<ASTtypes.length; i++)	
 			    {	   
 			    	Util.writeFile("@attribute 'ASTNodeTypeAvgDep "+i+"=["+ASTtypes[i].replace("'", "apostrophesymbol")+"]' numeric"+"\n", output_filename, true);
-			    }*/
+			    }
 			  
 			    
 			    
@@ -480,7 +480,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 
 
 		    	
-
+*/
 	
 		     	
 		    File authorFileName = null;
@@ -623,7 +623,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 				 // 1645485_1480492_a9108_bjoernDisassembly/1645485_1480492_a9108CFG/*.graphml
 
 			    
-			   	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
+			  /* 	// SNOWMAN CFG FEATURES START - Related files: (1842485_1486492_a9108_SnowmanDecompiled.dot)
 				String featureTextSnowmanCFG = null;
 				try {
 					featureTextSnowmanCFG = Util.readFile(authorFileName.getParentFile()
@@ -639,11 +639,11 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 				{Util.writeFile(wordUniCount1[j] +",", output_filename, true);}	
 			    
 			    //tfidf is the slowest feature so far
-/*			    
+			    
  * 				String [] cfgSnowmanUnigramsTFIDF= cfgSnowmanUnigrams;
  * 				float[] uniTFIDF = FeatureExtractorSnowmanCFG.getCFGUnigramsTFIDF(featureTextSnowmanCFG, test_dir, cfgSnowmanUnigrams);
 			    for (int j=0; j<uniTFIDF.length; j++)
-				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	*/
+				{Util.writeFile(uniTFIDF[j] +",", output_filename, true);}	
 			    
 			    //get count of each line unigram in Snowman CFG	 
 			    float[] cfgNodeLastLineCount = FeatureExtractorSnowmanCFG.getCFGNodeLineTF(featureTextSnowmanCFG, cfgSnowmanNodeLastLine);
@@ -796,7 +796,7 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 			    for (int j=0; j<ASTtypes.length; j++)
 				{Util.writeFile(DepastTypeTFIDF[j]+",", output_filename, true);}	
 				
-			  /*  //get AST node avg depth
+			    //get AST node avg depth
 		    	float[] depFeature = null;
 				try {
 					depFeature = DepthASTNode.getAvgDepthASTNode(featureTextHexraysDecompiledCodeDEP,ASTtypes);
@@ -805,13 +805,13 @@ public class FeatureExtractorAllFeaturesConcurrent implements Runnable {
 					e.printStackTrace();
 				}
 		    	for(int k=0;k<depFeature.length;k++)
-				{Util.writeFile(depFeature[k] +",", output_filename, true);}	*/
+				{Util.writeFile(depFeature[k] +",", output_filename, true);}	
 			    
 		    	float [] cppKeywordsTF =FeatureCalculators.getCandCPPKeywordsTF(featureTextHexraysDecompiledCodeCPP);
 		    	for(int k=0;k<cppKeywordsTF.length;k++)
 				{Util.writeFile(cppKeywordsTF[k] +",", output_filename, true);}		
 			   	// Related files:
-				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
+*/				// DECOMPILED CODE AKA SCAA FEATURES END (FROM HEXRAYS)
 		       	// 1842485_1486492_a9108_hexrays_decompiled.cpp
 			    // 1842485_1486492_a9108_hexrays_decompiled.ast
 			    // 1842485_1486492_a9108_hexrays_decompiled.dep
