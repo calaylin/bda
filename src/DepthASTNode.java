@@ -121,7 +121,7 @@ public class DepthASTNode {
 			}		
 		}
 	        List maxDepthall = Arrays.asList(ArrayUtils.toObject(maxDepth));
-	        return Collections.max(maxDepthall);
+	        return (int) Collections.max(maxDepthall);
 	   
 	}
  
