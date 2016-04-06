@@ -92,7 +92,7 @@ public class Util {
  	   
 	}
 
-	public static List<String> readFile(File file, boolean readAll)
+	public static List<String> readFile(File file, boolean readAll) throws IOException
     {
     	List<String> allWords = new ArrayList<String>();
     		
@@ -132,7 +132,7 @@ public class Util {
 			{
 				e.printStackTrace();
 			}
-			
+ 	    	reader.close();
 			return allWords;
     	
     }
