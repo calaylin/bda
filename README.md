@@ -15,7 +15,8 @@ Requirements:
 1.	Bjoern https://github.com/octopus-platform/bjoern 
 2.	IDA pro and hexrays https://www.hex-rays.com 
 3.	Llvm* for obfuscation - ObfuscateBinaries.java https://github.com/obfuscator-llvm/obfuscator/wiki 
-∗	optional
+
+	∗	optional
 
 
 Take binaries or if you have source code compile them (CompileCode.java).
