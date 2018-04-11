@@ -36,6 +36,7 @@ Take binaries or if you have source code compile them (CompileCode.java).
       2.	decompiled source code, 
       3.	abstract syntax trees, and 
       4.	control flow graphs. 
+      
       ♣	FeatureExtractorAllFeatures.java - remove the feature types that you do not want in your feature set.
 
 3.	Apply information gain criterion to use to highly effective features. 
